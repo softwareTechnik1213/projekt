@@ -1,6 +1,6 @@
 package controller;
 
-public class ctrlSpielfeld {
+public class CtrlBoard {
 
 	/**
 	 * @param args
