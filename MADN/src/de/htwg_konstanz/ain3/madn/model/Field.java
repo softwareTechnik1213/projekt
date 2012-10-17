@@ -1,13 +1,15 @@
 package de.htwg_konstanz.ain3.madn.model;
 
-import de.htwg_konstanz.ain3.madn.model.util.FieldType;
-
 public final class Field {
 
-    private Player myPlayer;
-    private final FieldType type;
+    public enum Type {
 
-    public Field(FieldType fieldType) {
+        HOME, PUBLIC, FINISH
+    };
+    private Player myPlayer;
+    private final Type type;
+
+    public Field(Type fieldType) {
         this.type = fieldType;
     }
 
@@ -19,7 +21,7 @@ public final class Field {
         this.myPlayer = player;
     }
 
-    public FieldType getType() {
+    public Type getType() {
         return this.type;
     }
 }
