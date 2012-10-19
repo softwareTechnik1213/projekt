@@ -1,4 +1,4 @@
-package de.htwg_konstanz.ain3.madn.model;
+package de.htwg.madn.model;
 
 public final class Field {
 

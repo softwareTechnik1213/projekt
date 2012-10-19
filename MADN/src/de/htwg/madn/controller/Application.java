@@ -1,4 +1,4 @@
-package de.htwg_konstanz.ain3.madn.controller;
+package de.htwg.madn.controller;
 
 public final class Application {
 

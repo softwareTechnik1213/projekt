@@ -1,6 +1,7 @@
-package de.htwg_konstanz.ain3.madn.view;
+package de.htwg.madn.view;
 
-import de.htwg_konstanz.ain3.madn.model.Field;
+import de.htwg.madn.model.Field;
+
 import java.util.LinkedList;
 import java.util.List;
 
