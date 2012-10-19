@@ -2,26 +2,14 @@ package de.htwg.madn.model;
 
 public final class Field {
 
-    public enum Type {
+    private Player occupier;
 
-        HOME, PUBLIC, FINISH
-    };
-    private Player myPlayer;
-    private final Type type;
-
-    public Field(Type fieldType) {
-        this.type = fieldType;
+    public Player getOccupier() {
+        return occupier;
     }
 
-    public Player getPlayer() {
-        return myPlayer;
+    public void setOccupier(Player player) {
+        this.occupier = player;
     }
 
-    public void setPlayer(Player player) {
-        this.myPlayer = player;
-    }
-
-    public Type getType() {
-        return this.type;
-    }
 }
