@@ -7,7 +7,6 @@ import java.util.List;
 
 public final class BoardView {
 
-    private final List<Field> fields = new LinkedList<Field>();
 
     public BoardView() {
 
