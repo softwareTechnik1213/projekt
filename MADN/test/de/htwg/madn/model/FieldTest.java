@@ -9,23 +9,15 @@ import de.htwg.madn.model.Player;
 
 public final class FieldTest {
 
-    @Test
-    public void testGetPlayer() {
-        Player player = new Player(1, Color.RED, "test player");
-        Field field = new Field(Field.Type.HOME);
-        field.setPlayer(player);
+	@Test
+	public void testGetOccupier() {
+		Player player = new Player(1, Color.RED, "test player");
+		Field field = new Field();
+		field.setOccupier(player);
 
-        Player expected = field.getPlayer();
+		Player expected = field.getOccupier();
 
-        assertSame(expected, player);
-    }
+		assertSame(expected, player);
+	}
 
-    @Test
-    public void testGetType() {
-        Field.Type expected = Field.Type.HOME;
-        Field field = new Field(expected);
-        Field.Type returnType = field.getType();
-
-        assertSame(expected, returnType);
-    }
 }
