@@ -31,10 +31,10 @@ public class HomeContainerTest {
 	public void testGetFieldsList() {
 		HomeContainer f = new HomeContainer(p1);
 		Field field = new Field();
-		f.getFieldsList().add(field);
-		assertSame(field, f.getFieldsList().get(0));
+		f.fieldsList().add(field);
+		assertSame(field, f.fieldsList().get(0));
 
 	}
-	
+
 
 }

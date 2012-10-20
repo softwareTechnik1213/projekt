@@ -3,29 +3,29 @@ package de.htwg.madn.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class HomeContainer implements RestrictedFieldContainer {
+public final class HomeContainer implements IRestrictedFieldContainer {
 
-	private List<Field> fields = new LinkedList<Field>();
+    private List<Field> fields = new LinkedList<Field>();
+    private Player owner;
 
-	public void setOwner(Player owner) {
-		this.owner = owner;
-	}
+    public HomeContainer(int fieldsPerContainer) {
+        for (int i = 0; i < fieldsPerContainer; i++) {
+            fields.add(new Field());
+        }
+    }
 
-	private Player owner;
-	
-	public HomeContainer(Player o) {
-		this.owner = o;
-	}
-	
+    @Override
+    public Player getOwner() {
+        return owner;
+    }
 
-	@Override
-	public Player getOwner() {
-		return owner;
-	}
+    @Override
+    public void setOwner(Player o) {
+        this.owner = o;
+    }
 
-	@Override
-	public List<Field> getFieldsList() {
-		return fields;
-	}
-
+    @Override
+    public List<Field> fieldList() {
+        return fields;
+    }
 }
