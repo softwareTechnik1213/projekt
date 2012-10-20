@@ -11,5 +11,5 @@ public final class Field {
     public void setOccupier(Player player) {
         this.occupier = player;
     }
-
+  
 }

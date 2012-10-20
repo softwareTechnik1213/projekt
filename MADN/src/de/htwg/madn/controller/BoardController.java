@@ -10,4 +10,8 @@ public final class BoardController extends Observable {
     public BoardController(Board b) {
         board = b;
     }
+
+    public String getBoardString() {
+        return board.toString();
+    }
 }

@@ -8,11 +8,10 @@ public class TUIView implements IUserInterface {
 
     public TUIView(BoardController bc) {
         this.boardController = bc;
-        // watcht the controller with this class
+        // watch the controller with this class
         this.boardController.addObserver(this);
-    }
-
-    private void draw() {
+        // initial draw
+        draw();
     }
 
     @Override
@@ -25,4 +24,9 @@ public class TUIView implements IUserInterface {
     public void update() {
         draw();
     }
+
+    private void draw() {
+        System.out.println(boardController.getBoardString());
+    }
+
 }
