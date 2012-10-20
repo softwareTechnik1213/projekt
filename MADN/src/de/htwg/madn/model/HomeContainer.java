@@ -28,4 +28,17 @@ public final class HomeContainer implements IRestrictedFieldContainer {
     public List<Field> fieldList() {
         return fields;
     }
+
+    public char[][] toCharArray() {
+        int size = fields.size();
+        char[][] ret = new char[2][2];
+        char c = 'O';
+
+        ret[0][0] = fields.get(0).toChar(c);
+        ret[0][1] = fields.get(1).toChar(c);
+        ret[1][0] = fields.get(3).toChar(c);
+        ret[1][1] = fields.get(2).toChar(c);
+
+        return ret;
+    }
 }

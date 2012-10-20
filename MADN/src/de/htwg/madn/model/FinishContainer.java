@@ -28,4 +28,16 @@ public final class FinishContainer implements IRestrictedFieldContainer {
     public List<Field> fieldList() {
         return fields;
     }
+
+    public char[][] toCharArray() {
+        int size = fields.size();
+        char[][] ret = new char[1][size];
+        int i = 0;
+
+        for (Field f : fields) {
+            ret[0][i] = f.toChar('.');
+            i++;
+        }
+        return ret;
+    }
 }
