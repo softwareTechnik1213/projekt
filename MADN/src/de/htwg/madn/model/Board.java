@@ -9,9 +9,9 @@ public final class Board {
     private List<HomeContainer> hclist = new LinkedList<HomeContainer>();
     private List<FinishContainer> fclist = new LinkedList<FinishContainer>();
     private PublicContainer pc;
-    private final int players = 4;
-    private final int figuresPerPlayer = 4;
-    private final int publicFields = 40;
+    private static final int players = 4;
+    private static final int figuresPerPlayer = 4;
+    private static final int publicFields = 40;
 
     public Board() {
         // create all home and finish field containers
