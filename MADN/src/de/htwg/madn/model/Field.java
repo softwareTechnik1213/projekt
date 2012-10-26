@@ -10,8 +10,16 @@ public final class Field {
     }
 
     public void setOccupier(Player player, char figureCode) {
-        this.occupier = player;
+        if (player == null) {
+        	throw new IllegalArgumentException("player must not be null");
+        }
+    	this.occupier = player;
         this.figureCode = figureCode;
+    }
+    
+    public void removeOccupier() {
+        this.occupier = null;
+        this.figureCode = '@';
     }
 
     public char toChar(char c) {

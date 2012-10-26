@@ -1,10 +1,9 @@
 package de.htwg.madn.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import java.awt.Color;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,17 +20,32 @@ public class FinishContainerTest {
 
 	@Test
 	public void testFinishContainer() {
-		fc = new FinishContainer(p1);
+		fc = new FinishContainer(4);
+		assertSame(p1, fc.getOwner());
+	}
+	
+	@Test
+	public void testSetOwner() {
+		fc = new FinishContainer(4);
+		fc.setOwner(p1);
 		assertSame(p1, fc.getOwner());
 	}
 
 	@Test
 	public void testGetFieldsList() {
-		FinishContainer f = new FinishContainer(p1);
+		FinishContainer f = new FinishContainer(4);
 		Field field = new Field();
-		f.fieldsList().add(field);
-		assertSame(field, f.fieldsList().get(0));
+		f.fieldList().add(field);
+		assertSame(field, f.fieldList().get(0));
 
+	}
+	
+	@Test
+	public void testToCharArray() {
+		FinishContainer f = new FinishContainer(4);
+		char[][] ca = f.toCharArray();
+		assertEquals(ca.length, 1);
+		assertEquals(ca[0].length, 4);
 	}
 
 }

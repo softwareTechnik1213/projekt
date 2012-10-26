@@ -1,8 +1,9 @@
 package de.htwg.madn.view;
 
 import de.htwg.madn.controller.BoardController;
+import de.htwg.madn.util.observer.IObserver;
 
-public class TUIView implements IUserInterface {
+public class TUIView implements IObserver {
 
     private BoardController boardController;
 
@@ -14,7 +15,6 @@ public class TUIView implements IUserInterface {
         draw();
     }
 
-    @Override
     public boolean iterate() {
         // return true when UI quits, else false
         return false;

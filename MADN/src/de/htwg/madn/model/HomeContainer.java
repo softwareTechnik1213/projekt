@@ -30,7 +30,6 @@ public final class HomeContainer implements IRestrictedFieldContainer {
     }
 
     public char[][] toCharArray() {
-        int size = fields.size();
         char[][] ret = new char[2][2];
         char c = 'O';
 
