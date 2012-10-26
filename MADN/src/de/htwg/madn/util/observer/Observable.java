@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Observable {
 
-    protected List<IObserver> observer = new LinkedList<IObserver>();
+    private List<IObserver> observer = new LinkedList<IObserver>();
 
     public void addObserver(IObserver s) {
         observer.add(s);

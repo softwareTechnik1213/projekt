@@ -20,6 +20,7 @@ public final class PublicContainer implements IFieldContainer {
 
     /**
      * unused fields (like spacers) are ' '
+     *
      * @return
      */
     public char[][] toCharArray() {
@@ -37,7 +38,7 @@ public final class PublicContainer implements IFieldContainer {
         if (fields.size() < 40) {
             return ret;
         }
-   
+
         // top top
         ret[0][4] = fields.get(0).toChar(c);
         ret[0][5] = fields.get(1).toChar(c);

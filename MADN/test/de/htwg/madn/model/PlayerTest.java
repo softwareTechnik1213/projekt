@@ -1,11 +1,10 @@
 package de.htwg.madn.model;
 
 import java.awt.Color;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-
-import de.htwg.madn.model.Player;
 
 public final class PlayerTest {
 

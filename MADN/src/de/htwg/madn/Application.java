@@ -16,8 +16,9 @@ public final class Application {
 
         // continue until the user decides to quit
         boolean quit = false;
-        /*while (!quit) {
-            quit = tui.iterate();
-        }*/
+        /*
+         * while (!quit) { quit = tui.iterate();
+        }
+         */
     }
 }

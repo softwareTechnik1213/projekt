@@ -22,7 +22,7 @@ public final class Board {
         // create a public field container
         pc = new PublicContainer(publicFields);
         hclist.get(2).fieldList().get(1).setOccupier(new Player(2, Color.red, "test"), 'U');
-       
+
     }
 
     @Override
