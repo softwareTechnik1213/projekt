@@ -6,7 +6,7 @@ import de.htwg.madn.view.TUIView;
 
 public final class Application {
 
-	private Application(final String[] args) {
+	private Application() {
 		throw new UnsupportedOperationException();
 	}
 	
