@@ -6,6 +6,10 @@ import de.htwg.madn.view.TUIView;
 
 public final class Application {
 
+	private void Application(final String[] args) {
+		throw new UnsupportedOperationException();
+	}
+	
     /**
      * @param args
      */
