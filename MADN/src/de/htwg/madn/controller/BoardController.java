@@ -14,4 +14,11 @@ public final class BoardController extends Observable {
     public String getBoardString() {
         return board.toString();
     }
+    
+    public boolean setPlayers(int p) {
+    	if (p < 2 || p > 4) {
+			 return false;
+		 }
+    	return true;
+    }
 }
