@@ -9,7 +9,7 @@ import de.htwg.madn.util.observer.IObserver;
 public class TUIView implements IObserver {
 
 	private BoardController boardController;
-	private final static Scanner SCANNER = new Scanner(System.in);
+	private static final Scanner SCANNER = new Scanner(System.in);
 
 	public TUIView(BoardController bc) {
 		this.boardController = bc;
