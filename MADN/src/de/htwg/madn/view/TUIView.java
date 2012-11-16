@@ -9,11 +9,10 @@ import de.htwg.madn.util.observer.IObserver;
 public class TUIView implements IObserver {
 
 	private BoardController boardController;
-	private static Scanner SCANNER;
+	private final static Scanner SCANNER = new Scanner(System.in);
 
 	public TUIView(BoardController bc) {
 		this.boardController = bc;
-		SCANNER = new Scanner(System.in);
 		// watch the controller with this class
 		this.boardController.addObserver(this);
 		draw();
@@ -28,23 +27,13 @@ public class TUIView implements IObserver {
 
 		// return true when UI should quit, else false
 		boolean quit = false;
-		String[] words = null;
-		String cmd = null;
-		String parm = null;
-
-		if (line == null || line.isEmpty()) {
-			return quit;
-		}
-
-		words = line.split(" ");
-		if (words.length == 0) {
-			return quit;
-		}
-		cmd = words[0].toLowerCase();
-		// parameter like: add NAME
-		if (words.length > 1) {
-			parm = words[1];
-		}
+		String[] args = new String[2];
+		String cmd, parm;
+		
+		args = getCommandAndArgument(line);
+		
+		cmd = args[0];
+		parm = args[1];
 
 		if (cmd.equals("q")) {
 			// quit
@@ -67,6 +56,26 @@ public class TUIView implements IObserver {
 		}
 		
 		return quit;
+	}
+
+	private String[] getCommandAndArgument(String line) {
+		String[] words = null;
+		String[] ret = new String[2];
+
+		if (line == null || line.isEmpty()) {
+			return null;
+		}
+
+		words = line.split(" ");
+		if (words.length == 0) {
+			return null;
+		}
+		ret[0] = words[0].toLowerCase();
+		// parameter like: add NAME
+		if (words.length > 1) {
+			ret[1] = words[1];
+		}
+		return ret;
 	}
 
 	@Override

@@ -9,7 +9,7 @@ public final class BoardController extends Observable {
 
     private Board board;
     private String status = "";
-    private final String WELCOME_STRING = "Neue Spiel gestartet.";
+    private final static String WELCOME_STRING = "Neue Spiel gestartet.";
 
     public BoardController(Board b) {
         board = b;
