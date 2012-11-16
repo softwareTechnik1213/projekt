@@ -8,15 +8,17 @@ import de.htwg.madn.util.observer.Observable;
 public final class BoardController extends Observable {
 
     private Board board;
-    private String status;
+    private String status = "";
+    private final String WELCOME_STRING = "Neue Spiel gestartet.";
 
     public BoardController(Board b) {
         board = b;
-        status = "";
+        status = WELCOME_STRING;
+        notifyObservers();
     }
 
     public String getBoardString() {
-        return board.toString() + "\n" + status + "\n";
+        return board.toString() + "\nSTATUS: " + status + "\n";
     }
     
     public void addPlayer(String name, Color col) {
@@ -27,6 +29,12 @@ public final class BoardController extends Observable {
     		status = "Spieler " + playerId + ": " + name + " hinzugefuegt.";
     	}
     	
-    	notify();
+    	notifyObservers();
     }
+
+	public void reset() {
+		board = new Board();
+		status = WELCOME_STRING;
+		notifyObservers();
+	}
 }

@@ -28,7 +28,7 @@ public final class Board {
 
 	public int addPlayer(String name, Color col) {
 		int nextId = playerlist.size();
-		if (nextId + 1 >= maxPlayers) {
+		if (nextId + 1 > maxPlayers) {
 			/* error */
 			return -1;
 		}
@@ -63,7 +63,7 @@ public final class Board {
 
 		StringBuilder sb = new StringBuilder();
 		// add player setting
-		sb.append(getPlayerSetting());
+		sb.append(getPlayerSetting()).append("\n").append("------------\n");
 		// add fields
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
@@ -72,7 +72,8 @@ public final class Board {
 			// add a line break after each line
 			sb.append('\n');
 		}
-
+		sb.append("------------");
+	
 		return sb.toString();
 	}
 
@@ -80,12 +81,12 @@ public final class Board {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Spieler:\n");
 		for (Player p : playerlist) {
-			sb.append(p.getId()).append(" ").append(p.getName())
+			sb.append(p.getId()).append(": ").append(p.getName())
 					.append(" hat Figuren: ");
 			for (char c : p.getFigureCodes()) {
 				sb.append(c).append(" ");
 			}
-			sb.append(" | ");
+			sb.append("\n");
 		}
 		return sb.toString();
 	}
