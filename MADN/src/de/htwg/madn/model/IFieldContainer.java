@@ -5,4 +5,5 @@ import java.util.List;
 public interface IFieldContainer {
 
     List<Field> fieldList();
+    List<Field> getFieldsListByOccupier(Player p);
 }

@@ -40,4 +40,15 @@ public final class FinishContainer implements IRestrictedFieldContainer {
         }
         return ret;
     }
+
+	@Override
+	public List<Field> getFieldsListByOccupier(Player p) {
+		List<Field> resultList = new LinkedList<Field>();
+		for (Field f : fields) {
+			if (f.getOccupier() == p) {
+				resultList.add(f);
+			}
+		}
+		return resultList;
+	}
 }

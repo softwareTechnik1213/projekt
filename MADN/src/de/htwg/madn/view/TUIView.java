@@ -24,16 +24,29 @@ public class TUIView implements IObserver {
 	}
 
 	private boolean handleInput(String line) {
-
 		// return true when UI should quit, else false
 		boolean quit = false;
 		String[] args = new String[2];
 		String cmd, parm;
-		
+
+		// split input into a command and an argument part
 		args = getCommandAndArgument(line);
-		
-		cmd = args[0];
-		parm = args[1];
+
+		if (args != null) {
+			cmd = args[0];
+			parm = args[1];
+			quit = interpretInput(cmd, parm);
+		} else {
+			// error empty command!
+			System.out.println("Leere Eingabe!");
+			printPrompt();
+		}
+
+		return quit;
+	}
+
+	private boolean interpretInput(String cmd, String parm) {
+		boolean quit = false;
 
 		if (cmd.equals("q")) {
 			// quit
@@ -43,18 +56,22 @@ public class TUIView implements IObserver {
 			// new game
 			System.out.println("Neues Spiel wird gestartet:\n");
 			boardController.reset();
+		} else if (cmd.equals("s")) {
+			// start game
+			boardController.startGame();
 		} else if (cmd.equals("m")) {
 			// move figure
 		} else if (cmd.equals("w")) {
 			// throw dice
+			boardController.throwDice();
 		} else if (cmd.equals("add") && parm != null && !parm.isEmpty()) {
 			// add player
 			boardController.addPlayer(parm, Color.BLACK);
 		} else {
 			// error unknown parameter
 			System.out.println("Falsche Eingabe!");
+			printPrompt();
 		}
-		
 		return quit;
 	}
 
@@ -86,6 +103,10 @@ public class TUIView implements IObserver {
 	private void draw() {
 		System.out.println(boardController.getBoardString());
 		printCommands();
+		printPrompt();
+	}
+
+	private void printPrompt() {
 		System.out.print(">>> ");
 	}
 
@@ -94,7 +115,7 @@ public class TUIView implements IObserver {
 	}
 
 	private String getCommands() {
-		return "Befehle: 'q' quit | 'n' new | 'add SpielerName' Spieler hinzufuegen"
+		return "Befehle: 'q' quit | 'n' new | 's' start game | 'add SpielerName' Spieler hinzufuegen"
 				+ " | 'm Figurbuchstabe' Figur bewegen | 'w' Wuerfeln\n";
 	}
 

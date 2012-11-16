@@ -1,6 +1,7 @@
 package de.htwg.madn.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public final class PublicContainer implements IFieldContainer {
@@ -17,6 +18,17 @@ public final class PublicContainer implements IFieldContainer {
     public List<Field> fieldList() {
         return fields;
     }
+    
+    @Override
+	public List<Field> getFieldsListByOccupier(Player p) {
+		List<Field> resultList = new LinkedList<Field>();
+		for (Field f : fields) {
+			if (f.getOccupier() == p) {
+				resultList.add(f);
+			}
+		}
+		return resultList;
+	}
 
     /**
      * unused fields (like spacers) are ' '

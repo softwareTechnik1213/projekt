@@ -3,8 +3,6 @@ package de.htwg.madn.model;
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
-import org.w3c.dom.css.CSSPrimitiveValue;
-import org.w3c.dom.css.RGBColor;
 
 public final class Board {
 
@@ -115,5 +113,13 @@ public final class Board {
 
 	public int getMaxPlayers() {
 		return maxPlayers;
+	}
+
+	public List<Player> getPlayerList() {
+		return playerlist;
+	}
+
+	public List<HomeContainer> getHomeContainers() {
+		return hclist;
 	}
 }
