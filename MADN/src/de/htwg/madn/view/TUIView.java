@@ -24,7 +24,7 @@ public class TUIView implements IObserver {
     public void update() {
         draw();
     }
-
+    		
     private void draw() {
         System.out.println(boardController.getBoardString());
     }
