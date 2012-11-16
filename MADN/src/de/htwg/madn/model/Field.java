@@ -22,6 +22,10 @@ public final class Field {
         this.figureCode = '@';
     }
 
+    public char getFigure() {
+        return occupier == null ? ' ' : figureCode;
+    }
+
     public char toChar(char c) {
         return occupier == null ? c : figureCode;
     }
