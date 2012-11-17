@@ -15,7 +15,9 @@ public final class Application {
 	 */
 	public static void main(String[] args) {
 
-		BoardController boardController = new BoardController(new Board());
+		BoardController boardController = new BoardController(new Board(
+					2, 4, 4, 40, 1, 6
+				));
 		TUIView tui = new TUIView(boardController);
 
 		// continue until the user decides to quit

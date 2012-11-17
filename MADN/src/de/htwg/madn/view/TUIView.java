@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.util.Scanner;
 
 import de.htwg.madn.controller.BoardController;
+import de.htwg.madn.model.Board;
+import de.htwg.madn.model.Figure;
+import de.htwg.madn.model.FinishField;
+import de.htwg.madn.model.HomeField;
 import de.htwg.madn.model.Player;
 import de.htwg.madn.util.observer.IObserver;
 
@@ -53,9 +57,6 @@ public class TUIView implements IObserver {
 			// quit
 			System.out.println("SPIEL BEENDET.");
 			quit = true;
-		} else if (cmd.equals("n")) {
-			// new game
-			boardController.reset();
 		} else if (cmd.equals("s")) {
 			// start game
 			boardController.startGame();
@@ -103,7 +104,7 @@ public class TUIView implements IObserver {
 
 	private void draw() {
 		System.out.println(getPlayerSettingString());
-		System.out.println(boardController.getBoardString());
+		System.out.println(getBoardString());
 		System.out.println("STATUS: " + boardController.getStatusString());
 		System.out.println(boardController.getActivePlayerString());
 		System.out.println();
@@ -115,9 +116,10 @@ public class TUIView implements IObserver {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Spieler-Liste:\n");
 		for (Player p : boardController.getPlayerList()) {
-			sb.append(p.getId()).append(": ").append(p.getName()).append(" hat Figuren: ");
-			for (char c : p.getFigureCodes()) {
-				sb.append(c).append(" ");
+			sb.append(p.getId()).append(": ").append(p.getName())
+					.append(" hat Figuren: ");
+			for (Figure fig : p.getFigures()) {
+				sb.append(fig.getLetter()).append(" ");
 			}
 			sb.append("\n");
 		}
@@ -133,8 +135,90 @@ public class TUIView implements IObserver {
 	}
 
 	private String getCommands() {
-		return "Befehle: 'q' quit | 'n' new | 's' start game | "
+		return "Befehle: 'q' quit | 's' start game | "
 				+ "'add SpielerName' Spieler hinzufuegen\n"
 				+ "'m Figurbuchstabe' Figur bewegen | 'w' Wuerfeln\n";
+	}
+
+	private String getBoardString() {
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < boardController.getBoard().getPublicFieldsCount(); i++) {
+			sb.append('-');
+		}
+		sb.append("\n");
+
+		for (HomeField hf : boardController.getBoard().getHomeFields()) {
+			sb.append(getHomeFieldString(hf)).append("      ");
+		}
+		sb.append("\n");
+
+		for (int i = 0; i < boardController.getBoard().getPublicFieldsCount(); i++) {
+			Figure fig = boardController.getBoard().getPublicField()
+					.getFigure(i);
+			if (fig != null) {
+				sb.append(fig.getLetter());
+			} else if (isSpecialPublicField(i)) {
+				sb.append("*");
+			} else {
+				sb.append("_");
+			}
+		}
+		sb.append("\n");
+
+		for (FinishField ff : boardController.getBoard().getFinishFields()) {
+			sb.append(getFinishFieldString(ff)).append("      ");
+		}
+		sb.append("\n");
+
+		for (int i = 0; i < boardController.getBoard().getPublicFieldsCount(); i++) {
+			sb.append('-');
+		}
+
+		return sb.toString();
+	}
+
+	private boolean isSpecialPublicField(int i) {
+		Board board = boardController.getBoard();
+
+		for (HomeField homeField : board.getHomeFields()) {
+			if (homeField.getExitIndex() == i) {
+				return true;
+			}
+		}
+
+		for (FinishField finishField : board.getFinishFields()) {
+			if (finishField.getEntryIndex() == i) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private String getHomeFieldString(HomeField homeField) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < boardController.getBoard().getFiguresPerPlayer(); i++) {
+			Figure fig = homeField.getFigure(i);
+			if (fig == null) {
+				sb.append("O");
+			} else {
+				sb.append(fig.getLetter());
+			}
+		}
+		return sb.toString();
+	}
+
+	private String getFinishFieldString(FinishField finishField) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < boardController.getBoard().getFiguresPerPlayer(); i++) {
+			Figure fig = finishField.getFigure(i);
+			if (fig == null) {
+				sb.append("#");
+			} else {
+				sb.append(fig.getLetter());
+			}
+		}
+		return sb.toString();
 	}
 }
