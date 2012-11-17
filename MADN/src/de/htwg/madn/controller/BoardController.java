@@ -7,6 +7,7 @@ import java.util.List;
 
 import de.htwg.madn.model.Board;
 import de.htwg.madn.model.Figure;
+import de.htwg.madn.model.GameRules;
 import de.htwg.madn.model.Player;
 import de.htwg.madn.util.observer.Observable;
 
@@ -18,21 +19,31 @@ public final class BoardController extends Observable {
 	// without finished players
 	private Deque<Player> activePlayersQueue;
 	private boolean gameIsRunning;
-	private final int throwsAllowedInPublic = 1;
-	private final int throwsAllowedInHome = 3;
-	private final int minNumberToExitHome = 6;
+	private final GameRules rules;
 
-	public BoardController(Board b) {
-		board = b;
+	public BoardController(GameRules gameRules) {
+		board = new Board(
+				gameRules.minPlayers, 
+				gameRules.maxPlayers,
+				gameRules.figuresPerPlayer,
+				gameRules.publicFieldsCount,
+				gameRules.diceMin,
+				gameRules.diceMax
+				);
 		activePlayersQueue = new LinkedList<Player>();
 		activePlayer = null;
 		status = "Neue Spiel gestartet.";
 		gameIsRunning = false;
+		this.rules = gameRules;
 		notifyObservers();
 	}
 
 	public Board getBoard() {
 		return board;
+	}
+	
+	public GameRules getRules() {
+		return rules;
 	}
 
 	public void addPlayer(final String name, final Color col) {
@@ -40,7 +51,7 @@ public final class BoardController extends Observable {
 
 		if (newPlayer == null) {
 			status = "Maximale Anzahl Spieler erreicht: "
-					+ board.getMaxPlayers();
+					+ rules.maxPlayers;
 		} else {
 			activePlayersQueue.push(newPlayer);
 			status = "Spieler " + newPlayer.getId() + " \""
@@ -72,13 +83,13 @@ public final class BoardController extends Observable {
 
 		// no more figures in home field -> max 1 Throw allowed
 		if (player.getHomeField().isEmpty()
-				&& numberOfThrows < throwsAllowedInPublic) {
+				&& numberOfThrows < rules.throwsAllowedInPublic) {
 			return true;
 		}
 
 		// has figures in home field -> max 3 Throws allowed
 		if (!player.getHomeField().isEmpty()
-				&& numberOfThrows < throwsAllowedInHome) {
+				&& numberOfThrows < rules.throwsAllowedInHome) {
 			return true;
 		}
 
@@ -114,7 +125,7 @@ public final class BoardController extends Observable {
 
 		// move out of home - error: check if player has a full HOME field
 		if (figure.isAtHomeArea()
-				&& board.getDice().getLastNumber() >= minNumberToExitHome) {
+				&& board.getDice().getLastNumber() >= rules.minNumberToExitHome) {
 			figure.getOwner().getHomeField()
 					.removeFigure(figure.getCurrentFieldIndex());
 			board.getPublicField().setFigure(
@@ -126,7 +137,7 @@ public final class BoardController extends Observable {
 			// move on public fields
 			
 			int currentIndex = figure.getCurrentFieldIndex();
-			int newIndex = (currentIndex + board.getDice().getLastNumber()) % board.getPublicFieldsCount();
+			int newIndex = (currentIndex + board.getDice().getLastNumber()) % rules.publicFieldsCount;
 			// CHECK IF MIGHT GO TO FINISH FIELD...
 			board.getPublicField().removeFigure(currentIndex);
 			board.getPublicField().setFigure(newIndex, figure);
@@ -152,8 +163,8 @@ public final class BoardController extends Observable {
 	public void startGame() {
 		if (gameIsRunning) {
 			status = "Spiel laeuft schon!";
-		} else if (activePlayersQueue.size() < board.getMinPlayers()) {
-			status = "Zu wenige Spieler. Mindestens " + board.getMaxPlayers()
+		} else if (activePlayersQueue.size() < rules.minPlayers) {
+			status = "Zu wenige Spieler. Mindestens " + rules.maxPlayers
 					+ " benoetigt.";
 		} else {
 			setNextActivePlayer();

@@ -143,7 +143,7 @@ public class TUIView implements IObserver {
 	private String getBoardString() {
 		StringBuilder sb = new StringBuilder();
 
-		for (int i = 0; i < boardController.getBoard().getPublicFieldsCount(); i++) {
+		for (int i = 0; i < boardController.getRules().publicFieldsCount; i++) {
 			sb.append('-');
 		}
 		sb.append("\n");
@@ -153,7 +153,7 @@ public class TUIView implements IObserver {
 		}
 		sb.append("\n");
 
-		for (int i = 0; i < boardController.getBoard().getPublicFieldsCount(); i++) {
+		for (int i = 0; i < boardController.getRules().publicFieldsCount; i++) {
 			Figure fig = boardController.getBoard().getPublicField()
 					.getFigure(i);
 			if (fig != null) {
@@ -171,7 +171,7 @@ public class TUIView implements IObserver {
 		}
 		sb.append("\n");
 
-		for (int i = 0; i < boardController.getBoard().getPublicFieldsCount(); i++) {
+		for (int i = 0; i < boardController.getRules().publicFieldsCount; i++) {
 			sb.append('-');
 		}
 
@@ -198,7 +198,7 @@ public class TUIView implements IObserver {
 
 	private String getHomeFieldString(HomeField homeField) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < boardController.getBoard().getFiguresPerPlayer(); i++) {
+		for (int i = 0; i < boardController.getRules().figuresPerPlayer; i++) {
 			Figure fig = homeField.getFigure(i);
 			if (fig == null) {
 				sb.append("O");
@@ -211,7 +211,7 @@ public class TUIView implements IObserver {
 
 	private String getFinishFieldString(FinishField finishField) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < boardController.getBoard().getFiguresPerPlayer(); i++) {
+		for (int i = 0; i < boardController.getRules().figuresPerPlayer; i++) {
 			Figure fig = finishField.getFigure(i);
 			if (fig == null) {
 				sb.append("#");

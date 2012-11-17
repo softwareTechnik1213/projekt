@@ -84,29 +84,4 @@ public final class Board {
 	public Dice getDice() {
 		return this.dice;
 	}
-
-	public final int getMinPlayers() {
-		return minPlayers;
-	}
-
-	public final int getMaxPlayers() {
-		return maxPlayers;
-	}
-
-	public final int getFiguresPerPlayer() {
-		return figuresPerPlayer;
-	}
-
-	public final int getPublicFieldsCount() {
-		return publicFieldsCount;
-	}
-
-	public final int getDiceMin() {
-		return diceMin;
-	}
-
-	public final int getDiceMax() {
-		return diceMax;
-	}
-
 }

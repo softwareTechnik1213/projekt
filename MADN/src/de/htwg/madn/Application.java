@@ -1,7 +1,7 @@
 package de.htwg.madn;
 
 import de.htwg.madn.controller.BoardController;
-import de.htwg.madn.model.Board;
+import de.htwg.madn.model.GameRules;
 import de.htwg.madn.view.TUIView;
 
 public final class Application {
@@ -15,9 +15,9 @@ public final class Application {
 	 */
 	public static void main(String[] args) {
 
-		BoardController boardController = new BoardController(new Board(
-					2, 4, 4, 40, 1, 6
-				));
+		GameRules rules = new GameRules(2, 4, 4, 40, 1, 6, 6, 3, 1);
+		
+		BoardController boardController = new BoardController(rules);
 		TUIView tui = new TUIView(boardController);
 
 		// continue until the user decides to quit
