@@ -4,7 +4,7 @@ import de.htwg.madn.controller.BoardController;
 import de.htwg.madn.model.Board;
 import de.htwg.madn.view.TUIView;
 
-public final class Application {
+public final class Application { 
 
 	private Application() {
 		throw new UnsupportedOperationException();
