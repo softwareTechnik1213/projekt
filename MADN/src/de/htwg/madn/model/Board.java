@@ -33,9 +33,9 @@ public final class Board {
 		finishFields = new LinkedList<FinishField>();
 
 		for (int i = 0; i < this.maxPlayers; i++) {
-			homeFields.add(new HomeField(getExitIndexHome(i), this.maxPlayers));
+			homeFields.add(new HomeField(getExitIndexHome(i), this.figuresPerPlayer));
 			finishFields.add(new FinishField(getEntryIndexFinish(i),
-					this.maxPlayers));
+					this.figuresPerPlayer));
 		}
 
 		players = new LinkedList<Player>();
@@ -83,5 +83,14 @@ public final class Board {
 
 	public Dice getDice() {
 		return this.dice;
+	}
+	
+	public Figure getFigureForPlayerByLetter(Player player, char figureLetter) {
+		for (Figure figure : player.getFigures()) {
+			if (figure.getLetter() == figureLetter) {
+				return figure;
+			}
+		}
+		return null;
 	}
 }

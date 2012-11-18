@@ -7,7 +7,7 @@ import java.util.List;
 
 import de.htwg.madn.model.Board;
 import de.htwg.madn.model.Figure;
-import de.htwg.madn.model.GameRules;
+import de.htwg.madn.model.GameSettings;
 import de.htwg.madn.model.Player;
 import de.htwg.madn.util.observer.Observable;
 
@@ -19,22 +19,22 @@ public final class BoardController extends Observable {
 	// without finished players
 	private Deque<Player> activePlayersQueue;
 	private boolean gameIsRunning;
-	private final GameRules rules;
+	private final GameSettings settings;
 
-	public BoardController(GameRules gameRules) {
+	public BoardController(GameSettings gameSettings) {
 		board = new Board(
-				gameRules.minPlayers, 
-				gameRules.maxPlayers,
-				gameRules.figuresPerPlayer,
-				gameRules.publicFieldsCount,
-				gameRules.diceMin,
-				gameRules.diceMax
+				gameSettings.minPlayers, 
+				gameSettings.maxPlayers,
+				gameSettings.figuresPerPlayer,
+				gameSettings.publicFieldsCount,
+				gameSettings.diceMin,
+				gameSettings.diceMax
 				);
 		activePlayersQueue = new LinkedList<Player>();
 		activePlayer = null;
 		status = "Neue Spiel gestartet.";
 		gameIsRunning = false;
-		this.rules = gameRules;
+		this.settings = gameSettings;
 		notifyObservers();
 	}
 
@@ -42,8 +42,8 @@ public final class BoardController extends Observable {
 		return board;
 	}
 	
-	public GameRules getRules() {
-		return rules;
+	public GameSettings getSettings() {
+		return settings;
 	}
 
 	public void addPlayer(final String name, final Color col) {
@@ -51,7 +51,7 @@ public final class BoardController extends Observable {
 
 		if (newPlayer == null) {
 			status = "Maximale Anzahl Spieler erreicht: "
-					+ rules.maxPlayers;
+					+ settings.maxPlayers;
 		} else {
 			activePlayersQueue.push(newPlayer);
 			status = "Spieler " + newPlayer.getId() + " \""
@@ -83,13 +83,13 @@ public final class BoardController extends Observable {
 
 		// no more figures in home field -> max 1 Throw allowed
 		if (player.getHomeField().isEmpty()
-				&& numberOfThrows < rules.throwsAllowedInPublic) {
+				&& numberOfThrows < settings.throwsAllowedInPublic) {
 			return true;
 		}
 
 		// has figures in home field -> max 3 Throws allowed
 		if (!player.getHomeField().isEmpty()
-				&& numberOfThrows < rules.throwsAllowedInHome) {
+				&& numberOfThrows < settings.throwsAllowedInHome) {
 			return true;
 		}
 
@@ -103,7 +103,7 @@ public final class BoardController extends Observable {
 			return;
 		}
 
-		Figure figure = getFigureForPlayerByLetter(activePlayer, figureLetter);
+		Figure figure = board.getFigureForPlayerByLetter(activePlayer, figureLetter);
 
 		if (figure == null) {
 			status = "Diese Figur gehoert dir nicht!";
@@ -125,7 +125,7 @@ public final class BoardController extends Observable {
 
 		// move out of home - error: check if player has a full HOME field
 		if (figure.isAtHomeArea()
-				&& board.getDice().getLastNumber() >= rules.minNumberToExitHome) {
+				&& board.getDice().getLastNumber() >= settings.minNumberToExitHome) {
 			figure.getOwner().getHomeField()
 					.removeFigure(figure.getCurrentFieldIndex());
 			board.getPublicField().setFigure(
@@ -137,7 +137,7 @@ public final class BoardController extends Observable {
 			// move on public fields
 			
 			int currentIndex = figure.getCurrentFieldIndex();
-			int newIndex = (currentIndex + board.getDice().getLastNumber()) % rules.publicFieldsCount;
+			int newIndex = (currentIndex + board.getDice().getLastNumber()) % settings.publicFieldsCount;
 			// CHECK IF MIGHT GO TO FINISH FIELD...
 			board.getPublicField().removeFigure(currentIndex);
 			board.getPublicField().setFigure(newIndex, figure);
@@ -151,20 +151,11 @@ public final class BoardController extends Observable {
 		notifyObservers();
 	}
 
-	private Figure getFigureForPlayerByLetter(Player player, char figureLetter) {
-		for (Figure figure : player.getFigures()) {
-			if (figure.getLetter() == figureLetter) {
-				return figure;
-			}
-		}
-		return null;
-	}
-
 	public void startGame() {
 		if (gameIsRunning) {
 			status = "Spiel laeuft schon!";
-		} else if (activePlayersQueue.size() < rules.minPlayers) {
-			status = "Zu wenige Spieler. Mindestens " + rules.maxPlayers
+		} else if (activePlayersQueue.size() < settings.minPlayers) {
+			status = "Zu wenige Spieler. Mindestens " + settings.maxPlayers
 					+ " benoetigt.";
 		} else {
 			setNextActivePlayer();

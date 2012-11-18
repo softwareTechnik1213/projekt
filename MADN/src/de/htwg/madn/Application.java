@@ -1,21 +1,18 @@
 package de.htwg.madn;
 
 import de.htwg.madn.controller.BoardController;
-import de.htwg.madn.model.GameRules;
+import de.htwg.madn.model.GameSettings;
 import de.htwg.madn.view.TUIView;
 
 public final class Application {
 
 	private Application() {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("static class");
 	}
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 
-		GameRules rules = new GameRules(2, 4, 4, 40, 1, 6, 6, 3, 1);
+		GameSettings rules = new GameSettings(2, 4, 4, 40, 1, 6, 6, 3, 1);
 		
 		BoardController boardController = new BoardController(rules);
 		TUIView tui = new TUIView(boardController);
