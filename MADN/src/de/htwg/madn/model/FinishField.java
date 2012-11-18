@@ -17,11 +17,11 @@ public final class FinishField {
 		this.owner = owner;
 	}
 
-	public final int getEntryIndex() {
+	public int getEntryIndex() {
 		return entryIndex;
 	}
 
-	public final Player getOwner() {
+	public Player getOwner() {
 		return owner;
 	}
 	

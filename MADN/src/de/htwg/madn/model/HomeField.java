@@ -17,11 +17,11 @@ public final class HomeField {
 		this.owner = owner;
 	}
 
-	public final int getExitIndex() {
+	public int getExitIndex() {
 		return exitIndex;
 	}
 
-	public final Player getOwner() {
+	public Player getOwner() {
 		return owner;
 	}
 	

@@ -9,19 +9,17 @@ public final class Board {
 	private final List<FinishField> finishFields;
 	private final List<Player> players;
 	private final PublicField publicField;
-	public final int minPlayers;
-	public final int maxPlayers;
-	public final int figuresPerPlayer;
-	public final int publicFieldsCount;
-	public final int diceMin;
-	public final int diceMax;
+	private final int maxPlayers;
+	private final int figuresPerPlayer;
+	private final int publicFieldsCount;
+	private final int diceMin;
+	private final int diceMax;
 	private final Dice dice;
 
-	public Board(final int minPlayers, final int maxPlayers,
+	public Board(final int maxPlayers,
 			final int figuresPerPlayer, final int publicFieldsCount,
 			final int diceMin, final int diceMax) {
 
-		this.minPlayers = minPlayers;
 		this.maxPlayers = maxPlayers;
 		this.figuresPerPlayer = figuresPerPlayer;
 		this.publicFieldsCount = publicFieldsCount;

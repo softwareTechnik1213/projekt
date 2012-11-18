@@ -23,7 +23,6 @@ public final class BoardController extends Observable {
 
 	public BoardController(GameSettings gameSettings) {
 		board = new Board(
-				gameSettings.minPlayers, 
 				gameSettings.maxPlayers,
 				gameSettings.figuresPerPlayer,
 				gameSettings.publicFieldsCount,
