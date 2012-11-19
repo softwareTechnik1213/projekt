@@ -115,7 +115,7 @@ public class TUIView implements IObserver {
 	private String getPlayerSettingString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Spieler-Liste:\n");
-		for (Player p : boardController.getPlayerList()) {
+		for (Player p : boardController.getPlayers()) {
 			sb.append(p.getId()).append(": ").append(p.getName())
 					.append(" hat Figuren: ");
 			for (Figure fig : p.getFigures()) {
@@ -155,7 +155,7 @@ public class TUIView implements IObserver {
 	}
 
 	private void appendBoardBorder(StringBuilder sb) {
-		for (int i = 0; i < boardController.getSettings().publicFieldsCount; i++) {
+		for (int i = 0; i < boardController.getSettings().getPublicFieldsCount(); i++) {
 			sb.append('-');
 		}
 	}
@@ -169,9 +169,9 @@ public class TUIView implements IObserver {
 	}
 
 	private void appendDistanceBetweenSpecialFields(StringBuilder sb) {
-		int publicFieldsCount = boardController.getSettings().publicFieldsCount;
-		int numberSpecialFields = boardController.getSettings().maxPlayers;
-		int numberFigures = boardController.getSettings().figuresPerPlayer;
+		int publicFieldsCount = boardController.getSettings().getPublicFieldsCount();
+		int numberSpecialFields = boardController.getSettings().getMaxPlayers();
+		int numberFigures = boardController.getSettings().getFiguresPerPlayer();
 
 		int distance = publicFieldsCount / numberSpecialFields - numberFigures;
 
@@ -189,7 +189,7 @@ public class TUIView implements IObserver {
 	}
 
 	private void appendPublicFields(StringBuilder sb) {
-		for (int i = 0; i < boardController.getSettings().publicFieldsCount; i++) {
+		for (int i = 0; i < boardController.getSettings().getPublicFieldsCount(); i++) {
 			Figure fig = boardController.getBoard().getPublicField()
 					.getFigure(i);
 			if (fig != null) {
@@ -231,7 +231,7 @@ public class TUIView implements IObserver {
 
 	private String getHomeFieldString(HomeField homeField) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < boardController.getSettings().figuresPerPlayer; i++) {
+		for (int i = 0; i < boardController.getSettings().getFiguresPerPlayer(); i++) {
 			Figure fig = homeField.getFigure(i);
 			if (fig == null) {
 				sb.append("O");
@@ -244,7 +244,7 @@ public class TUIView implements IObserver {
 
 	private String getFinishFieldString(FinishField finishField) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < boardController.getSettings().figuresPerPlayer; i++) {
+		for (int i = 0; i < boardController.getSettings().getFiguresPerPlayer(); i++) {
 			Figure fig = finishField.getFigure(i);
 			if (fig == null) {
 				sb.append("#");

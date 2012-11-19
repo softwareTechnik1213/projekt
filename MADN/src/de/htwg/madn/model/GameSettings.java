@@ -2,15 +2,15 @@ package de.htwg.madn.model;
 
 
 public final class GameSettings {
-	public final int minPlayers;
-	public final int maxPlayers;
-	public final int figuresPerPlayer;
-	public final int publicFieldsCount;
-	public final int diceMin;
-	public final int diceMax;
-	public final int minNumberToExitHome;
-	public final int throwsAllowedInHome;
-	public final int throwsAllowedInPublic;
+	private final int minPlayers;
+	private final int maxPlayers;
+	private final int figuresPerPlayer;
+	private final int publicFieldsCount;
+	private final int diceMin;
+	private final int diceMax;
+	private final int minNumberToExitHome;
+	private final int throwsAllowedInHome;
+	private final int throwsAllowedInPublic;
 	
 	public GameSettings(int minPlayers, int maxPlayers, int figuresPerPlayer,
 			int publicFieldsCount, int diceMin, int diceMax, int minNumberToExitHome,
@@ -40,6 +40,42 @@ public final class GameSettings {
 				|| publicFieldsCount % maxPlayers != 0) {
 			throw new IllegalArgumentException("settings not valid");
 		}
+	}
+
+	public final int getMinPlayers() {
+		return minPlayers;
+	}
+
+	public final int getMaxPlayers() {
+		return maxPlayers;
+	}
+
+	public final int getFiguresPerPlayer() {
+		return figuresPerPlayer;
+	}
+
+	public final int getPublicFieldsCount() {
+		return publicFieldsCount;
+	}
+
+	public final int getDiceMin() {
+		return diceMin;
+	}
+
+	public final int getDiceMax() {
+		return diceMax;
+	}
+
+	public final int getMinNumberToExitHome() {
+		return minNumberToExitHome;
+	}
+
+	public final int getThrowsAllowedInHome() {
+		return throwsAllowedInHome;
+	}
+
+	public final int getThrowsAllowedInPublic() {
+		return throwsAllowedInPublic;
 	}
 		
 	

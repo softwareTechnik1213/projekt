@@ -16,15 +16,13 @@ public final class Board {
 	private final int diceMax;
 	private final Dice dice;
 
-	public Board(final int maxPlayers,
-			final int figuresPerPlayer, final int publicFieldsCount,
-			final int diceMin, final int diceMax) {
+	public Board(GameSettings gameSettings) {
 
-		this.maxPlayers = maxPlayers;
-		this.figuresPerPlayer = figuresPerPlayer;
-		this.publicFieldsCount = publicFieldsCount;
-		this.diceMin = diceMin;
-		this.diceMax = diceMax;
+		this.maxPlayers = gameSettings.getMaxPlayers();
+		this.figuresPerPlayer = gameSettings.getFiguresPerPlayer();
+		this.publicFieldsCount = gameSettings.getPublicFieldsCount();
+		this.diceMin = gameSettings.getDiceMin();
+		this.diceMax = gameSettings.getDiceMax();
 
 		this.dice = new Dice(this.diceMin, this.diceMax);
 		homeFields = new LinkedList<HomeField>();

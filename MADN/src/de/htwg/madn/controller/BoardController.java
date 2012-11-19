@@ -21,18 +21,12 @@ public final class BoardController extends Observable {
 	private boolean gameIsRunning;
 	private final GameSettings settings;
 
-	public BoardController(GameSettings gameSettings) {
-		board = new Board(
-				gameSettings.maxPlayers,
-				gameSettings.figuresPerPlayer,
-				gameSettings.publicFieldsCount,
-				gameSettings.diceMin,
-				gameSettings.diceMax
-				);
-		activePlayersQueue = new LinkedList<Player>();
-		activePlayer = null;
-		status = "Neue Spiel gestartet.";
-		gameIsRunning = false;
+	public BoardController(GameSettings gameSettings, Board board) {
+		this.board = board;
+		this.activePlayersQueue = new LinkedList<Player>();
+		this.activePlayer = null;
+		this.status = "Neue Spiel gestartet.";
+		this.gameIsRunning = false;
 		this.settings = gameSettings;
 		notifyObservers();
 	}
@@ -50,7 +44,7 @@ public final class BoardController extends Observable {
 
 		if (newPlayer == null) {
 			status = "Maximale Anzahl Spieler erreicht: "
-					+ settings.maxPlayers;
+					+ settings.getMaxPlayers();
 		} else {
 			activePlayersQueue.push(newPlayer);
 			status = "Spieler " + newPlayer.getId() + " \""
@@ -64,10 +58,11 @@ public final class BoardController extends Observable {
 		if (isAllowedToThrowDice(activePlayer)) {
 			status = "Wuerfel: " + board.getDice().throwDice(activePlayer);
 		} else if (board.getDice().getThrowsCount() > 0) {
+			// has thrown and exceeded his maximum throws
 			status = "Du hast schon gewuerfelt: "
 					+ board.getDice().getLastNumber();
 		} else {
-			status = "Du darfst nich wuerfeln";
+			status = "Du darfst nicht wuerfeln";
 		}
 		notifyObservers();
 	}
@@ -80,15 +75,15 @@ public final class BoardController extends Observable {
 			return true;
 		}
 
-		// no more figures in home field -> max 1 Throw allowed
+		// no more figures in home field -> max X Throw allowed
 		if (player.getHomeField().isEmpty()
-				&& numberOfThrows < settings.throwsAllowedInPublic) {
+				&& numberOfThrows < settings.getThrowsAllowedInPublic()) {
 			return true;
 		}
 
-		// has figures in home field -> max 3 Throws allowed
+		// has figures in home field -> max Y Throws allowed
 		if (!player.getHomeField().isEmpty()
-				&& numberOfThrows < settings.throwsAllowedInHome) {
+				&& numberOfThrows < settings.getThrowsAllowedInHome()) {
 			return true;
 		}
 
@@ -121,10 +116,11 @@ public final class BoardController extends Observable {
 		}
 		
 		// CAN ONLY MOVE OUT HOME? THEN SPECIAL RULE -> NEXT PLAYER IF NOT 6
+		// save get..get..get Vars local for better readability
 
 		// move out of home - error: check if player has a full HOME field
 		if (figure.isAtHomeArea()
-				&& board.getDice().getLastNumber() >= settings.minNumberToExitHome) {
+				&& board.getDice().getLastNumber() >= settings.getMinNumberToExitHome()) {
 			figure.getOwner().getHomeField()
 					.removeFigure(figure.getCurrentFieldIndex());
 			board.getPublicField().setFigure(
@@ -136,7 +132,7 @@ public final class BoardController extends Observable {
 			// move on public fields
 			
 			int currentIndex = figure.getCurrentFieldIndex();
-			int newIndex = (currentIndex + board.getDice().getLastNumber()) % settings.publicFieldsCount;
+			int newIndex = (currentIndex + board.getDice().getLastNumber()) % settings.getPublicFieldsCount();
 			// CHECK IF MIGHT GO TO FINISH FIELD...
 			board.getPublicField().removeFigure(currentIndex);
 			board.getPublicField().setFigure(newIndex, figure);
@@ -153,8 +149,8 @@ public final class BoardController extends Observable {
 	public void startGame() {
 		if (gameIsRunning) {
 			status = "Spiel laeuft schon!";
-		} else if (activePlayersQueue.size() < settings.minPlayers) {
-			status = "Zu wenige Spieler. Mindestens " + settings.maxPlayers
+		} else if (activePlayersQueue.size() < settings.getMinPlayers()) {
+			status = "Zu wenige Spieler. Mindestens " + settings.getMaxPlayers()
 					+ " benoetigt.";
 		} else {
 			setNextActivePlayer();
@@ -173,7 +169,7 @@ public final class BoardController extends Observable {
 		activePlayersQueue.push(activePlayer);
 	}
 
-	public List<Player> getPlayerList() {
+	public List<Player> getPlayers() {
 		return board.getPlayers();
 	}
 
