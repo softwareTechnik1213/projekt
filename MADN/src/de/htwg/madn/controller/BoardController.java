@@ -23,11 +23,11 @@ public final class BoardController extends Observable {
 
 	public BoardController(GameSettings gameSettings, Board board) {
 		this.board = board;
+		this.settings = gameSettings;
 		this.activePlayersQueue = new LinkedList<Player>();
 		this.activePlayer = null;
 		this.status = "Neue Spiel gestartet.";
 		this.gameIsRunning = false;
-		this.settings = gameSettings;
 		notifyObservers();
 	}
 
