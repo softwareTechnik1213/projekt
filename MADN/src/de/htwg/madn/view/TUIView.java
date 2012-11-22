@@ -119,7 +119,11 @@ public class TUIView implements IObserver {
 		System.out.println(getPlayerSettingString());
 		System.out.println(getBoardString());
 		System.out.print("STATUS: " + boardController.getStatusString());
-		System.out.println(", " + boardController.getActivePlayerString());
+		String activePlayer = boardController.getActivePlayerString();
+		if (activePlayer != null) {
+			System.out.print(", Spieler " + activePlayer + " ist am Zug.");
+		}
+		System.out.println();
 		System.out.println();
 		printCommands();
 		printPrompt();

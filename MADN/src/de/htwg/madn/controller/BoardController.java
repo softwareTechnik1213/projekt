@@ -198,10 +198,9 @@ public final class BoardController extends Observable {
 	}
 
 	public String getActivePlayerString() {
-		String ret = "";
 		if (activePlayer != null) {
-			ret = "Spieler " + activePlayer.getName() + " ist am Zug.";
+			return activePlayer.getName();
 		}
-		return ret;
+		return null;
 	}
 }
