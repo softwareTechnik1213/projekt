@@ -17,11 +17,6 @@ public final class Application {
 		Board board = new Board(settings);
 		BoardController boardController = new BoardController(settings, board);
 		TUIView tui = new TUIView(boardController);
-
-		// continue until the user decides to quit
-		boolean quit = false;
-		while (!quit) {
-			quit = tui.iterate();
-		}
+		tui.iterate();
 	}
 }

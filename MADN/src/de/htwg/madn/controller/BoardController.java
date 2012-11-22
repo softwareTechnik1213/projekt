@@ -1,9 +1,9 @@
 package de.htwg.madn.controller;
 
 import java.awt.Color;
-import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import de.htwg.madn.model.Board;
 import de.htwg.madn.model.Figure;
@@ -17,7 +17,9 @@ public final class BoardController extends Observable {
 	private String status = "";
 	private Player activePlayer;
 	// without finished players
-	private Deque<Player> activePlayersQueue;
+	private Queue<Player> activePlayersQueue;
+	// finished players
+	private Queue<Player> finishedPlayersQueue;
 	private boolean gameIsRunning;
 	private final GameSettings settings;
 
@@ -25,6 +27,7 @@ public final class BoardController extends Observable {
 		this.board = board;
 		this.settings = gameSettings;
 		this.activePlayersQueue = new LinkedList<Player>();
+		this.finishedPlayersQueue = new LinkedList<Player>();
 		this.activePlayer = null;
 		this.status = "Neue Spiel gestartet.";
 		this.gameIsRunning = false;
@@ -46,7 +49,7 @@ public final class BoardController extends Observable {
 			status = "Maximale Anzahl Spieler erreicht: "
 					+ settings.getMaxPlayers();
 		} else {
-			activePlayersQueue.push(newPlayer);
+			activePlayersQueue.add(newPlayer);
 			status = "Spieler " + newPlayer.getId() + " \""
 					+ newPlayer.getName() + "\" hinzugefuegt.";
 		}
@@ -164,9 +167,22 @@ public final class BoardController extends Observable {
 		// reset dice
 		board.getDice().resetThrowsCount();
 		// get from tail and remove
-		activePlayer = activePlayersQueue.pollLast();
-		// and then push to head of queue
-		activePlayersQueue.push(activePlayer);
+		activePlayer = activePlayersQueue.poll();
+		// no more Players!
+		if (activePlayer == null) {
+			quitGame();
+		} else {
+			// push to head of queue
+			activePlayersQueue.add(activePlayer);
+		}
+	}
+	
+	public void quitGame() {
+		System.exit(0);
+	}
+	
+	public Queue<Player> getFinishedPlayersQueue() {
+		return finishedPlayersQueue;
 	}
 
 	public List<Player> getPlayers() {

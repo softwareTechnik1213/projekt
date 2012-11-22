@@ -1,6 +1,7 @@
 package de.htwg.madn.view;
 
 import java.awt.Color;
+import java.util.Queue;
 import java.util.Scanner;
 
 import de.htwg.madn.controller.BoardController;
@@ -23,14 +24,13 @@ public class TUIView implements IObserver {
 		draw();
 	}
 
-	public boolean iterate() {
-		// return true when UI quits, else false
-		return handleInput(SCANNER.nextLine());
+	public void iterate() {
+		while (true) {
+			handleInput(SCANNER.nextLine());
+		}
 	}
 
-	private boolean handleInput(String line) {
-		// return true when UI should quit, else false
-		boolean quit = false;
+	private void handleInput(String line) {;
 		String[] args;
 		String cmd, parm;
 
@@ -40,23 +40,18 @@ public class TUIView implements IObserver {
 		if (args != null) {
 			cmd = args[0];
 			parm = args[1];
-			quit = interpretInput(cmd, parm);
+			interpretInput(cmd, parm);
 		} else {
 			// error empty command!
 			System.out.println("Leere Eingabe!");
 			printPrompt();
 		}
-
-		return quit;
 	}
 
-	private boolean interpretInput(String cmd, String parm) {
-		boolean quit = false;
-
+	private void interpretInput(String cmd, String parm) {
 		if (cmd.equals("q")) {
 			// quit
-			System.out.println("SPIEL BEENDET.");
-			quit = true;
+			quitGame();
 		} else if (cmd.equals("s")) {
 			// start game
 			boardController.startGame();
@@ -74,7 +69,25 @@ public class TUIView implements IObserver {
 			System.out.println("Falsche Eingabe!");
 			printPrompt();
 		}
-		return quit;
+	}
+
+	private void quitGame() {
+		printWinners();
+		System.out.println("SPIEL BEENDET");
+		boardController.quitGame();
+	}
+
+	private void printWinners() {
+		Queue<Player> finishedPlayers = boardController.getFinishedPlayersQueue();
+		StringBuilder sb = new StringBuilder();
+		sb.append("Platzierung\tSpielername\n");
+		for (int i = 0; i < finishedPlayers.size(); i++) {
+			sb.append(i + 1)
+				.append("\t")
+				.append(finishedPlayers.poll().getName())
+				.append("\n");
+		}
+		System.out.println(sb.toString());
 	}
 
 	private String[] getCommandAndArgument(String line) {
@@ -106,7 +119,7 @@ public class TUIView implements IObserver {
 		System.out.println(getPlayerSettingString());
 		System.out.println(getBoardString());
 		System.out.print("STATUS: " + boardController.getStatusString());
-		System.out.println(" " + boardController.getActivePlayerString());
+		System.out.println(", " + boardController.getActivePlayerString());
 		System.out.println();
 		printCommands();
 		printPrompt();
