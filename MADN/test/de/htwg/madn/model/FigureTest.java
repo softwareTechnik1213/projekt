@@ -1,7 +1,6 @@
 package de.htwg.madn.model;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
 
