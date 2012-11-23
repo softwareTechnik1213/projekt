@@ -74,9 +74,9 @@ public final class BoardController extends Observable {
 		} else if (activePlayer.getHomeField().isEmpty()) {
 			// has thrown and exceeded his maximum throws
 			status = "Du hast schon gewuerfelt: "
-					+ board.getDice().getLastNumber();
+					+ board.getDice().getLastNumber() + ".";
 		} else {
-			status = "Du darfst nicht wuerfeln";
+			status = "Du darfst nicht wuerfeln.";
 		}
 		notifyObservers();
 	}
