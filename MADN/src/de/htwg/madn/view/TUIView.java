@@ -34,7 +34,11 @@ public class TUIView implements IObserver {
 		// disable root logger handler
 		log.setUseParentHandlers(false);
 		// add owner behavior
-		log.addHandler(new Handler() {
+		log.addHandler(getLogHandler());
+	}
+	
+	private Handler getLogHandler() {
+		return new Handler() {
 			@Override
 			public void publish(LogRecord record) {
 				System.out.println(record.getMessage());
@@ -46,7 +50,7 @@ public class TUIView implements IObserver {
 			public void close() {
 			}
 
-		});
+		};
 	}
 
 	public void iterateAndHandleInput() {
@@ -246,18 +250,23 @@ public class TUIView implements IObserver {
 		for (int i = 0; i < publicFieldsCount; i++) {
 			Figure fig = boardController.getBoard().getPublicField()
 					.getFigure(i);
-			if (fig != null) {
-				sb.append(fig.getLetter());
-			} else if (isSpecialPublicFieldHomeExit(i)) {
-				sb.append("*");
-			} else if (isSpecialPublicFieldFinishEntry(i)) {
-				sb.append("/");
-			} else {
-				sb.append("_");
-			}
+			
+			appendFigureLetterInPublicField(sb, i, fig);
 		}
 		appendVerticalBorder(sb);
 		sb.append("\n");
+	}
+	
+	private void appendFigureLetterInPublicField(StringBuilder sb, int index, Figure fig) {
+		if (fig != null) {
+			sb.append(fig.getLetter());
+		} else if (isSpecialPublicFieldHomeExit(index)) {
+			sb.append("*");
+		} else if (isSpecialPublicFieldFinishEntry(index)) {
+			sb.append("/");
+		} else {
+			sb.append("_");
+		}
 	}
 	
 	private void appendVerticalBorder(StringBuilder sb) {
