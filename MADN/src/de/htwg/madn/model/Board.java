@@ -5,35 +5,49 @@ import java.util.LinkedList;
 import java.util.List;
 
 public final class Board {
-	private final List<HomeField> homeFields;
-	private final List<FinishField> finishFields;
-	private final List<Player> players;
-	private final PublicField publicField;
+	private List<HomeField> homeFields;
+	private List<FinishField> finishFields;
+	private List<Player> players;
+	private PublicField publicField;
 	private final int maxPlayers;
 	private final int figuresPerPlayer;
 	private final int publicFieldsCount;
-	private final Dice dice;
+	private int diceMin;
+	private int diceMax;
+	private Dice dice;
 
 	public Board(GameSettings gameSettings) {
 
 		this.maxPlayers = gameSettings.getMaxPlayers();
 		this.figuresPerPlayer = gameSettings.getFiguresPerPlayer();
 		this.publicFieldsCount = gameSettings.getPublicFieldsCount();
-		int diceMin = gameSettings.getDiceMin();
-		int diceMax = gameSettings.getDiceMax();
+		this.diceMin = gameSettings.getDiceMin();
+		this.diceMax = gameSettings.getDiceMax();
 
+		init();
+	}
+	
+	private void init() {
 		this.dice = new Dice(diceMin, diceMax);
-		homeFields = new LinkedList<HomeField>();
-		finishFields = new LinkedList<FinishField>();
+		this.homeFields = new LinkedList<HomeField>();
+		this.finishFields = new LinkedList<FinishField>();
 
+		initHomeAndFinishFields();
+
+		this.players = new LinkedList<Player>();
+		this.publicField = new PublicField(publicFieldsCount);
+	}
+	
+	private void initHomeAndFinishFields() {
 		for (int i = 0; i < this.maxPlayers; i++) {
 			homeFields.add(new HomeField(getExitIndexHome(i), this.figuresPerPlayer));
 			finishFields.add(new FinishField(getEntryIndexFinish(i),
 					this.figuresPerPlayer));
 		}
-
-		players = new LinkedList<Player>();
-		publicField = new PublicField(publicFieldsCount);
+	}
+	
+	public void reset() {
+		init();
 	}
 
 	public int getExitIndexHome(final int playerNumber) {

@@ -26,12 +26,16 @@ public final class BoardController extends Observable {
 	public BoardController(GameSettings gameSettings, Board board) {
 		this.board = board;
 		this.settings = gameSettings;
+		init();
+		notifyObservers();
+	}
+	
+	private void init() {
 		this.activePlayersQueue = new LinkedList<Player>();
 		this.finishedPlayersQueue = new LinkedList<Player>();
 		this.activePlayer = null;
-		this.status = "Neue Spiel gestartet.";
+		this.status = "Neue Spiel erstellt.";
 		this.gameIsRunning = false;
-		notifyObservers();
 	}
 
 	public Board getBoard() {
@@ -96,6 +100,13 @@ public final class BoardController extends Observable {
 		}
 
 		return false;
+	}
+	
+	public void reset() {
+		board.reset();
+		init();
+		status = "Reset: Neues Spiel erstellt.";
+		notifyObservers();
 	}
 
 	public void moveFigure(char figureLetter) {
