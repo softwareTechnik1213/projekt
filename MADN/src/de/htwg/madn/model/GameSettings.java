@@ -30,19 +30,32 @@ public final class GameSettings {
 	}
 
 	private void verifySettings() {
+		verifyPlayerSettings();
+		verifyFiguresSettings();
+		verifyPublicFieldsSettings();
+		verifyThrowsAllowedSettings();
+	}
+
+	private void verifyPlayerSettings() {
 		if (minPlayers > maxPlayers || minPlayers < 1) {
 			throw new IllegalArgumentException("player settings not valid");
 		}
+	}
 
+	private void verifyFiguresSettings() {
 		if (figuresPerPlayer < 1) {
 			throw new IllegalArgumentException("figures settings not valid");
 		}
+	}
 
-		if (publicFieldsCount < 1
-			|| publicFieldsCount % maxPlayers != 0) {
-			throw new IllegalArgumentException("public fields settings not valid");
+	private void verifyPublicFieldsSettings() {
+		if (publicFieldsCount < 1 || publicFieldsCount % maxPlayers != 0) {
+			throw new IllegalArgumentException(
+					"public fields settings not valid");
 		}
+	}
 
+	private void verifyThrowsAllowedSettings() {
 		if (throwsAllowedInHome < 1 || throwsAllowedInPublic < 1) {
 			throw new IllegalArgumentException(
 					"throws allowed settings not valid");

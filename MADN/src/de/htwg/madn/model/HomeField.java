@@ -9,16 +9,16 @@ public final class HomeField {
 		this.exitIndex = exitIndex;
 		fields = new Figure[fieldsCount];
 	}
+
+	public int getExitIndex() {
+		return exitIndex;
+	}
 	
 	public void setOwner(Player owner) {
 		if (owner == null) {
 			return;
 		}
 		this.owner = owner;
-	}
-
-	public int getExitIndex() {
-		return exitIndex;
 	}
 
 	public Player getOwner() {

@@ -10,15 +10,15 @@ public final class FinishField {
 		fields = new Figure[fieldsCount];
 	}
 	
+	public int getEntryIndex() {
+		return entryIndex;
+	}
+	
 	public void setOwner(Player owner) {
 		if (owner == null) {
 			return;
 		}
 		this.owner = owner;
-	}
-
-	public int getEntryIndex() {
-		return entryIndex;
 	}
 
 	public Player getOwner() {
