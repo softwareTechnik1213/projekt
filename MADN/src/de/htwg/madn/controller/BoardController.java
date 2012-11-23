@@ -29,7 +29,7 @@ public final class BoardController extends Observable {
 		init();
 		notifyObservers();
 	}
-	
+
 	private void init() {
 		this.activePlayersQueue = new LinkedList<Player>();
 		this.finishedPlayersQueue = new LinkedList<Player>();
@@ -41,7 +41,7 @@ public final class BoardController extends Observable {
 	public Board getBoard() {
 		return board;
 	}
-	
+
 	public GameSettings getSettings() {
 		return settings;
 	}
@@ -61,10 +61,17 @@ public final class BoardController extends Observable {
 		notifyObservers();
 	}
 
+	// TODO: change logic has figure in home/not in home and so on...
 	public void throwDice() {
 		if (isAllowedToThrowDice(activePlayer)) {
 			status = "Wuerfel: " + board.getDice().throwDice(activePlayer);
-		} else if (board.getDice().getThrowsCount() > 0) {
+		} else if (activePlayer.getHomeField().isEmpty()
+				&& board.getDice().getThrowsCount() > settings
+						.getThrowsAllowedInPublic()) {
+			// has thrown and exceeded his maximum throws in public fields
+			status = "Du hast schon gewuerfelt: "
+					+ board.getDice().getLastNumber();
+		} else if (activePlayer.getHomeField().isEmpty()) {
 			// has thrown and exceeded his maximum throws
 			status = "Du hast schon gewuerfelt: "
 					+ board.getDice().getLastNumber();
@@ -77,11 +84,11 @@ public final class BoardController extends Observable {
 	private boolean isAllowedToThrowDice(Player player) {
 		Player lastThrower = board.getDice().getLastThrower();
 		int numberOfThrows = board.getDice().getThrowsCount();
-		
+
 		if (!gameIsRunning) {
 			return false;
 		}
-		
+
 		// no player or now previous thrower? then throw the dice!
 		if (player == null || lastThrower == null) {
 			return true;
@@ -101,7 +108,7 @@ public final class BoardController extends Observable {
 
 		return false;
 	}
-	
+
 	public void reset() {
 		board.reset();
 		init();
@@ -116,7 +123,8 @@ public final class BoardController extends Observable {
 			return;
 		}
 
-		Figure figure = board.getFigureForPlayerByLetter(activePlayer, figureLetter);
+		Figure figure = board.getFigureForPlayerByLetter(activePlayer,
+				figureLetter);
 
 		if (figure == null) {
 			status = "Diese Figur gehoert dir nicht!";
@@ -133,13 +141,14 @@ public final class BoardController extends Observable {
 			notifyObservers();
 			return;
 		}
-		
+
 		// CAN ONLY MOVE OUT HOME? THEN SPECIAL RULE -> NEXT PLAYER IF NOT 6
 		// save get..get..get Vars local for better readability
 
 		// move out of home - error: check if player has a full HOME field
 		if (figure.isAtHomeArea()
-				&& board.getDice().getLastNumber() >= settings.getMinNumberToExitHome()) {
+				&& board.getDice().getLastNumber() >= settings
+						.getMinNumberToExitHome()) {
 			figure.getOwner().getHomeField()
 					.removeFigure(figure.getCurrentFieldIndex());
 			board.getPublicField().setFigure(
@@ -149,14 +158,15 @@ public final class BoardController extends Observable {
 
 		} else if (!figure.isAtHomeArea()) {
 			// move on public fields
-			
+
 			int currentIndex = figure.getCurrentFieldIndex();
-			int newIndex = (currentIndex + board.getDice().getLastNumber()) % settings.getPublicFieldsCount();
+			int newIndex = (currentIndex + board.getDice().getLastNumber())
+					% settings.getPublicFieldsCount();
 			// CHECK IF MIGHT GO TO FINISH FIELD...
 			board.getPublicField().removeFigure(currentIndex);
 			board.getPublicField().setFigure(newIndex, figure);
 			status = "Figur " + figure.getLetter() + " wurde bewegt.";
-			
+
 		} else {
 			status = "Bewegung nicht moeglich";
 		}
@@ -169,8 +179,8 @@ public final class BoardController extends Observable {
 		if (gameIsRunning) {
 			status = "Spiel laeuft schon!";
 		} else if (activePlayersQueue.size() < settings.getMinPlayers()) {
-			status = "Zu wenige Spieler. Mindestens " + settings.getMaxPlayers()
-					+ " benoetigt.";
+			status = "Zu wenige Spieler. Mindestens "
+					+ settings.getMaxPlayers() + " benoetigt.";
 		} else {
 			setNextActivePlayer();
 			status = "Spiel beginnt.";
@@ -192,11 +202,11 @@ public final class BoardController extends Observable {
 			activePlayersQueue.add(activePlayer);
 		}
 	}
-	
+
 	public void quitGame() {
 		System.exit(0);
 	}
-	
+
 	public Queue<Player> getFinishedPlayersQueue() {
 		return finishedPlayersQueue;
 	}
