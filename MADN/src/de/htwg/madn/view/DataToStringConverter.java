@@ -19,7 +19,7 @@ public final class DataToStringConverter {
 		this.settings = settings;
 	}
 
-	public String getWinners(Queue<Player> finishedPlayers) {
+	public String getWinnersString(Queue<Player> finishedPlayers) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("Platzierung\tSpielername\n");
@@ -31,7 +31,7 @@ public final class DataToStringConverter {
 		return sb.toString();
 	}
 
-	public String getPlayerSetting(List<Player> players) {
+	public String getPlayerSettingString(List<Player> players) {
 		StringBuilder sb = new StringBuilder();
 
 		for (Player p : players) {
@@ -49,7 +49,7 @@ public final class DataToStringConverter {
 		}
 	}
 
-	public String getBorder() {
+	public String getBorderString() {
 		StringBuilder sb = new StringBuilder();
 
 		appendCorner(sb);
@@ -65,7 +65,7 @@ public final class DataToStringConverter {
 		sb.append('+');
 	}
 
-	public String getHomeFields(List<HomeField> homeFields) {
+	public String getHomeFieldsString(List<HomeField> homeFields) {
 		StringBuilder sb = new StringBuilder();
 
 		appendVerticalBorder(sb);
@@ -108,7 +108,7 @@ public final class DataToStringConverter {
 		sb.append('|');
 	}
 
-	public String getPublicFields(PublicField publicField, Board board) {
+	public String getPublicFieldsString(PublicField publicField, Board board) {
 		StringBuilder sb = new StringBuilder();
 		int publicFieldsCount = settings.getPublicFieldsCount();
 
@@ -156,7 +156,7 @@ public final class DataToStringConverter {
 		return false;
 	}
 
-	public String getFinishFields(List<FinishField> finishFields) {
+	public String getFinishFieldsString(List<FinishField> finishFields) {
 		StringBuilder sb = new StringBuilder();
 
 		appendVerticalBorder(sb);

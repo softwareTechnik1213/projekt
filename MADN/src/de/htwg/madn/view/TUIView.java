@@ -98,7 +98,7 @@ public class TUIView implements IObserver {
 	}
 
 	private void printWinners() {
-		String win = stringifyer.getWinners(boardController
+		String win = stringifyer.getWinnersString(boardController
 				.getFinishedPlayersQueue());
 
 		log.info(win);
@@ -151,7 +151,7 @@ public class TUIView implements IObserver {
 	private String getPlayerSettingString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Spieler-Liste:\n");
-		sb.append(stringifyer.getPlayerSetting(boardController.getPlayers()));
+		sb.append(stringifyer.getPlayerSettingString(boardController.getPlayers()));
 		return sb.toString();
 	}
 
@@ -164,16 +164,16 @@ public class TUIView implements IObserver {
 	private String getBoardString() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(stringifyer.getBorder());
+		sb.append(stringifyer.getBorderString());
 		sb.append("\n");
 
-		sb.append(stringifyer.getHomeFields(boardController.getBoard()
+		sb.append(stringifyer.getHomeFieldsString(boardController.getBoard()
 				.getHomeFields()));
-		sb.append(stringifyer.getPublicFields(boardController.getBoard()
+		sb.append(stringifyer.getPublicFieldsString(boardController.getBoard()
 				.getPublicField(), boardController.getBoard()));
-		sb.append(stringifyer.getFinishFields(boardController.getBoard().getFinishFields()));
+		sb.append(stringifyer.getFinishFieldsString(boardController.getBoard().getFinishFields()));
 
-		sb.append(stringifyer.getBorder());
+		sb.append(stringifyer.getBorderString());
 
 		return sb.toString();
 	}
