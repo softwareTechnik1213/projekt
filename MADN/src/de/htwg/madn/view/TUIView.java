@@ -3,6 +3,9 @@ package de.htwg.madn.view;
 import java.awt.Color;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import de.htwg.madn.controller.BoardController;
 import de.htwg.madn.model.Board;
@@ -15,13 +18,35 @@ import de.htwg.madn.util.observer.IObserver;
 public class TUIView implements IObserver {
 
 	private BoardController boardController;
+	private static Logger log;
 	private static final Scanner SCANNER = new Scanner(System.in);
 
 	public TUIView(BoardController bc) {
 		this.boardController = bc;
 		// watch the controller with this class
 		this.boardController.addObserver(this);
+		configLogger();
 		draw();
+	}
+
+	private void configLogger() {
+		log = Logger.getLogger(TUIView.class.getName());
+		// disable root logger handler
+		log.setUseParentHandlers(false);
+				
+		log.addHandler(new Handler() {
+			@Override
+			public void publish(LogRecord record) {
+				System.out.println(record.getMessage());
+			}
+
+			public void flush() {
+			}
+
+			public void close() throws SecurityException {
+			}
+
+		});
 	}
 
 	public void iterateAndHandleInput() {
@@ -43,7 +68,7 @@ public class TUIView implements IObserver {
 			interpretInput(cmd, parm);
 		} else {
 			// error empty command!
-			System.out.println("Leere Eingabe!");
+			log.info("Leere Eingabe!");
 			printPrompt();
 		}
 	}
@@ -66,28 +91,27 @@ public class TUIView implements IObserver {
 			boardController.addPlayer(parm, Color.BLACK);
 		} else {
 			// error unknown parameter
-			System.out.println("Falsche Eingabe!");
+			log.info("Falsche Eingabe!");
 			printPrompt();
 		}
 	}
 
 	private void quitGame() {
 		printWinners();
-		System.out.println("SPIEL BEENDET");
+		log.info("SPIEL BEENDET");
 		boardController.quitGame();
 	}
 
 	private void printWinners() {
-		Queue<Player> finishedPlayers = boardController.getFinishedPlayersQueue();
+		Queue<Player> finishedPlayers = boardController
+				.getFinishedPlayersQueue();
 		StringBuilder sb = new StringBuilder();
 		sb.append("Platzierung\tSpielername\n");
 		for (int i = 0; i < finishedPlayers.size(); i++) {
-			sb.append(i + 1)
-				.append("\t")
-				.append(finishedPlayers.poll().getName())
-				.append("\n");
+			sb.append(i + 1).append("\t")
+					.append(finishedPlayers.poll().getName()).append("\n");
 		}
-		System.out.println(sb.toString());
+		log.info(sb.toString());
 	}
 
 	private String[] getCommandAndArgument(String line) {
@@ -116,15 +140,14 @@ public class TUIView implements IObserver {
 	}
 
 	private void draw() {
-		System.out.println(getPlayerSettingString());
-		System.out.println(getBoardString());
-		System.out.print("STATUS: " + boardController.getStatusString());
+		log.info(getPlayerSettingString());
+		log.info(getBoardString());
+		log.info("STATUS: " + boardController.getStatusString());
 		String activePlayer = boardController.getActivePlayerString();
 		if (activePlayer != null) {
 			System.out.print(", Spieler " + activePlayer + " ist am Zug.");
 		}
-		System.out.println();
-		System.out.println();
+		log.info("\n");
 		printCommands();
 		printPrompt();
 	}
@@ -149,7 +172,7 @@ public class TUIView implements IObserver {
 	}
 
 	private void printCommands() {
-		System.out.println(getCommands());
+		log.info(getCommands());
 	}
 
 	private String getCommands() {
@@ -172,7 +195,8 @@ public class TUIView implements IObserver {
 	}
 
 	private void appendBoardBorder(StringBuilder sb) {
-		for (int i = 0; i < boardController.getSettings().getPublicFieldsCount(); i++) {
+		for (int i = 0; i < boardController.getSettings()
+				.getPublicFieldsCount(); i++) {
 			sb.append('-');
 		}
 	}
@@ -186,7 +210,8 @@ public class TUIView implements IObserver {
 	}
 
 	private void appendDistanceBetweenSpecialFields(StringBuilder sb) {
-		int publicFieldsCount = boardController.getSettings().getPublicFieldsCount();
+		int publicFieldsCount = boardController.getSettings()
+				.getPublicFieldsCount();
 		int numberSpecialFields = boardController.getSettings().getMaxPlayers();
 		int numberFigures = boardController.getSettings().getFiguresPerPlayer();
 
@@ -206,7 +231,8 @@ public class TUIView implements IObserver {
 	}
 
 	private void appendPublicFields(StringBuilder sb) {
-		for (int i = 0; i < boardController.getSettings().getPublicFieldsCount(); i++) {
+		for (int i = 0; i < boardController.getSettings()
+				.getPublicFieldsCount(); i++) {
 			Figure fig = boardController.getBoard().getPublicField()
 					.getFigure(i);
 			if (fig != null) {
