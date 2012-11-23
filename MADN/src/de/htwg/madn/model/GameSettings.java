@@ -30,7 +30,7 @@ public final class GameSettings {
 	}
 
 	private void verifySettings() {
-		if (minPlayers > maxPlayers || minPlayers < 1 || maxPlayers < 1) {
+		if (minPlayers > maxPlayers || minPlayers < 1) {
 			throw new IllegalArgumentException("player settings not valid");
 		}
 
