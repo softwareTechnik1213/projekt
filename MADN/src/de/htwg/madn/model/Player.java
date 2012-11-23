@@ -17,10 +17,12 @@ public final class Player {
 	public Player(final int x, final Color color, final String name,
 			final HomeField homeField, final FinishField finishField,
 			final int figuresCount) {
+		
 		if (homeField == null || finishField == null) {
 			throw new IllegalArgumentException(
 					"homeField and finishField cant be null");
 		}
+		
 		this.id = x;
 		this.color = color;
 		this.name = name;
@@ -30,12 +32,15 @@ public final class Player {
 		this.finishField.setOwner(this);
 		this.figures = new LinkedList<Figure>();
 
+		addFigures(figuresCount);
+		occupyHomeField();
+	}
+	
+	private void addFigures(int figuresCount) {
 		for (int i = 0; i < figuresCount; i++) {
 			char letter = (char) (FIGURE_LETTER_START + id * figuresCount + i);
 			figures.add(new Figure(letter, this));
 		}
-
-		occupyHomeField();
 	}
 
 	private void occupyHomeField() {
