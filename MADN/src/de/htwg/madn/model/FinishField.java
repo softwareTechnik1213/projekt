@@ -43,14 +43,12 @@ public final class FinishField {
 	}
 
 	public boolean isEmpty() {
-		boolean empty = true;
 		for (Figure fig : fields) {
 			if (fig != null) {
-				empty = false;
-				break;
+				return false;
 			}
 		}
-		return empty;
+		return true;
 	}
 	
 	private void checkLegalFieldAccess(final int fieldIndex) {

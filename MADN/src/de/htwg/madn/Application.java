@@ -17,6 +17,7 @@ public final class Application {
 		Board board = new Board(settings);
 		BoardController boardController = new BoardController(settings, board);
 		TUIView tui = new TUIView(boardController);
-		tui.iterate();
+		// active waiting => infinite loop
+		tui.iterateAndHandleInput();
 	}
 }

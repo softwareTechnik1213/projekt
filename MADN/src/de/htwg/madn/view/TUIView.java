@@ -24,7 +24,7 @@ public class TUIView implements IObserver {
 		draw();
 	}
 
-	public void iterate() {
+	public void iterateAndHandleInput() {
 		while (true) {
 			handleInput(SCANNER.nextLine());
 		}

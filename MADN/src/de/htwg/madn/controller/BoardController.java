@@ -110,7 +110,7 @@ public final class BoardController extends Observable {
 
 		// MOVE FIGURE ACCORDING TO RULES
 
-		// player is finished ..
+		// player is finished .. has more figures??
 		if (figure.isFinished()) {
 			status = "Du bist schon fertig!";
 			setNextActivePlayer();
@@ -166,13 +166,13 @@ public final class BoardController extends Observable {
 	private void setNextActivePlayer() {
 		// reset dice
 		board.getDice().resetThrowsCount();
-		// get from tail and remove
+		// get from head and remove
 		activePlayer = activePlayersQueue.poll();
 		// no more Players!
 		if (activePlayer == null) {
 			quitGame();
 		} else {
-			// push to head of queue
+			// push to tail of queue
 			activePlayersQueue.add(activePlayer);
 		}
 	}
