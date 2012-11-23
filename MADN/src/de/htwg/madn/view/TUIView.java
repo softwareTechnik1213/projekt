@@ -42,7 +42,7 @@ public class TUIView implements IObserver {
 			public void flush() {
 			}
 
-			public void close() throws SecurityException {
+			public void close() {
 			}
 
 		});
@@ -144,7 +144,7 @@ public class TUIView implements IObserver {
 		log.info("STATUS: " + boardController.getStatusString());
 		String activePlayer = boardController.getActivePlayerString();
 		if (activePlayer != null) {
-			System.out.print(", Spieler " + activePlayer + " ist am Zug.");
+			log.info(", Spieler " + activePlayer + " ist am Zug.");
 		}
 		log.info("\n");
 		printCommands();
