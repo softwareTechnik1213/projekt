@@ -33,7 +33,6 @@ public class TUIView implements IObserver {
 		log = Logger.getLogger(TUIView.class.getName());
 		// disable root logger handler
 		log.setUseParentHandlers(false);
-				
 		log.addHandler(new Handler() {
 			@Override
 			public void publish(LogRecord record) {
@@ -168,7 +167,7 @@ public class TUIView implements IObserver {
 	}
 
 	private void printPrompt() {
-		System.out.print(">>> ");
+		log.info(">>> ");
 	}
 
 	private void printCommands() {
