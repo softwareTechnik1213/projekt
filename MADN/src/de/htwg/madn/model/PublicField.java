@@ -24,6 +24,10 @@ public final class PublicField {
 		return fields[fieldIndex];
 	}
 	
+	public int getSize() {
+		return fields.length;
+	}
+	
 	private void checkLegalFieldAccess(final int fieldIndex) {
 		if (fieldIndex < 0 || fieldIndex > fields.length) {
 			throw new ArrayIndexOutOfBoundsException();

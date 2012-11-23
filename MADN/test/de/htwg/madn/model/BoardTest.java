@@ -1,13 +1,86 @@
 package de.htwg.madn.model;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.awt.Color;
+
+import org.junit.Before;
 import org.junit.Test;
 
-public class BoardTest {
+public final class BoardTest {
 
-    @Test
-    public void testBoard() {
-        Board b = new Board();
-        assertNotNull(b.toString());
-    }
+	private Board board;
+	private GameSettings settings;
+	private int figuresPerPlayer = 1;
+	private int maxPlayers = 1;
+	private int minPlayers = 1;
+	private int publicFieldsCount = 2;
+
+	@Before
+	public void setUp() throws Exception {
+		settings = new GameSettings(minPlayers, maxPlayers, figuresPerPlayer,
+				publicFieldsCount, 1, 6, 6, 3, 1);
+		board = new Board(settings);
+	}
+
+	@Test
+	public void testBoard() {
+		assertTrue(board != null);
+	}
+
+	@Test
+	public void testGetExitIndexHome() {
+		assertTrue(board.getExitIndexHome(0) == 0);
+		assertTrue(board.getExitIndexHome(1) == 1 * publicFieldsCount
+				/ maxPlayers);
+	}
+
+	@Test
+	public void testGetEntryIndexFinish() {
+		assertTrue(board.getEntryIndexFinish(0) == (board.getExitIndexHome(0)
+				+ publicFieldsCount - 1)
+				% publicFieldsCount);
+		assertTrue(board.getEntryIndexFinish(4) == (board.getExitIndexHome(4)
+				+ publicFieldsCount - 1)
+				% publicFieldsCount);
+	}
+
+	@Test
+	public void testAddPlayer() {
+		assertTrue(board.addPlayer(Color.RED, "test") != null);
+		assertTrue(board.getPlayers().size() == 1);
+	}
+
+	@Test
+	public void testGetHomeFields() {
+		assertTrue(board.getHomeFields().size() == maxPlayers);
+	}
+
+	@Test
+	public void testGetFinishFields() {
+		assertTrue(board.getFinishFields().size() == maxPlayers);
+	}
+
+	@Test
+	public void testGetPublicField() {
+		assertTrue(board.getPublicField().getSize() == publicFieldsCount);
+	}
+
+	@Test
+	public void testGetPlayers() {
+		board.addPlayer(Color.RED, "test");
+		assertTrue(board.getPlayers().size() == 1);
+	}
+
+	@Test
+	public void testGetDice() {
+		assertTrue(board.getDice() != null);
+	}
+
+	@Test
+	public void testGetFigureForPlayerByLetter() {
+		Player player = board.addPlayer(Color.RED, "test");
+		assertTrue(board.getFigureForPlayerByLetter(player, 'a') != null);
+	}
+
 }

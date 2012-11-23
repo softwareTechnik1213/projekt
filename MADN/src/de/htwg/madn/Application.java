@@ -7,10 +7,6 @@ import de.htwg.madn.view.TUIView;
 
 public final class Application {
 
-	private Application() {
-		throw new UnsupportedOperationException("static class");
-	}
-
 	public static void main(String[] args) {
 
 		GameSettings settings = new GameSettings(2, 4, 4, 40, 1, 6, 6, 3, 1);
