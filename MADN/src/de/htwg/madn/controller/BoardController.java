@@ -73,6 +73,11 @@ public final class BoardController extends Observable {
 	private boolean isAllowedToThrowDice(Player player) {
 		Player lastThrower = board.getDice().getLastThrower();
 		int numberOfThrows = board.getDice().getThrowsCount();
+		
+		if (!gameIsRunning) {
+			return false;
+		}
+		
 		// no player or now previous thrower? then throw the dice!
 		if (player == null || lastThrower == null) {
 			return true;
