@@ -12,7 +12,6 @@ public final class Figure {
 	public Figure(final char letter, final Player owner) {
 		this.letter = letter;
 		this.owner = owner;
-		owner.addFigure(this);
 	}
 	
 	public Player getOwner() {

@@ -44,12 +44,6 @@ public final class Player {
 		}
 	}
 
-	public void addFigure(Figure figure) {
-		if (figure.getOwner() == null) {
-			figures.add(figure);
-		}
-	}
-
 	public int getId() {
 		return id;
 	}

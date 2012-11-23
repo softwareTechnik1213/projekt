@@ -11,7 +11,7 @@ public final class HomeField {
 	}
 	
 	public void setOwner(Player owner) {
-		if (this.owner == null) {
+		if (owner == null) {
 			return;
 		}
 		this.owner = owner;
