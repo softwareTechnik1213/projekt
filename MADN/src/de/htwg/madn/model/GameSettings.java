@@ -1,6 +1,5 @@
 package de.htwg.madn.model;
 
-
 public final class GameSettings {
 	private final int minPlayers;
 	private final int maxPlayers;
@@ -11,10 +10,11 @@ public final class GameSettings {
 	private final int minNumberToExitHome;
 	private final int throwsAllowedInHome;
 	private final int throwsAllowedInPublic;
-	
+
 	public GameSettings(int minPlayers, int maxPlayers, int figuresPerPlayer,
-			int publicFieldsCount, int diceMin, int diceMax, int minNumberToExitHome,
-			int throwsAllowedInHome, int throwsAllowedInPublic) {
+			int publicFieldsCount, int diceMin, int diceMax,
+			int minNumberToExitHome, int throwsAllowedInHome,
+			int throwsAllowedInPublic) {
 
 		this.minPlayers = minPlayers;
 		this.maxPlayers = maxPlayers;
@@ -25,20 +25,27 @@ public final class GameSettings {
 		this.minNumberToExitHome = minNumberToExitHome;
 		this.throwsAllowedInHome = throwsAllowedInHome;
 		this.throwsAllowedInPublic = throwsAllowedInPublic;
-		
+
 		verifySettings();
 	}
 
 	private void verifySettings() {
-		if (minPlayers > maxPlayers
-				|| minPlayers < 1
-				|| maxPlayers < 1
-				|| figuresPerPlayer < 1
-				|| publicFieldsCount < 1
-				|| throwsAllowedInHome < 1
-				|| throwsAllowedInPublic < 1
-				|| publicFieldsCount % maxPlayers != 0) {
-			throw new IllegalArgumentException("settings not valid");
+		if (minPlayers > maxPlayers || minPlayers < 1 || maxPlayers < 1) {
+			throw new IllegalArgumentException("player settings not valid");
+		}
+
+		if (figuresPerPlayer < 1) {
+			throw new IllegalArgumentException("figures settings not valid");
+		}
+
+		if (publicFieldsCount < 1
+			|| publicFieldsCount % maxPlayers != 0) {
+			throw new IllegalArgumentException("public fields settings not valid");
+		}
+
+		if (throwsAllowedInHome < 1 || throwsAllowedInPublic < 1) {
+			throw new IllegalArgumentException(
+					"throws allowed settings not valid");
 		}
 	}
 
@@ -77,6 +84,5 @@ public final class GameSettings {
 	public int getThrowsAllowedInPublic() {
 		return throwsAllowedInPublic;
 	}
-		
-	
+
 }
