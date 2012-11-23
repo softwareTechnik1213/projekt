@@ -28,6 +28,12 @@ public final class BoardTest {
 	public void testBoard() {
 		assertTrue(board != null);
 	}
+	
+	@Test
+	public void testReset() {
+		board.reset();
+		assertTrue(board.getPlayers().size() == 0);
+	}
 
 	@Test
 	public void testGetExitIndexHome() {
