@@ -30,7 +30,7 @@ public class TUIView implements IObserver {
 		}
 	}
 
-	private void handleInput(String line) {;
+	private void handleInput(String line) {
 		String[] args;
 		String cmd, parm;
 

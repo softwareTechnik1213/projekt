@@ -42,39 +42,39 @@ public final class GameSettings {
 		}
 	}
 
-	public final int getMinPlayers() {
+	public int getMinPlayers() {
 		return minPlayers;
 	}
 
-	public final int getMaxPlayers() {
+	public int getMaxPlayers() {
 		return maxPlayers;
 	}
 
-	public final int getFiguresPerPlayer() {
+	public int getFiguresPerPlayer() {
 		return figuresPerPlayer;
 	}
 
-	public final int getPublicFieldsCount() {
+	public int getPublicFieldsCount() {
 		return publicFieldsCount;
 	}
 
-	public final int getDiceMin() {
+	public int getDiceMin() {
 		return diceMin;
 	}
 
-	public final int getDiceMax() {
+	public int getDiceMax() {
 		return diceMax;
 	}
 
-	public final int getMinNumberToExitHome() {
+	public int getMinNumberToExitHome() {
 		return minNumberToExitHome;
 	}
 
-	public final int getThrowsAllowedInHome() {
+	public int getThrowsAllowedInHome() {
 		return throwsAllowedInHome;
 	}
 
-	public final int getThrowsAllowedInPublic() {
+	public int getThrowsAllowedInPublic() {
 		return throwsAllowedInPublic;
 	}
 		
