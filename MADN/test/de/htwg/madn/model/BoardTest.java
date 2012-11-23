@@ -1,5 +1,6 @@
 package de.htwg.madn.model;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
@@ -49,6 +50,10 @@ public final class BoardTest {
 	public void testAddPlayer() {
 		assertTrue(board.addPlayer(Color.RED, "test") != null);
 		assertTrue(board.getPlayers().size() == 1);
+		for (int i = 0; i < maxPlayers; i++) {
+			board.addPlayer(Color.RED, "test");
+		}
+		assertTrue(board.addPlayer(Color.RED, "test") == null);
 	}
 
 	@Test
@@ -81,6 +86,25 @@ public final class BoardTest {
 	public void testGetFigureForPlayerByLetter() {
 		Player player = board.addPlayer(Color.RED, "test");
 		assertTrue(board.getFigureForPlayerByLetter(player, 'a') != null);
+		assertTrue(board.getFigureForPlayerByLetter(player, 'z') == null);
+
+		try {
+			board.getFigureForPlayerByLetter(player, '5');
+			fail("should throw exception");
+		} catch (Exception expected) {
+			// this is exactly what we were expecting so
+			// let's just ignore it and let the test pass
+		}
+		
+		try {
+			board.getFigureForPlayerByLetter(null, 'a');
+			fail("should throw exception");
+		} catch (Exception expected) {
+			// this is exactly what we were expecting so
+			// let's just ignore it and let the test pass
+		}
+		
+		
 	}
 
 }

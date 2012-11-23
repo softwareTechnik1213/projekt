@@ -26,7 +26,7 @@ public final class Dice {
 	
 	public int getLastNumber() {
 		if (this.throwsCount == 0) {
-			throw new IllegalAccessError("dice has not been thrown before!");
+			throw new IllegalStateException("dice has not been thrown before!");
 		}
 		return this.lastNumber;
 	}

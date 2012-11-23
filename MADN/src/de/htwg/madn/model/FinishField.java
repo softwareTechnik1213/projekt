@@ -5,13 +5,13 @@ public final class FinishField {
 	private Player owner;
 	private final Figure[] fields;
 	
-	public FinishField(final int entryIndex,final int fieldsCount) {
+	public FinishField(final int entryIndex, final int fieldsCount) {
 		this.entryIndex = entryIndex;
 		fields = new Figure[fieldsCount];
 	}
 	
 	public void setOwner(Player owner) {
-		if (this.owner == null) {
+		if (owner == null) {
 			return;
 		}
 		this.owner = owner;

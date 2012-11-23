@@ -17,6 +17,10 @@ public final class Player {
 	public Player(final int x, final Color color, final String name,
 			final HomeField homeField, final FinishField finishField,
 			final int figuresCount) {
+		if (homeField == null || finishField == null) {
+			throw new IllegalArgumentException(
+					"homeField and finishField cant be null");
+		}
 		this.id = x;
 		this.color = color;
 		this.name = name;
@@ -57,7 +61,7 @@ public final class Player {
 	public String getName() {
 		return name;
 	}
-	
+
 	public boolean hasFigure(Figure figureCheck) {
 		for (Figure fig : this.figures) {
 			if (fig == figureCheck) {

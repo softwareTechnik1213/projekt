@@ -80,6 +80,9 @@ public final class Board {
 	}
 	
 	public Figure getFigureForPlayerByLetter(Player player, char figureLetter) {
+		if (player == null || !Character.isLetter(figureLetter)) {
+			throw new IllegalArgumentException("player or char is null");
+		}
 		for (Figure figure : player.getFigures()) {
 			if (figure.getLetter() == figureLetter) {
 				return figure;
