@@ -59,7 +59,7 @@ public final class Board {
 				% publicFieldsCount;
 	}
 
-	public Player addPlayer(final Color color, final String name) {
+	public Player addPlayer(final Color color, final String name, boolean isHuman) {
 		if (players.size() >= maxPlayers) {
 			return null;
 		}
@@ -68,7 +68,7 @@ public final class Board {
 
 		Player newPlayer = new Player(playerId, color, name,
 				homeFields.get(playerId), finishFields.get(playerId),
-				figuresPerPlayer);
+				figuresPerPlayer, isHuman);
 		players.add(newPlayer);
 		return newPlayer;
 	}

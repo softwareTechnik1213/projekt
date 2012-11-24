@@ -12,11 +12,12 @@ public final class Player {
 	private final List<Figure> figures;
 	private final FinishField finishField;
 	private final HomeField homeField;
+	private final boolean isHuman;
 	private static final char FIGURE_LETTER_START = 'a';
 
 	public Player(final int x, final Color color, final String name,
 			final HomeField homeField, final FinishField finishField,
-			final int figuresCount) {
+			final int figuresCount, boolean isHuman) {
 		
 		if (homeField == null || finishField == null) {
 			throw new IllegalArgumentException(
@@ -30,6 +31,7 @@ public final class Player {
 		this.finishField = finishField;
 		this.homeField.setOwner(this);
 		this.finishField.setOwner(this);
+		this.isHuman = isHuman;
 		this.figures = new LinkedList<Figure>();
 
 		addFigures(figuresCount);
@@ -80,5 +82,9 @@ public final class Player {
 
 	public HomeField getHomeField() {
 		return homeField;
+	}
+
+	public boolean isHuman() {
+		return isHuman;
 	}
 }

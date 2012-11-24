@@ -18,20 +18,20 @@ public final class PlayerTest {
 		GameSettings settings = new GameSettings(1, 1, 4,
 				40, 1, 6, 6, 3, 1);
 		board = new Board(settings);
-		player = board.addPlayer(Color.RED, "test dummy");
+		player = board.addPlayer(Color.RED, "test dummy", true);
 	}
 	
 	@Test
 	public void testConstructor() {
 		try {
-			new Player(0, Color.RED, "test", null, board.getFinishFields().get(0), 4);
+			new Player(0, Color.RED, "test", null, board.getFinishFields().get(0), 4, true);
 			fail("should throw exception");
 		} catch (Exception excpected) {
 			// ok is excepted, let test pass
 		}
 		
 		try {
-			new Player(0, Color.RED, "test", board.getHomeFields().get(0), null, 4);
+			new Player(0, Color.RED, "test", board.getHomeFields().get(0), null, 4, true);
 			fail("should throw exception");
 		} catch (Exception excpected) {
 			// ok is excepted, let test pass
@@ -74,6 +74,11 @@ public final class PlayerTest {
 	@Test
 	public void testGetHomeField() {
 		assertTrue(player.getHomeField() != null);
+	}
+	
+	@Test
+	public void testIsHuman() {
+		assertTrue(player.isHuman() == true);
 	}
 
 }

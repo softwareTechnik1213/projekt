@@ -21,7 +21,7 @@ public class PublicFieldTest {
 		settings = new GameSettings(1, 1, 2, size, 1, 6, 6, 3, 1);
 		board = new Board(settings);
 		occupier = new Player(0, Color.RED, "Test", board.getHomeFields().get(0),
-				board.getFinishFields().get(0), settings.getFiguresPerPlayer());
+				board.getFinishFields().get(0), settings.getFiguresPerPlayer(), true);
 		publicField = board.getPublicField();
 	}
 

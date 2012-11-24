@@ -82,7 +82,9 @@ public class TUIView implements IObserver {
 		} else if (cmd.equals("w")) {
 			boardController.throwDice();
 		} else if (cmd.equals("add") && parm != null && !parm.isEmpty()) {
-			boardController.addPlayer(parm, Color.BLACK);
+			boardController.addPlayer(parm, Color.BLACK, true);
+		} else if (cmd.equals("addbot") && parm != null && !parm.isEmpty()) {
+			boardController.addPlayer(parm, Color.BLACK, false);
 		} else if (cmd.equals("r")) {
 			boardController.reset();
 		} else {
@@ -133,32 +135,23 @@ public class TUIView implements IObserver {
 		log.info("");
 		log.info(getPlayerSettingString());
 		log.info(getBoardString());
-		log.info(getStatusAndPlayerString());
+		log.info("STATUS: " + boardController.getStatusString());
 		log.info("");
 		log.info(getCommandsString());
-	}
-
-	private String getStatusAndPlayerString() {
-		String statusAndPlayer = "STATUS: " + boardController.getStatusString();
-		String activePlayer = boardController.getActivePlayerString();
-
-		if (activePlayer != null) {
-			statusAndPlayer += " Spieler " + activePlayer + " ist am Zug.";
-		}
-		return statusAndPlayer;
 	}
 
 	private String getPlayerSettingString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Spieler-Liste:\n");
-		sb.append(stringifyer.getPlayerSettingString(boardController.getPlayers()));
+		sb.append(stringifyer.getPlayerSettingString(boardController.getPlayers(), boardController.getActivePlayer()));
 		return sb.toString();
 	}
 
 	private String getCommandsString() {
 		return "Befehle: 'q' quit | 's' start game | "
 				+ "'add SpielerName' Spieler hinzufuegen\n"
-				+ "\t 'm Figurbuchstabe' Figur bewegen | 'w' Wuerfeln | 'r' Reset\n";
+				+ "\t 'm Figurbuchstabe' Figur bewegen | 'w' Wuerfeln | 'r' Reset\n"
+				+ "\t 'addbot SpielerName' Computer Spieler hinzufuegen\n";
 	}
 
 	private String getBoardString() {

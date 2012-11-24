@@ -20,7 +20,7 @@ public final class FinishFieldTest {
 		board = new Board(settings);
 		owner = new Player(0, Color.RED, "Test",
 				board.getHomeFields().get(0), board.getFinishFields().get(0),
-				settings.getFiguresPerPlayer());
+				settings.getFiguresPerPlayer(), true);
 		finishField = board.getFinishFields().get(0);
 	}
 
@@ -68,6 +68,11 @@ public final class FinishFieldTest {
 		assertTrue(finishField.isEmpty());
 		finishField.setFigure(0, owner.getFigures().get(0));
 		assertTrue(!finishField.isEmpty());
+	}
+	
+	@Test
+	public void testGetSize() {
+		assertTrue(finishField.getSize() == 4);
 	}
 
 }

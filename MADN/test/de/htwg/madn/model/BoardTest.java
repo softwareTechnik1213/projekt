@@ -54,12 +54,12 @@ public final class BoardTest {
 
 	@Test
 	public void testAddPlayer() {
-		assertTrue(board.addPlayer(Color.RED, "test") != null);
+		assertTrue(board.addPlayer(Color.RED, "test", true) != null);
 		assertTrue(board.getPlayers().size() == 1);
 		for (int i = 0; i < maxPlayers; i++) {
-			board.addPlayer(Color.RED, "test");
+			board.addPlayer(Color.RED, "test", true);
 		}
-		assertTrue(board.addPlayer(Color.RED, "test") == null);
+		assertTrue(board.addPlayer(Color.RED, "test", true) == null);
 	}
 
 	@Test
@@ -79,7 +79,7 @@ public final class BoardTest {
 
 	@Test
 	public void testGetPlayers() {
-		board.addPlayer(Color.RED, "test");
+		board.addPlayer(Color.RED, "test", true);
 		assertTrue(board.getPlayers().size() == 1);
 	}
 
@@ -90,7 +90,7 @@ public final class BoardTest {
 
 	@Test
 	public void testGetFigureForPlayerByLetter() {
-		Player player = board.addPlayer(Color.RED, "test");
+		Player player = board.addPlayer(Color.RED, "test", true);
 		assertTrue(board.getFigureForPlayerByLetter(player, 'a') != null);
 		assertTrue(board.getFigureForPlayerByLetter(player, 'z') == null);
 

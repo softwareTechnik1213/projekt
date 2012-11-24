@@ -31,12 +31,18 @@ public final class DataToStringConverter {
 		return sb.toString();
 	}
 
-	public String getPlayerSettingString(List<Player> players) {
+	public String getPlayerSettingString(List<Player> players, Player activePlayer) {
 		StringBuilder sb = new StringBuilder();
 
 		for (Player p : players) {
-			sb.append(p.getId()).append(": ").append(p.getName())
-					.append(" hat Figuren: ");
+			if (activePlayer == p) {
+				sb.append("---> ");
+			}
+			sb.append(p.getId()).append(": ").append(p.getName());
+			if (!p.isHuman()) {
+				sb.append(" (Bot)");
+			}
+			sb.append(" hat Figuren: ");
 			appendFiguresForPlayer(p, sb);
 			sb.append("\n");
 		}

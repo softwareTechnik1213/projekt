@@ -26,7 +26,7 @@ public final class DiceTest {
 		board = new Board(settings);
 		thrower = new Player(0, Color.RED, "Test",
 				board.getHomeFields().get(0), board.getFinishFields().get(0),
-				settings.getFiguresPerPlayer());
+				settings.getFiguresPerPlayer(), true);
 	}
 
 	@Test

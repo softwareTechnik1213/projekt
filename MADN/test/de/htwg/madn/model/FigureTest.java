@@ -18,7 +18,7 @@ public final class FigureTest {
 		GameSettings settings = new GameSettings(1, 1, 4,
 				40, 1, 6, 6, 3, 1);
 		Board board = new Board(settings);
-		owner = board.addPlayer(Color.RED, "test dummy");
+		owner = board.addPlayer(Color.RED, "test dummy", true);
 		letter = 'a';
 		figure = new Figure(letter, owner);
 	}

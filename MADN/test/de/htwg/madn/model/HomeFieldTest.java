@@ -19,7 +19,7 @@ public class HomeFieldTest {
 		settings = new GameSettings(1, 1, 40, 40, 1, 6, 6, 3, 1);
 		board = new Board(settings);
 		owner = new Player(0, Color.RED, "Test", board.getHomeFields().get(0),
-				board.getFinishFields().get(0), settings.getFiguresPerPlayer());
+				board.getFinishFields().get(0), settings.getFiguresPerPlayer(), true);
 		homeField = board.getHomeFields().get(0);
 	}
 
@@ -70,6 +70,11 @@ public class HomeFieldTest {
 			homeField.removeFigure(i);
 		}
 		assertTrue(homeField.isEmpty());
+	}
+	
+	@Test
+	public void testGetSize() {
+		assertTrue(homeField.getSize() == 40);
 	}
 
 }

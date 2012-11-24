@@ -56,5 +56,9 @@ public final class HomeField {
 			throw new ArrayIndexOutOfBoundsException();
 		}
 	}
+
+	public int getSize() {
+		return fields.length;
+	}
 	
 }
