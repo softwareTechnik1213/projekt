@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public class GameSettingsTest {
 
 	private final int minPlayers = 1;
@@ -16,7 +17,7 @@ public class GameSettingsTest {
 	private final int minNumberToExitHome = 6;
 	private final int throwsAllowedInHome = 3;
 	private final int throwsAllowedInPublic = 1;
-	private GameSettings settings;
+	private IGameSettings settings;
 
 	@Before
 	public void setUp() throws Exception {

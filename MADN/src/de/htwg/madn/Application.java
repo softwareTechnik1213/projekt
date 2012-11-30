@@ -1,8 +1,12 @@
 package de.htwg.madn;
 
 import de.htwg.madn.controller.BoardController;
+import de.htwg.madn.controller.IBoardController;
 import de.htwg.madn.model.Board;
 import de.htwg.madn.model.GameSettings;
+import de.htwg.madn.model.IGameSettings;
+import de.htwg.madn.model.IModelPort;
+import de.htwg.madn.model.ModelPort;
 import de.htwg.madn.view.TUIView;
 
 public final class Application {
@@ -22,8 +26,8 @@ public final class Application {
 	}
 
 	public static void main(String[] args) {
-
-		GameSettings settings = new GameSettings(
+				
+		IGameSettings settings = new GameSettings(
 				MINPLAYERS,
 				MAXPLAYERS,
 				FIGURESPERPLAYER,
@@ -34,8 +38,10 @@ public final class Application {
 				THROWSALLOWEDINHOME,
 				THROWSALLOWEDINPUBLIC
 		);
-		Board board = new Board(settings);
-		BoardController boardController = new BoardController(settings, board);
+		
+		IModelPort model = new ModelPort(settings, new Board(settings));
+		
+		IBoardController boardController = new BoardController(model);
 		TUIView tui = new TUIView(boardController);
 		// active waiting => infinite loop
 		tui.iterateAndHandleInput();

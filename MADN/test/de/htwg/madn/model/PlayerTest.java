@@ -8,14 +8,15 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public final class PlayerTest {
 
 	private Player player;
-	private Board board;
+	private IBoard board;
 		
 	@Before
 	public void setUp() throws Exception {
-		GameSettings settings = new GameSettings(1, 1, 4,
+		IGameSettings settings = new GameSettings(1, 1, 4,
 				40, 1, 6, 6, 3, 1);
 		board = new Board(settings);
 		player = board.addPlayer(Color.RED, "test dummy", true);

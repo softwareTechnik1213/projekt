@@ -1,25 +1,26 @@
 package de.htwg.madn.controller;
 
-import de.htwg.madn.model.Board;
 import de.htwg.madn.model.Dice;
 import de.htwg.madn.model.Figure;
-import de.htwg.madn.model.GameSettings;
 import de.htwg.madn.model.HomeField;
+import de.htwg.madn.model.IGameSettings;
+import de.htwg.madn.model.IModelPort;
 import de.htwg.madn.model.Player;
 import de.htwg.madn.util.observer.Observable;
 
-public final class MovementController extends Observable {
+// package private
+final class MovementController extends Observable {
 
 	private final Dice dice;
-	private final GameSettings settings;
+	private final IGameSettings settings;
 	private String status;
-	private final Board board;
+	private final IModelPort model;
 	private final AutonomeMovementController autonomeComtroller;
 
-	public MovementController(Board board, GameSettings settings) {
-		this.dice = board.getDice();
-		this.board = board;
-		this.settings = settings;
+	public MovementController(IModelPort model) {
+		this.model = model;
+		this.dice = model.getDice();
+		this.settings = model.getSettings();
 		this.status = "";
 		this.autonomeComtroller = new AutonomeMovementController();
 	}
@@ -86,7 +87,7 @@ public final class MovementController extends Observable {
 	}
 	
 	private boolean hasOwnFigureOnField(int index, Player player) {
-		Figure fig = board.getPublicField().getFigure(index);
+		Figure fig = model.getPublicField().getFigure(index);
 		return fig != null && fig.getOwner() == player;
 	}
 
@@ -156,7 +157,7 @@ public final class MovementController extends Observable {
 			return false;
 		}
 
-		Figure figure = board.getFigureForPlayerByLetter(player, figureLetter);
+		Figure figure = model.getFigureForPlayerByLetter(player, figureLetter);
 
 		if (figure == null) {
 			status = "Diese Figur gehoert dir nicht!";
@@ -339,8 +340,8 @@ public final class MovementController extends Observable {
 			}
 		}
 
-		board.getPublicField().removeFigure(currentIndex);
-		board.getPublicField().setFigure(newIndex, fig);
+		model.getPublicField().removeFigure(currentIndex);
+		model.getPublicField().setFigure(newIndex, fig);
 		fig.setAtFinishArea(false);
 		fig.setAtHomeArea(true);
 	}
@@ -422,7 +423,7 @@ public final class MovementController extends Observable {
 		}
 
 		private boolean hasEnemyFigureAtIndex(Player player, int index) {
-			Figure enemy = board.getPublicField().getFigure(index);
+			Figure enemy = model.getPublicField().getFigure(index);
 			// there is a figure we could kick and doesn't belongs us
 			if (enemy != null && enemy.getOwner() != player) {
 				return true;

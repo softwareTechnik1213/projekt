@@ -8,12 +8,13 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public final class DiceTest {
 
 	private Dice dice;
 	private Player thrower;
-	private Board board;
-	private GameSettings settings;
+	private IBoard board;
+	private IGameSettings settings;
 	private int min;
 	private int max;
 

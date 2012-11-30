@@ -7,11 +7,12 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public class PublicFieldTest {
 
 	private Player occupier;
-	private Board board;
-	private GameSettings settings;
+	private IBoard board;
+	private IGameSettings settings;
 	private PublicField publicField;
 	private int size;
 

@@ -3,19 +3,19 @@ package de.htwg.madn.view;
 import java.util.List;
 import java.util.Queue;
 
-import de.htwg.madn.model.Board;
 import de.htwg.madn.model.Figure;
 import de.htwg.madn.model.FinishField;
-import de.htwg.madn.model.GameSettings;
 import de.htwg.madn.model.HomeField;
+import de.htwg.madn.model.IGameSettings;
+import de.htwg.madn.model.IModelPort;
 import de.htwg.madn.model.Player;
 import de.htwg.madn.model.PublicField;
 
 public final class DataToStringConverter {
 
-	private final GameSettings settings;
+	private final IGameSettings settings;
 
-	public DataToStringConverter(GameSettings settings) {
+	public DataToStringConverter(IGameSettings settings) {
 		this.settings = settings;
 	}
 
@@ -114,14 +114,14 @@ public final class DataToStringConverter {
 		sb.append('|');
 	}
 
-	public String getPublicFieldsString(PublicField publicField, Board board) {
+	public String getPublicFieldsString(PublicField publicField, IModelPort model) {
 		StringBuilder sb = new StringBuilder();
 		int publicFieldsCount = settings.getPublicFieldsCount();
 
 		appendVerticalBorder(sb);
 		for (int i = 0; i < publicFieldsCount; i++) {
 			Figure fig = publicField.getFigure(i);
-			appendFigureLetterInPublicField(sb, i, fig, board);
+			appendFigureLetterInPublicField(sb, i, fig, model);
 		}
 		appendVerticalBorder(sb);
 		sb.append("\n");
@@ -130,20 +130,20 @@ public final class DataToStringConverter {
 	}
 
 	private void appendFigureLetterInPublicField(StringBuilder sb, int index,
-			Figure fig, Board board) {
+			Figure fig, IModelPort model) {
 		if (fig != null) {
 			sb.append(fig.getLetter());
-		} else if (isSpecialPublicFieldHomeExit(index, board)) {
+		} else if (isSpecialPublicFieldHomeExit(index, model)) {
 			sb.append("*");
-		} else if (isSpecialPublicFieldFinishEntry(index, board)) {
+		} else if (isSpecialPublicFieldFinishEntry(index, model)) {
 			sb.append("/");
 		} else {
 			sb.append("_");
 		}
 	}
 
-	private boolean isSpecialPublicFieldHomeExit(int i, Board board) {
-		for (HomeField homeField : board.getHomeFields()) {
+	private boolean isSpecialPublicFieldHomeExit(int i, IModelPort model) {
+		for (HomeField homeField : model.getHomeFields()) {
 			if (homeField.getExitIndex() == i) {
 				return true;
 			}
@@ -152,8 +152,8 @@ public final class DataToStringConverter {
 		return false;
 	}
 
-	private boolean isSpecialPublicFieldFinishEntry(int i, Board board) {
-		for (FinishField finishField : board.getFinishFields()) {
+	private boolean isSpecialPublicFieldFinishEntry(int i, IModelPort model) {
+		for (FinishField finishField : model.getFinishFields()) {
 			if (finishField.getEntryIndex() == i) {
 				return true;
 			}

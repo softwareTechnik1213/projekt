@@ -7,11 +7,12 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public final class FinishFieldTest {
 
 	private Player owner;
-	private Board board;
-	private GameSettings settings;
+	private IBoard board;
+	private IGameSettings settings;
 	private FinishField finishField;
 	
 	@Before

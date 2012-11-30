@@ -6,21 +6,21 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import de.htwg.madn.controller.BoardController;
+import de.htwg.madn.controller.IBoardController;
 import de.htwg.madn.util.observer.IObserver;
 
 public class TUIView implements IObserver {
 
-	private final BoardController boardController;
+	private final IBoardController boardController;
 	private static Logger log;
 	private static final Scanner SCANNER = new Scanner(System.in);
 	private final DataToStringConverter stringifyer;
 
-	public TUIView(BoardController bc) {
-		this.boardController = bc;
+	public TUIView(IBoardController boardController) {
+		this.boardController = boardController;
 		// watch the controller with this class
 		this.boardController.addObserver(this);
-		this.stringifyer = new DataToStringConverter(bc.getSettings());
+		this.stringifyer = new DataToStringConverter(boardController.getSettings());
 		setupLogger();
 		draw();
 	}
@@ -160,11 +160,11 @@ public class TUIView implements IObserver {
 		sb.append(stringifyer.getBorderString());
 		sb.append("\n");
 
-		sb.append(stringifyer.getHomeFieldsString(boardController.getBoard()
+		sb.append(stringifyer.getHomeFieldsString(boardController.getModelPort()
 				.getHomeFields()));
-		sb.append(stringifyer.getPublicFieldsString(boardController.getBoard()
-				.getPublicField(), boardController.getBoard()));
-		sb.append(stringifyer.getFinishFieldsString(boardController.getBoard().getFinishFields()));
+		sb.append(stringifyer.getPublicFieldsString(boardController.getModelPort()
+				.getPublicField(), boardController.getModelPort()));
+		sb.append(stringifyer.getFinishFieldsString(boardController.getModelPort().getFinishFields()));
 
 		sb.append(stringifyer.getBorderString());
 

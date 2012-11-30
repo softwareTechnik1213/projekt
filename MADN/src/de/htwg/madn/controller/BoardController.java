@@ -5,15 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import de.htwg.madn.model.Board;
-import de.htwg.madn.model.GameSettings;
+import de.htwg.madn.model.IGameSettings;
+import de.htwg.madn.model.IModelPort;
 import de.htwg.madn.model.Player;
-import de.htwg.madn.util.observer.IObserver;
 import de.htwg.madn.util.observer.Observable;
 
-public final class BoardController extends Observable implements IObserver {
+public final class BoardController extends Observable implements IBoardController {
 
-	private Board board;
 	private String status = "";
 	private Player activePlayer;
 	// without finished players
@@ -21,12 +19,13 @@ public final class BoardController extends Observable implements IObserver {
 	// finished players
 	private Queue<Player> finishedPlayersQueue;
 	private boolean gameIsRunning;
-	private final GameSettings settings;
+	private final IGameSettings settings;
 	private MovementController movementController;
+	private IModelPort model;
 
-	public BoardController(GameSettings gameSettings, Board board) {
-		this.board = board;
-		this.settings = gameSettings;
+	public BoardController(IModelPort model) {
+		this.model = model;
+		this.settings = model.getSettings();
 		init();
 		notifyObservers();
 	}
@@ -37,26 +36,41 @@ public final class BoardController extends Observable implements IObserver {
 		this.activePlayer = null;
 		this.status = "Neue Spiel erstellt.";
 		this.gameIsRunning = false;
-		this.movementController = new MovementController(this.board,
-				this.settings);
+		this.movementController = new MovementController(model);
 		this.movementController.addObserver(this);
 	}
+
+
 
 	@Override
 	public void update() {
 		status = movementController.getStatusString();
 	}
 
-	public Board getBoard() {
-		return board;
+
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#getBoard()
+	 */
+	@Override
+	public IModelPort getModelPort() {
+		return model;
 	}
 
-	public GameSettings getSettings() {
+
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#getSettings()
+	 */
+	@Override
+	public IGameSettings getSettings() {
 		return settings;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#addPlayer(java.lang.String, java.awt.Color, boolean)
+	 */
+	@Override
 	public void addPlayer(final String name, final Color col, boolean isHuman) {
-		Player newPlayer = board.addPlayer(col, name, isHuman);
+		Player newPlayer = model.addPlayer(col, name, isHuman);
 
 		if (newPlayer == null) {
 			status = "Maximale Anzahl Spieler erreicht: "
@@ -70,6 +84,11 @@ public final class BoardController extends Observable implements IObserver {
 		notifyObservers();
 	}
 
+
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#throwDice()
+	 */
+	@Override
 	public void throwDice() {
 		boolean setNextPlayer = false;
 		
@@ -85,13 +104,23 @@ public final class BoardController extends Observable implements IObserver {
 		notifyObservers();
 	}
 
+
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#reset()
+	 */
+	@Override
 	public void reset() {
-		board.reset();
+		model.reset();
 		init();
 		status = "Reset: Neues Spiel erstellt.";
 		notifyObservers();
 	}
 
+
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#moveFigure(char)
+	 */
+	@Override
 	public void moveFigure(char figureLetter) {
 		boolean setNext = movementController.moveFigure(activePlayer,
 				figureLetter);
@@ -109,6 +138,10 @@ public final class BoardController extends Observable implements IObserver {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#startGame()
+	 */
+	@Override
 	public void startGame() {
 		if (gameIsRunning) {
 			status = "Spiel laeuft schon!";
@@ -125,7 +158,7 @@ public final class BoardController extends Observable implements IObserver {
 
 	private void setNextActivePlayer() {
 		// reset dice
-		board.getDice().resetThrowsCount();
+		model.getDice().resetThrowsCount();
 		// check and maybe remove a finished player
 		handleFinishedPlayer(activePlayer);
 		// get from head and remove
@@ -148,26 +181,56 @@ public final class BoardController extends Observable implements IObserver {
 		}*/
 	}
 
+
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#quitGame()
+	 */
+	@Override
 	public void quitGame() {
 		System.exit(0);
 	}
 
+
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#getFinishedPlayersQueue()
+	 */
+	@Override
 	public Queue<Player> getFinishedPlayersQueue() {
 		return finishedPlayersQueue;
 	}
 
+
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#getPlayers()
+	 */
+	@Override
 	public List<Player> getPlayers() {
-		return board.getPlayers();
+		return model.getPlayers();
 	}
 
+
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#getStatusString()
+	 */
+	@Override
 	public String getStatusString() {
 		return status;
 	}
 
+
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#getActivePlayer()
+	 */
+	@Override
 	public Player getActivePlayer() {
 		return activePlayer;
 	}
 
+
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.controller.IBoardController#getActivePlayerString()
+	 */
+	@Override
 	public String getActivePlayerString() {
 		if (activePlayer != null) {
 			return activePlayer.getName();

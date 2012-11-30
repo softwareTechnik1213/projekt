@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class Board {
+
+public final class Board implements IBoard {
 	private List<HomeField> homeFields;
 	private List<FinishField> finishFields;
 	private List<Player> players;
@@ -16,7 +17,7 @@ public final class Board {
 	private int diceMax;
 	private Dice dice;
 
-	public Board(GameSettings gameSettings) {
+	public Board(IGameSettings gameSettings) {
 
 		this.maxPlayers = gameSettings.getMaxPlayers();
 		this.figuresPerPlayer = gameSettings.getFiguresPerPlayer();
@@ -46,19 +47,35 @@ public final class Board {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.model.IBoard#reset()
+	 */
+	@Override
 	public void reset() {
 		init();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.model.IBoard#getExitIndexHome(int)
+	 */
+	@Override
 	public int getExitIndexHome(final int playerNumber) {
 		return playerNumber * publicFieldsCount / maxPlayers;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.model.IBoard#getEntryIndexFinish(int)
+	 */
+	@Override
 	public int getEntryIndexFinish(final int playerNumber) {
 		return (getExitIndexHome(playerNumber) + publicFieldsCount - 1)
 				% publicFieldsCount;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.model.IBoard#addPlayer(java.awt.Color, java.lang.String, boolean)
+	 */
+	@Override
 	public Player addPlayer(final Color color, final String name, boolean isHuman) {
 		if (players.size() >= maxPlayers) {
 			return null;
@@ -73,26 +90,50 @@ public final class Board {
 		return newPlayer;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.model.IBoard#getHomeFields()
+	 */
+	@Override
 	public List<HomeField> getHomeFields() {
 		return homeFields;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.model.IBoard#getFinishFields()
+	 */
+	@Override
 	public List<FinishField> getFinishFields() {
 		return finishFields;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.model.IBoard#getPublicField()
+	 */
+	@Override
 	public PublicField getPublicField() {
 		return publicField;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.model.IBoard#getPlayers()
+	 */
+	@Override
 	public List<Player> getPlayers() {
 		return players;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.model.IBoard#getDice()
+	 */
+	@Override
 	public Dice getDice() {
 		return this.dice;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.htwg.madn.model.IBoard#getFigureForPlayerByLetter(de.htwg.madn.model.Player, char)
+	 */
+	@Override
 	public Figure getFigureForPlayerByLetter(Player player, char figureLetter) {
 		if (player == null || !Character.isLetter(figureLetter)) {
 			throw new IllegalArgumentException("player or char is null");

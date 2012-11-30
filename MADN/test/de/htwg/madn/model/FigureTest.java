@@ -7,6 +7,7 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public final class FigureTest {
 
 	private Figure figure;
@@ -15,9 +16,9 @@ public final class FigureTest {
 
 	@Before
 	public void setUp() throws Exception {
-		GameSettings settings = new GameSettings(1, 1, 4,
+		IGameSettings settings = new GameSettings(1, 1, 4,
 				40, 1, 6, 6, 3, 1);
-		Board board = new Board(settings);
+		IBoard board = new Board(settings);
 		owner = board.addPlayer(Color.RED, "test dummy", true);
 		letter = 'a';
 		figure = new Figure(letter, owner);
