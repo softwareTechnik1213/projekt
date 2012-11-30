@@ -24,28 +24,98 @@ public final class MovementController extends Observable {
 		this.autonomeComtroller = new AutonomeMovementController();
 	}
 
-	// TODO: change logic has figure in home/not in home and so on...
 	public boolean throwDice(Player player) {
 
-		boolean setNext = false;
+		boolean setNext;
 
 		if (isAllowedToThrowDice(player)) {
 			status = "Wuerfel: " + dice.throwDice(player) + ".";
-		} else if (canOnlyMoveOutHome(player)
-				&& dice.getThrowsCount() >= settings.getThrowsAllowedInHome()) {
-			dice.resetThrowsCount();
-			status = "Kein Zug moeglich. Naechster Spieler.";
-			setNext = true;
+			setNext = playerCanMove(player, dice.getLastNumber());
 		} else {
 			status = "Du darfst nicht wuerfeln.";
+			setNext = false;
+		}
+		if (setNext) {
+			dice.resetThrowsCount();
 		}
 		notifyObservers();
 		return setNext;
 	}
-
-	private boolean canOnlyMoveOutHome(Player player) {
-
+	
+	// player has the possibility to move at least one figure
+	private boolean playerCanMove(Player player, int diceNum) {
+		
 		for (Figure fig : player.getFigures()) {
+			if (figureCanMove(fig, diceNum)) {
+				return true;
+			}
+		}		
+		
+		// can't move, so show status
+		status = "Kein Zug moeglich. Naechster Spieler.";
+		return false;		
+	}
+	
+	// figure has the possibility to move at least anywhere
+	private boolean figureCanMove(Figure figure, int diceNum) {
+		return figureCanLeaveHome(figure, diceNum)
+				|| figureCanMoveInPublic(figure, diceNum);
+	}
+	
+	private boolean figureCanMoveInPublic(Figure fig, int fieldsToMove) {
+		int nextIndex = (fig.getCurrentFieldIndex() + fieldsToMove) % settings.getPublicFieldsCount();
+		int finishEntryIndex = fig.getOwner().getFinishField().getEntryIndex();
+		
+		if (fig.isAtHomeArea() || fig.isAtFinishArea()) {
+			return false;
+		}
+		
+		// check if figure might entry finish field
+		if (nextIndex > finishEntryIndex) {
+			int finishIndex = nextIndex - finishEntryIndex;
+			if (figureCanMoveInFinishArea(fig, finishIndex)) {
+				return true;
+			}
+		}
+		
+		if (!hasOwnFigureOnField(nextIndex, fig.getOwner())) {
+			return true;
+		}		
+		
+		return false;
+	}
+	
+	private boolean hasOwnFigureOnField(int index, Player player) {
+		Figure fig = board.getPublicField().getFigure(index);
+		return fig != null && fig.getOwner() == player;
+	}
+
+	private boolean figureCanMoveInFinishArea(Figure fig, int fieldsToMove) {
+		int newIndex = fig.getCurrentFieldIndex() + fieldsToMove;
+		return fig.getOwner().getFinishField().getFigure(newIndex) != null;
+	}
+
+	private boolean figureCanLeaveHome(Figure fig, int fieldsToMove) {
+		return fig.isAtHomeArea() && fieldsToMove >= settings.getMinNumberToExitHome();
+	}
+	
+	
+	private boolean isActiveFigure(Figure fig) {
+		return !fig.isFinished();
+	}
+	
+	public boolean hasActiveFigures(Player player) {
+		for (Figure fig : player.getFigures()) {
+			if (isActiveFigure(fig)) {
+				return true;
+			}
+		}
+		return false;
+	}
+		
+	private boolean hasOnlyFiguresInHome(Player player) {
+		for (Figure fig : player.getFigures()) {
+			// has figure in public
 			if (!fig.isAtHomeArea() && !fig.isFinished()) {
 				return false;
 			}
@@ -57,33 +127,17 @@ public final class MovementController extends Observable {
 		Player lastThrower = dice.getLastThrower();
 		int numberOfThrows = dice.getThrowsCount();
 
-		// no player or now previous thrower? then throw the dice!
-		if (player == null || lastThrower == null) {
+		// no previous thrower? then throw the dice!
+		if (lastThrower == null) {
 			return true;
 		}
-
-		boolean hasActiveFigures = false;
-		for (Figure fig : player.getFigures()) {
-			if (!fig.isFinished()) {
-				hasActiveFigures = true;
-			}
-		}
-		if (!hasActiveFigures) {
-			return false;
-		}
-
-		// has only figures in home field -> max Y Throws allowed
-		boolean onlyHomePossible = true;
-		for (Figure fig : player.getFigures()) {
-			// has figure in public
-			if (!fig.isAtHomeArea() && !fig.isFinished()) {
-				onlyHomePossible = false;
-			}
-		}
+		
 		// has figures in home field
-		if (!player.getHomeField().isEmpty() && onlyHomePossible
-				&& numberOfThrows < settings.getThrowsAllowedInHome()) {
-			return true;
+		if (hasOnlyFiguresInHome(player)) {
+			if (numberOfThrows < settings.getThrowsAllowedInHome()) {
+				return true;
+			}
+			return false;
 		}
 
 		// public movement
@@ -93,7 +147,8 @@ public final class MovementController extends Observable {
 
 		return false;
 	}
-
+	
+	
 	public boolean moveFigure(Player player, char figureLetter) {
 		if (dice.getLastThrower() != player) {
 			status = "Du solltest zuerst wuerfeln!";
@@ -109,15 +164,58 @@ public final class MovementController extends Observable {
 			return false;
 		}
 
+		int diceNum = dice.getLastNumber();
+		
 		// FINISHED
 		if (figure.isFinished()) {
-			status = "Du bist schon fertig!";
+			status = "Figur ist schon fertig!";
 			notifyObservers();
 			dice.resetThrowsCount();
 			return true;
 		}
+		
+		// cannot move
+		if (!figureCanMove(figure, diceNum)) {
+			status = "Diese Figur kann sich nicht bewegen!";
+			notifyObservers();
+			return false;
+		}
+		
+		// leave home
+		if (figureCanLeaveHome(figure, diceNum)) {
+			// leaveHome(figure);
+			status = "Figure hat sein Zuhause verlassen!";
+			notifyObservers();
+			return true;
+		}
+		
+		// move in finish area
+		if (figureCanMoveInFinishArea(figure, diceNum)) {
+			// move in the finish area around and maybe finish!
+			status = "Figure hat Ziel betreten verlassen!";
+			notifyObservers();
+			return true;
+		}
+		
+		// move in public
+		if (figureCanMoveInPublic(figure, diceNum)) {
+			// move into finish?
+			// kick away other player?
+			status = "Figure kickt X weg!";
+			notifyObservers();
+			return true;
+		}
+		
+		return false;
 
-		int diceNum = dice.getLastNumber();
+		
+		
+		
+		
+		
+		
+		
+		/*
 
 		// HOME
 		if (figure.isAtHomeArea()) {
@@ -226,7 +324,7 @@ public final class MovementController extends Observable {
 			status = figure.getLetter() + " wurde bewegt.";
 			notifyObservers();
 			return true;
-		}
+		}*/
 	}
 
 	private void resetFigureToHome(Figure fig) {

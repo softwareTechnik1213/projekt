@@ -101,6 +101,13 @@ public final class BoardController extends Observable implements IObserver {
 		}
 		notifyObservers();
 	}
+	
+	private void handleFinishedPlayer(Player activePlayer) {
+		if (!movementController.hasActiveFigures(activePlayer)) {
+			finishedPlayersQueue.add(activePlayer);
+			activePlayersQueue.remove(activePlayer);
+		}
+	}
 
 	public void startGame() {
 		if (gameIsRunning) {
@@ -119,6 +126,8 @@ public final class BoardController extends Observable implements IObserver {
 	private void setNextActivePlayer() {
 		// reset dice
 		board.getDice().resetThrowsCount();
+		// check and maybe remove a finished player
+		handleFinishedPlayer(activePlayer);
 		// get from head and remove
 		activePlayer = activePlayersQueue.poll();
 		// no more Players!
@@ -129,13 +138,14 @@ public final class BoardController extends Observable implements IObserver {
 		// push to tail of queue
 		activePlayersQueue.add(activePlayer);
 		// current player is a bot
-		if (!activePlayer.isHuman()) {
+		/*if (!activePlayer.isHuman()) {
 			// publish current state, as we will now do all with the cpu
 			notifyObservers();
 			// autonomeRun guarantees that the player made a move if possible
 			movementController.startAutonomeRun(activePlayer);
+			
 			setNextActivePlayer();
-		}
+		}*/
 	}
 
 	public void quitGame() {
