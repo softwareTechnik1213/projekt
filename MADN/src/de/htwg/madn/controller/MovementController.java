@@ -25,24 +25,43 @@ final class MovementController extends Observable {
 		this.autonomeComtroller = new AutonomeMovementController();
 	}
 
+	// true= next player, false=player stays
 	public boolean throwDice(Player player) {
 
-		boolean setNext;
+		boolean setNext = false;
+		boolean canMove = false;
 
 		if (isAllowedToThrowDice(player)) {
 			status = "Wuerfel: " + dice.throwDice(player) + ".";
-			setNext = playerCanMove(player, dice.getLastNumber());
+			canMove = playerCanMove(player, dice.getLastNumber());
 		} else {
 			status = "Du darfst nicht wuerfeln.";
-			setNext = false;
 		}
-		if (setNext) {
+		
+		if (canMove || hasThrowsLeft(player)) {
+			setNext = false;
+		} else {
+			setNext = true;
 			dice.resetThrowsCount();
 		}
+		
 		notifyObservers();
 		return setNext;
 	}
 	
+	private boolean hasThrowsLeft(Player player) {
+		int diceThrows = dice.getThrowsCount();
+		
+		if (hasOnlyFiguresInHome(player) && diceThrows >= settings.getThrowsAllowedInHome()) {
+			return false;
+		}
+		if (!hasOnlyFiguresInHome(player) && diceThrows >= settings.getThrowsAllowedInPublic()) {
+			return false;
+		}
+		
+		return true;
+	}
+
 	// player has the possibility to move at least one figure
 	private boolean playerCanMove(Player player, int diceNum) {
 		
@@ -52,8 +71,6 @@ final class MovementController extends Observable {
 			}
 		}		
 		
-		// can't move, so show status
-		status = "Kein Zug moeglich. Naechster Spieler.";
 		return false;		
 	}
 	

@@ -10,7 +10,7 @@ import de.htwg.madn.model.Player;
 import de.htwg.madn.util.observer.IObservable;
 import de.htwg.madn.util.observer.IObserver;
 
-public interface IBoardController extends IObserver, IObservable {
+public interface IBoardControllerPort extends IObserver, IObservable {
 
 	public abstract IGameSettings getSettings();
 

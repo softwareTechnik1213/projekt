@@ -1,7 +1,7 @@
 package de.htwg.madn;
 
 import de.htwg.madn.controller.BoardController;
-import de.htwg.madn.controller.IBoardController;
+import de.htwg.madn.controller.IBoardControllerPort;
 import de.htwg.madn.model.Board;
 import de.htwg.madn.model.GameSettings;
 import de.htwg.madn.model.IGameSettings;
@@ -41,7 +41,7 @@ public final class Application {
 		
 		IModelPort model = new ModelPort(settings, new Board(settings));
 		
-		IBoardController boardController = new BoardController(model);
+		IBoardControllerPort boardController = new BoardController(model);
 		TUIView tui = new TUIView(boardController);
 		// active waiting => infinite loop
 		tui.iterateAndHandleInput();

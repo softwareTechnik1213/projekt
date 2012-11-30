@@ -6,17 +6,17 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import de.htwg.madn.controller.IBoardController;
+import de.htwg.madn.controller.IBoardControllerPort;
 import de.htwg.madn.util.observer.IObserver;
 
 public class TUIView implements IObserver {
 
-	private final IBoardController boardController;
+	private final IBoardControllerPort boardController;
 	private static Logger log;
 	private static final Scanner SCANNER = new Scanner(System.in);
 	private final DataToStringConverter stringifyer;
 
-	public TUIView(IBoardController boardController) {
+	public TUIView(IBoardControllerPort boardController) {
 		this.boardController = boardController;
 		// watch the controller with this class
 		this.boardController.addObserver(this);

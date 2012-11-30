@@ -10,7 +10,7 @@ import de.htwg.madn.model.IModelPort;
 import de.htwg.madn.model.Player;
 import de.htwg.madn.util.observer.Observable;
 
-public final class BoardController extends Observable implements IBoardController {
+public final class BoardController extends Observable implements IBoardControllerPort {
 
 	private String status = "";
 	private Player activePlayer;
@@ -131,10 +131,13 @@ public final class BoardController extends Observable implements IBoardControlle
 		notifyObservers();
 	}
 	
-	private void handleFinishedPlayer(Player activePlayer) {
-		if (!movementController.hasActiveFigures(activePlayer)) {
-			finishedPlayersQueue.add(activePlayer);
-			activePlayersQueue.remove(activePlayer);
+	private void handleFinishedPlayer(Player player) {
+		if (player == null) {
+			return;
+		}
+		if (!movementController.hasActiveFigures(player)) {
+			finishedPlayersQueue.add(player);
+			activePlayersQueue.remove(player);
 		}
 	}
 
