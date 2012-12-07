@@ -35,85 +35,116 @@ final class MovementController extends Observable {
 
 		if (isAllowedToThrowDice(player)) {
 			status = "Wuerfel: " + dice.throwDice(player) + ".";
-			canMove = playerCanMove(player, dice.getLastNumber());
 		} else {
 			status = "Du darfst nicht wuerfeln.";
-			if (dice.getThrowsCount() != 0) {
-				canMove = playerCanMove(player, dice.getLastNumber());
-			}
 		}
-		
+
+		// has throws left, check if he can move
+		if (dice.getThrowsCount() > 0) {
+			canMove = playerCanMove(player, dice.getLastNumber());
+		}
+
+		// if can move or can throw dice do not change the player
 		if (canMove || hasThrowsLeft(player)) {
 			setNext = false;
 		} else {
 			setNext = true;
 			dice.resetThrowsCount();
 		}
-		
+
 		notifyObservers();
 		return setNext;
 	}
-	
+
 	private boolean hasThrowsLeft(Player player) {
 		int diceThrows = dice.getThrowsCount();
-		
-		if (hasOnlyFiguresInHome(player) && diceThrows >= settings.getThrowsAllowedInHome()) {
+
+		if (hasOnlyFiguresInHome(player)
+				&& diceThrows >= settings.getThrowsAllowedInHome()) {
 			return false;
 		}
-		if (!hasOnlyFiguresInHome(player) && diceThrows >= settings.getThrowsAllowedInPublic()) {
+		if (!hasOnlyFiguresInHome(player)
+				&& diceThrows >= settings.getThrowsAllowedInPublic()) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
 	// player has the possibility to move at least one figure
 	private boolean playerCanMove(Player player, int diceNum) {
-		
+
 		for (Figure fig : player.getFigures()) {
 			if (figureCanMove(fig, diceNum)) {
 				return true;
 			}
-		}		
-		
-		return false;		
+		}
+
+		return false;
 	}
-	
+
 	// figure has the possibility to move at least anywhere
 	private boolean figureCanMove(Figure figure, int diceNum) {
 		return figureCanLeaveHome(figure, diceNum)
 				|| figureCanMoveInPublic(figure, diceNum);
 	}
-	
+
 	private boolean figureCanMoveInPublic(Figure fig, int fieldsToMove) {
-		int nextIndex = (fig.getCurrentFieldIndex() + fieldsToMove) % settings.getPublicFieldsCount();
+		int nextIndex = (fig.getCurrentFieldIndex() + fieldsToMove)
+				% settings.getPublicFieldsCount();
 		int finishEntryIndex = fig.getOwner().getFinishField().getEntryIndex();
-		
+
 		if (fig.isAtHomeArea() || fig.isAtFinishArea()) {
 			return false;
 		}
-		
+
 		// check if figure might entry finish field
-		if (nextIndex > finishEntryIndex) {
-			int finishIndex = nextIndex - finishEntryIndex;
-			if (figureCanMoveInFinishArea(fig, finishIndex)) {
+		if (entersFinishField(fieldsToMove, finishEntryIndex,
+				fig.getCurrentFieldIndex())) {
+			int stepsToMove = getStepsToFinish(fieldsToMove, finishEntryIndex, fig.getCurrentFieldIndex());
+			int finishIndex=fieldsToMove-stepsToMove-1;		
+			if(finishIndex<0) {
+				throw new IllegalStateException();
+			}
+			FinishField finishField = fig.getOwner().getFinishField();
+
+			if (finishIndex < finishField.getSize()
+					&& finishField.getFigure(finishIndex) == null) {
 				return true;
 			}
+			return false;
 		}
-		
+
 		if (!hasOwnFigureOnField(nextIndex, fig.getOwner())) {
 			return true;
-		}		
-		
+		}
+
 		return false;
 	}
+	private int getStepsToFinish (int diceNum, int finishEntryIndex,
+				int currentIndex) {
+
+			for (int i = 0; i < diceNum; i++) {
+				int fieldIndex = (currentIndex + i) % model.getPublicField().getSize();
+				if (fieldIndex == (finishEntryIndex)) {
+					return i;
+				}
+			}
+
+			return -1;
+		}
+
 	
+
 	private boolean hasOwnFigureOnField(int index, Player player) {
 		Figure fig = model.getPublicField().getFigure(index);
 		return fig != null && fig.getOwner() == player;
 	}
 
 	private boolean figureCanMoveInFinishArea(Figure fig, int fieldsToMove) {
+		if (!fig.isAtFinishArea()) {
+			return false;
+		}
 		int newIndex = fig.getCurrentFieldIndex() + fieldsToMove;
 		int lastFreeIndex = getLastFreeFinishIndex(fig.getOwner());
 		return newIndex <= lastFreeIndex
@@ -122,15 +153,15 @@ final class MovementController extends Observable {
 
 	private boolean figureCanLeaveHome(Figure fig, int fieldsToMove) {
 		int destIndex = fig.getOwner().getHomeField().getExitIndex();
-		return fig.isAtHomeArea() && fieldsToMove >= settings.getMinNumberToExitHome() 
+		return fig.isAtHomeArea()
+				&& fieldsToMove >= settings.getMinNumberToExitHome()
 				&& !hasOwnFigureOnField(destIndex, fig.getOwner());
 	}
-	
-	
+
 	private boolean isActiveFigure(Figure fig) {
 		return !fig.isFinished();
 	}
-	
+
 	public boolean hasActiveFigures(Player player) {
 		for (Figure fig : player.getFigures()) {
 			if (isActiveFigure(fig)) {
@@ -139,7 +170,7 @@ final class MovementController extends Observable {
 		}
 		return false;
 	}
-		
+
 	private boolean hasOnlyFiguresInHome(Player player) {
 		for (Figure fig : player.getFigures()) {
 			// has figure in public
@@ -158,7 +189,7 @@ final class MovementController extends Observable {
 		if (lastThrower == null) {
 			return true;
 		}
-		
+
 		// has figures in home field
 		if (hasOnlyFiguresInHome(player)) {
 			if (numberOfThrows < settings.getThrowsAllowedInHome()) {
@@ -174,10 +205,9 @@ final class MovementController extends Observable {
 
 		return false;
 	}
-	
-	
+
 	public boolean moveFigure(Player player, char figureLetter) {
-		if (dice.getLastThrower() != player || dice.getThrowsCount()==0) {
+		if (dice.getLastThrower() != player || dice.getThrowsCount() == 0) {
 			status = "Du solltest zuerst wuerfeln!";
 			notifyObservers();
 			return false;
@@ -192,36 +222,37 @@ final class MovementController extends Observable {
 		}
 
 		int diceNum = dice.getLastNumber();
-		
+
 		// FINISHED
 		if (figure.isFinished()) {
 			status = "Figur ist schon fertig!";
 			notifyObservers();
-			dice.resetThrowsCount();
 			return true;
 		}
-		
+
 		// cannot move
 		if (!figureCanMove(figure, diceNum)) {
 			status = "Diese Figur kann sich nicht bewegen!";
 			notifyObservers();
 			return false;
 		}
-		
+
 		// leave home
 		if (figureCanLeaveHome(figure, diceNum)) {
 			Figure kickedAwayFigure = leaveHome(figure);
 			String kicked = ".";
 			if (kickedAwayFigure != null) {
-				kicked = " und hat " + kickedAwayFigure.getLetter() + " weggekickt.";
-			} 
-			status = "Figur " + figure.getLetter() + " hat sein Zuhause verlassen" + kicked;
-			// player can throw the dice again after leaving home
+				kicked = " und hat " + kickedAwayFigure.getLetter()
+						+ " weggekickt.";
+			}
+			status = "Figur " + figure.getLetter()
+					+ " hat sein Zuhause verlassen" + kicked;
+			// player can throw the dice again after leaving home, so reset it
 			dice.resetThrowsCount();
 			notifyObservers();
 			return false;
 		}
-		
+
 		// move in finish area
 		if (figureCanMoveInFinishArea(figure, diceNum)) {
 			// move in the finish area around and maybe finish!
@@ -235,25 +266,29 @@ final class MovementController extends Observable {
 			finishField.removeFigure(figure.getCurrentFieldIndex());
 			finishField.setFigure(newIndex, figure);
 			status = "Figur " + figure.getLetter() + " hat sich bewegt!";
-			dice.resetThrowsCount();
 			notifyObservers();
 			return true;
 		}
-		
+
 		// move in public
 		if (figureCanMoveInPublic(figure, diceNum)) {
-			int newIndex = (figure.getCurrentFieldIndex() + diceNum) % settings.getPublicFieldsCount();
-			int finishEntryIndex = figure.getOwner().getFinishField().getEntryIndex();
+			int newIndex = (figure.getCurrentFieldIndex() + diceNum)
+					% settings.getPublicFieldsCount();
+			int finishEntryIndex = figure.getOwner().getFinishField()
+					.getEntryIndex();
 			int lastFreeIndex = getLastFreeFinishIndex(figure.getOwner());
 			PublicField publicField = model.getPublicField();
 			FinishField finishField = figure.getOwner().getFinishField();
 			String kicked = ".";
-			
+
 			// check if figure might entry finish field
-			if (newIndex > finishEntryIndex && figure.getCurrentFieldIndex()<= finishEntryIndex) {
-				int finishIndex = newIndex - finishEntryIndex;
-				publicField.removeFigure(figure.getCurrentFieldIndex());
-				figure.setAtFinishArea(true);
+			if (entersFinishField(diceNum, finishEntryIndex,
+					figure.getCurrentFieldIndex())) {
+				int stepsToMove = getStepsToFinish(diceNum, finishEntryIndex, figure.getCurrentFieldIndex());
+				int finishIndex=diceNum-stepsToMove-1;		
+				if(finishIndex<0) {
+					throw new IllegalStateException();
+				}
 				// finished!
 				if (newIndex == lastFreeIndex) {
 					figure.setFinished(true);
@@ -266,15 +301,30 @@ final class MovementController extends Observable {
 				publicField.removeFigure(figure.getCurrentFieldIndex());
 				publicField.setFigure(newIndex, figure);
 				if (kickedFigure != null) {
-					kicked = " und hat " + kickedFigure.getLetter() + " weggekickt.";
+					kicked = " und hat " + kickedFigure.getLetter()
+							+ " weggekickt.";
 				}
 			}
-			status = "Figur " + figure.getLetter() + " hat sich bewegt" + kicked;
-			dice.resetThrowsCount();
+			status = "Figur " + figure.getLetter() + " hat sich bewegt"
+					+ kicked;
 			notifyObservers();
 			return true;
 		}
-		
+
+		return false;
+	}
+
+	private boolean entersFinishField(int diceNum, int finishEntryIndex,
+			int currentIndex) {
+
+		for (int i = 1; i <= diceNum; i++) {
+			int fieldIndex = (currentIndex + i) % model.getPublicField().getSize();
+			if (fieldIndex == (finishEntryIndex + 1)
+					% model.getPublicField().getSize()) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 
@@ -327,7 +377,7 @@ final class MovementController extends Observable {
 		}
 
 		model.getPublicField().removeFigure(currentIndex);
-		model.getPublicField().setFigure(newIndex, fig);
+		homeField.setFigure(newIndex, fig);
 		fig.setAtFinishArea(false);
 		fig.setAtHomeArea(true);
 	}

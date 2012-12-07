@@ -11,10 +11,10 @@ import de.htwg.madn.view.tui.TUIView;
 
 public final class Application {
 	
-	private static final int MINPLAYERS = 2;
-	private static final int MAXPLAYERS = 4;
-	private static final int FIGURESPERPLAYER = 4;
-	private static final int PUBLICFIELDSCOUNT = 40;
+	private static final int MINPLAYERS = 1;
+	private static final int MAXPLAYERS = 1;
+	private static final int FIGURESPERPLAYER = 1;
+	private static final int PUBLICFIELDSCOUNT = 4;
 	private static final int DICEMIN = 1;
 	private static final int DICEMAX = 6;
 	private static final int MINNUMBERTOEXITHOME = 6;
