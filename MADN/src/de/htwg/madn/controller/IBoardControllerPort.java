@@ -12,29 +12,29 @@ import de.htwg.madn.util.observer.IObserver;
 
 public interface IBoardControllerPort extends IObserver, IObservable {
 
-	public abstract IGameSettings getSettings();
+	IGameSettings getSettings();
 
-	public abstract void addPlayer(String name, Color col, boolean isHuman);
+	void addPlayer(String name, Color col, boolean isHuman);
 
-	public abstract void throwDice();
+	void throwDice();
 
-	public abstract void reset();
+	void reset();
 
-	public abstract void moveFigure(char figureLetter);
+	void moveFigure(char figureLetter);
 
-	public abstract void startGame();
+	void startGame();
 
-	public abstract void quitGame();
+	void quitGame();
 
-	public abstract Queue<Player> getFinishedPlayersQueue();
+	Queue<Player> getFinishedPlayersQueue();
 
-	public abstract List<Player> getPlayers();
+	List<Player> getPlayers();
 
-	public abstract String getStatusString();
+	String getStatusString();
 
-	public abstract Player getActivePlayer();
+	Player getActivePlayer();
 
-	public abstract String getActivePlayerString();
+	String getActivePlayerString();
 
 	IModelPort getModelPort();
 

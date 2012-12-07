@@ -2,22 +2,22 @@ package de.htwg.madn.model;
 
 public interface IGameSettings {
 
-	public abstract int getMinPlayers();
+	int getMinPlayers();
 
-	public abstract int getMaxPlayers();
+	int getMaxPlayers();
 
-	public abstract int getFiguresPerPlayer();
+	int getFiguresPerPlayer();
 
-	public abstract int getPublicFieldsCount();
+	int getPublicFieldsCount();
 
-	public abstract int getDiceMin();
+	int getDiceMin();
 
-	public abstract int getDiceMax();
+	int getDiceMax();
 
-	public abstract int getMinNumberToExitHome();
+	int getMinNumberToExitHome();
 
-	public abstract int getThrowsAllowedInHome();
+	int getThrowsAllowedInHome();
 
-	public abstract int getThrowsAllowedInPublic();
+	int getThrowsAllowedInPublic();
 
 }
