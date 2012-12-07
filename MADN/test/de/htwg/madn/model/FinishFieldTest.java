@@ -17,7 +17,7 @@ public final class FinishFieldTest {
 	
 	@Before
 	public void setUp() throws Exception {;
-		settings = new GameSettings(1, 1, 40, 40, 1, 6, 6, 3, 1);
+		settings = new GameSettings(1, 1, 4, 40, 1, 6, 6, 3, 1);
 		board = new Board(settings);
 		owner = new Player(0, Color.RED, "Test",
 				board.getHomeFields().get(0), board.getFinishFields().get(0),
