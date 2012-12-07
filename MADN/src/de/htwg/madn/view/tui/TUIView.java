@@ -1,4 +1,4 @@
-package de.htwg.madn.view;
+package de.htwg.madn.view.tui;
 
 import java.awt.Color;
 import java.util.Scanner;

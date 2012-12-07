@@ -150,7 +150,7 @@ public final class BoardController extends Observable implements IBoardControlle
 			status = "Spiel laeuft schon!";
 		} else if (activePlayersQueue.size() < settings.getMinPlayers()) {
 			status = "Zu wenige Spieler. Mindestens "
-					+ settings.getMaxPlayers() + " benoetigt.";
+					+ settings.getMinPlayers() + " benoetigt.";
 		} else {
 			setNextActivePlayer();
 			status = "Spiel beginnt.";

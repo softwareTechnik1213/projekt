@@ -7,7 +7,7 @@ import de.htwg.madn.model.GameSettings;
 import de.htwg.madn.model.IGameSettings;
 import de.htwg.madn.model.IModelPort;
 import de.htwg.madn.model.ModelPort;
-import de.htwg.madn.view.TUIView;
+import de.htwg.madn.view.tui.TUIView;
 
 public final class Application {
 	
