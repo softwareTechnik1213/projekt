@@ -20,7 +20,7 @@ public class BoardControllerTest {
 	private static final int MAXPLAYERS = 2;
 	private static final int FIGURESPERPLAYER = 1;
 	private static final int PUBLICFIELDSCOUNT = 10;
-	private static final int DICEMIN = 1;
+	private static final int DICEMIN = 6;
 	private static final int DICEMAX = 6;
 	private static final int MINNUMBERTOEXITHOME = 6;
 	private static final int THROWSALLOWEDINHOME = 3;
@@ -103,8 +103,11 @@ public class BoardControllerTest {
 	public void testMoveFigure() {
 		boardController.addPlayer("test", Color.red,true);
 		boardController.startGame();
-		boardController.moveFigure('z');
-		boardController.quitGame();
+		boardController.moveFigure('z');		
+		boardController.throwDice();
+		boardController.moveFigure('a');
+		boardController.throwDice();
+		boardController.moveFigure('a');
 		assertTrue(true);
 	}
 
@@ -132,6 +135,7 @@ public class BoardControllerTest {
 
 	@Test
 	public void testGetActivePlayer() {
+		assertTrue(boardController.getActivePlayer() == null);
 		boardController.addPlayer("test", Color.red,true);
 		boardController.addPlayer("test", Color.red,true);
 		boardController.startGame();
@@ -140,7 +144,6 @@ public class BoardControllerTest {
 
 	@Test
 	public void testGetActivePlayerString() {
-		System.out.println(boardController.getActivePlayerString());
 		assertTrue(boardController.getActivePlayerString() == null);
 		boardController.addPlayer("test", Color.red,true);
 		boardController.addPlayer("test", Color.red,true);
@@ -152,4 +155,5 @@ public class BoardControllerTest {
 	public void testGameIsFinished() {
 		assertTrue(boardController.gameIsFinished() == false);
 	}
+
 }
