@@ -97,7 +97,7 @@ public final class BoardController extends Observable implements IBoardControlle
 		} else {
 			setNextPlayer = movementController.throwDice(activePlayer);
 		}
-		
+
 		if (setNextPlayer) {
 			setNextActivePlayer();
 		}
@@ -146,6 +146,7 @@ public final class BoardController extends Observable implements IBoardControlle
 	 */
 	@Override
 	public void startGame() {
+		
 		if (gameIsRunning) {
 			status = "Spiel laeuft schon!";
 		} else if (activePlayersQueue.size() < settings.getMinPlayers()) {

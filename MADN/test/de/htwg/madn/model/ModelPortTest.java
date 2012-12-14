@@ -3,14 +3,12 @@ package de.htwg.madn.model;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class ModelPortTest {
 
-	private IBoard board;
 	private IGameSettings settings;
 	private int figuresPerPlayer = 1;
 	private int maxPlayers = 1;
