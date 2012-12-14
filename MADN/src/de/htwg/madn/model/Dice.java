@@ -20,7 +20,7 @@ public final class Dice {
 		this.lastThrower = thrower;
 		this.throwsCount++;
 		Random rand = new Random();
-		lastNumber = min + Math.abs(rand.nextInt()) % max;
+		lastNumber = min + Math.abs(rand.nextInt()) % (max - min + 1);
 		return lastNumber;
 	}
 	

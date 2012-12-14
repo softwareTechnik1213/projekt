@@ -17,14 +17,14 @@ final class MovementController extends Observable {
 	private final IGameSettings settings;
 	private String status;
 	private final IModelPort model;
-	private final AutonomeMovementController autonomeComtroller;
+	/*private final AutonomeMovementController autonomeComtroller;*/
 
 	public MovementController(IModelPort model) {
 		this.model = model;
 		this.dice = model.getDice();
 		this.settings = model.getSettings();
 		this.status = "";
-		this.autonomeComtroller = new AutonomeMovementController();
+		/*this.autonomeComtroller = new AutonomeMovementController();*/
 	}
 
 	// true= next player, false=player stays
@@ -384,9 +384,9 @@ final class MovementController extends Observable {
 		fig.setAtHomeArea(true);
 	}
 
-	public void startAutonomeRun(Player player) {
+	/*public void startAutonomeRun(Player player) {
 		autonomeComtroller.startAutonomeRun(player);
-	}
+	}*/
 
 	public String getStatusString() {
 		return status;
@@ -397,7 +397,7 @@ final class MovementController extends Observable {
 	 * 
 	 * 
 	 */
-	private final class AutonomeMovementController {
+	/*private final class AutonomeMovementController {
 
 		public void startAutonomeRun(Player player) {
 
@@ -539,5 +539,6 @@ final class MovementController extends Observable {
 		}
 
 	}
+	*/
 
 }

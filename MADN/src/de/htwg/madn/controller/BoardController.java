@@ -97,7 +97,7 @@ public final class BoardController extends Observable implements IBoardControlle
 		} else {
 			setNextPlayer = movementController.throwDice(activePlayer);
 		}
-
+		System.err.println(setNextPlayer + " " + status);
 		if (setNextPlayer) {
 			setNextActivePlayer();
 		}
@@ -168,7 +168,8 @@ public final class BoardController extends Observable implements IBoardControlle
 		// get from head and remove
 		activePlayer = activePlayersQueue.poll();
 		// no more Players!
-		if (activePlayer == null) {			
+		if (activePlayer == null) {	
+			gameIsRunning = false;
 			return;
 		}
 		// push to tail of queue
