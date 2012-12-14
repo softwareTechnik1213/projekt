@@ -49,6 +49,7 @@ final class MovementController extends Observable {
 			setNext = false;
 		} else {
 			setNext = true;
+			status += " Du kannst dich nicht bewegen!";
 			dice.resetThrowsCount();
 		}
 
@@ -290,9 +291,10 @@ final class MovementController extends Observable {
 					throw new IllegalStateException();
 				}
 				// finished!
-				if (newIndex == lastFreeIndex) {
+				if (finishIndex == lastFreeIndex) {
 					figure.setFinished(true);
 				}
+				publicField.removeFigure(figure.getCurrentFieldIndex());
 				finishField.setFigure(finishIndex, figure);
 			} else {
 				// move on public

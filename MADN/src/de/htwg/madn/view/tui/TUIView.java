@@ -129,6 +129,9 @@ public class TUIView implements IObserver {
 	@Override
 	public void update() {
 		draw();
+		if (boardController.gameIsFinished()) {
+			quitGame();
+		}
 	}
 
 	private void draw() {

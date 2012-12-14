@@ -38,4 +38,6 @@ public interface IBoardControllerPort extends IObserver, IObservable {
 
 	IModelPort getModelPort();
 
+	boolean gameIsFinished();
+
 }

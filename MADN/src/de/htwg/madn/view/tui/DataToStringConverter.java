@@ -23,8 +23,9 @@ public final class DataToStringConverter {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("Platzierung\tSpielername\n");
-		for (int i = 0; i < finishedPlayers.size(); i++) {
-			sb.append(i + 1).append("\t")
+		int countFinishPlayers= finishedPlayers.size();
+		for (int i = 0; i < countFinishPlayers; i++) {
+			sb.append(i + 1).append("\t\t")
 					.append(finishedPlayers.poll().getName()).append("\n");
 		}
 
