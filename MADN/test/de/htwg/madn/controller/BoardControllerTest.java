@@ -1,6 +1,6 @@
 package de.htwg.madn.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
 
@@ -9,10 +9,8 @@ import org.junit.Test;
 
 import de.htwg.madn.model.Board;
 import de.htwg.madn.model.GameSettings;
-import de.htwg.madn.model.IGameSettings;
 import de.htwg.madn.model.IModelPort;
 import de.htwg.madn.model.ModelPort;
-import de.htwg.madn.model.Player;
 
 public class BoardControllerTest {
 
@@ -70,7 +68,7 @@ public class BoardControllerTest {
 	public void testThrowDice() {		
 		boardController.addPlayer("test", Color.red, true);
 		boardController.addPlayer("test2", Color.red, true);
-		
+		boardController.throwDice();
 		boardController.startGame();
 		
 		boardController.throwDice();
@@ -119,11 +117,6 @@ public class BoardControllerTest {
 		assertTrue(true);
 	}
 
-	@Test
-	public void testQuitGame() {
-		// cant be testes as this calls System.exit()
-		assertTrue(true);
-	}
 
 	@Test
 	public void testGetFinishedPlayersQueue() {
@@ -161,9 +154,9 @@ public class BoardControllerTest {
 	@Test
 	public void testGameIsFinished() {
 		assertTrue(boardController.gameIsFinished() == false);
-		boardController.startGame();
 		boardController.reset();
 		boardController.addPlayer("test", Color.red, true);
+		boardController.startGame();
 		assertTrue(boardController.gameIsFinished() == false);
 		boardController.reset();
 		boardController.addPlayer("test", Color.red, true);
@@ -172,6 +165,8 @@ public class BoardControllerTest {
 		boardController.reset();
 		finishGame();
 		assertTrue(boardController.gameIsFinished() == true);
+		
+		// true - true cannot be tested
 	}
 
 	private void finishGame() {
@@ -182,6 +177,13 @@ public class BoardControllerTest {
 		boardController.throwDice();
 		boardController.moveFigure('a');
 		// should be finished now
+	}
+	
+
+	@Test
+	public void testQuitGame() {
+		// cannot be tested as this calls System.exit()
+		assertTrue(true);
 	}
 
 }
