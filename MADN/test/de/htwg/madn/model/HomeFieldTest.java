@@ -35,6 +35,16 @@ public class HomeFieldTest {
 		homeField.setOwner(owner);
 		assertTrue(homeField.getOwner() == owner);
 	}
+	
+	@Test
+	public void testGetEntryIndex() {
+		try {
+			homeField.getEntryIndex();
+			fail("should throw exception");
+		} catch (Exception expected) {
+			// ok is excepted, let test pass
+		}
+	}
 
 	@Test
 	public void testGetExitIndex() {

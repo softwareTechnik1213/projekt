@@ -16,7 +16,7 @@ public final class FinishFieldTest {
 	private FinishField finishField;
 	
 	@Before
-	public void setUp() throws Exception {;
+	public void setUp() throws Exception {
 		settings = new GameSettings(1, 1, 4, 40, 1, 6, 6, 3, 1);
 		board = new Board(settings);
 		owner = new Player(0, Color.RED, "Test",
@@ -41,6 +41,16 @@ public final class FinishFieldTest {
 	public void testGetEntryIndex() {
 		assertTrue(finishField.getEntryIndex() == settings.getPublicFieldsCount() - 1);
 	}
+	
+	@Test
+	public void testGetExitIndex() {
+		try {
+			finishField.getExitIndex();
+			fail("should throw exception");
+		} catch (Exception expected) {
+			// ok is excepted, let test pass
+		}
+	}
 
 	@Test
 	public void testRemoveFigure() {
@@ -52,14 +62,14 @@ public final class FinishFieldTest {
 		try {
 			finishField.getFigure(settings.getFiguresPerPlayer() + 1);
 			fail("should throw exception");
-		} catch (Exception excpected) {
+		} catch (Exception expected) {
 			// ok is excepted, let test pass
 		}
 		
 		try {
 			finishField.getFigure(-1);
 			fail("should throw exception");
-		} catch (Exception excpected) {
+		} catch (Exception expected) {
 			// ok is excepted, let test pass
 		}
 	}
