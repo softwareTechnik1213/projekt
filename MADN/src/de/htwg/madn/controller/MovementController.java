@@ -228,7 +228,7 @@ final class MovementController extends Observable {
 		if (figure.isFinished()) {
 			status = "Figur ist schon fertig!";
 			notifyObservers();
-			return true;
+			return false;
 		}
 
 		// cannot move
@@ -293,9 +293,12 @@ final class MovementController extends Observable {
 				// finished!
 				if (finishIndex == lastFreeIndex) {
 					figure.setFinished(true);
-				}
+				} 
+				figure.setAtFinishArea(true);
 				publicField.removeFigure(figure.getCurrentFieldIndex());
 				finishField.setFigure(finishIndex, figure);
+				
+				
 			} else {
 				// move on public
 				// kick away other player?
