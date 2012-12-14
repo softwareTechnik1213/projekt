@@ -97,7 +97,7 @@ public final class BoardController extends Observable implements IBoardControlle
 		} else {
 			setNextPlayer = movementController.throwDice(activePlayer);
 		}
-		System.err.println(setNextPlayer + " " + status);
+
 		if (setNextPlayer) {
 			setNextActivePlayer();
 		}

@@ -67,8 +67,9 @@ public class BoardControllerTest {
 	}
 
 	@Test
-	public void testThrowDice() {
+	public void testThrowDice() {		
 		boardController.addPlayer("test", Color.red, true);
+		boardController.addPlayer("test2", Color.red, true);
 		
 		boardController.startGame();
 		
@@ -81,6 +82,20 @@ public class BoardControllerTest {
 		boardController.reset();
 		
 		assertTrue(model.getDice().getThrowsCount() == 0);
+		
+		
+		settings = new GameSettings(MINPLAYERS, MAXPLAYERS, FIGURESPERPLAYER,
+				PUBLICFIELDSCOUNT, DICEMIN, DICEMAX, 50,
+				THROWSALLOWEDINHOME, THROWSALLOWEDINPUBLIC);
+		model = new ModelPort(settings, new Board(settings));
+		boardController = new BoardController(model);
+		boardController.addPlayer("test", Color.red, true);
+		boardController.addPlayer("test2", Color.red, true);
+		boardController.startGame();
+		boardController.throwDice();
+		boardController.throwDice();
+		boardController.throwDice();
+		boardController.throwDice();
 	}
 
 	@Test
