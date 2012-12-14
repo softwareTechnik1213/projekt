@@ -153,7 +153,7 @@ public class BoardControllerTest {
 
 	@Test
 	public void testGameIsFinished() {
-		assertTrue(boardController.gameIsFinished() == false);
+		assertTrue(boardController.gameIsFinished() == true);
 		boardController.reset();
 		boardController.addPlayer("test", Color.red, true);
 		boardController.startGame();
@@ -164,6 +164,7 @@ public class BoardControllerTest {
 		boardController.startGame();
 		boardController.reset();
 		finishGame();
+		
 		assertTrue(boardController.gameIsFinished() == true);
 		
 		// true - true cannot be tested
@@ -172,6 +173,10 @@ public class BoardControllerTest {
 	private void finishGame() {
 		boardController.addPlayer("test", Color.red, true);
 		boardController.startGame();
+		boardController.throwDice();
+		boardController.moveFigure('a');
+		boardController.throwDice();
+		boardController.moveFigure('a');
 		boardController.throwDice();
 		boardController.moveFigure('a');
 		boardController.throwDice();

@@ -244,7 +244,7 @@ public final class BoardController extends Observable implements IBoardControlle
 
 	@Override
 	public boolean gameIsFinished() {
-		return activePlayersQueue.isEmpty() && gameIsRunning;
+		return activePlayersQueue.isEmpty() && !gameIsRunning;
 	}
 	
 
