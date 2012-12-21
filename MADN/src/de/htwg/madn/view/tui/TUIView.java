@@ -1,8 +1,6 @@
 package de.htwg.madn.view.tui;
 
 import java.awt.Color;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import de.htwg.madn.controller.IBoardControllerPort;
@@ -11,43 +9,15 @@ import de.htwg.madn.util.observer.IObserver;
 public final class TUIView implements IObserver {
 
 	private final IBoardControllerPort boardController;
-	private static Logger log;
+	private static final  Logger log = Logger.getLogger(TUIView.class.getName());
 	private final DataToStringConverter stringifyer;
 
 	public TUIView(IBoardControllerPort boardController) {
 		this.boardController = boardController;
 		// watch the controller with this class
 		this.boardController.addObserver(this);
-		this.stringifyer = new DataToStringConverter(boardController.getSettings());
-		setupLogger();
+		this.stringifyer = new DataToStringConverter(boardController.getSettings()); 
 		draw();
-	}
-
-	private void setupLogger() {
-		log = Logger.getLogger(TUIView.class.getName());
-		// disable root logger handler
-		log.setUseParentHandlers(false);
-		// add owner behavior
-		log.addHandler(getLogHandler());
-	}
-
-	private Handler getLogHandler() {
-		return new Handler() {
-			@Override
-			public void publish(LogRecord record) {
-				System.out.println(record.getMessage());
-				flush();
-			}
-
-			@Override
-			public void flush() {
-			}
-
-			@Override
-			public void close() {
-			}
-
-		};
 	}
 
 	public boolean handleInput(String line) {

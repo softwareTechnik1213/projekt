@@ -30,6 +30,8 @@ public final class Application {
 
 	public static void main(String[] args) {
 				
+		PropertyConfigurator.configure("log4j.properties");
+		
 		IGameSettings settings = new GameSettings(
 				MINPLAYERS,
 				MAXPLAYERS,
