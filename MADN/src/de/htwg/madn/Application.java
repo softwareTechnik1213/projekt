@@ -2,6 +2,8 @@ package de.htwg.madn;
 
 import java.util.Scanner;
 
+import org.apache.log4j.PropertyConfigurator;
+
 import de.htwg.madn.controller.BoardController;
 import de.htwg.madn.controller.IBoardControllerPort;
 import de.htwg.madn.model.Board;
