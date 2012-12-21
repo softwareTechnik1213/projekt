@@ -36,6 +36,7 @@ public class TUIView implements IObserver {
 			@Override
 			public void publish(LogRecord record) {
 				System.out.println(record.getMessage());
+				flush();
 			}
 
 			@Override
