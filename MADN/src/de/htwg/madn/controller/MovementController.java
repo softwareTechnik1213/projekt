@@ -32,7 +32,7 @@ final class MovementController extends Observable {
 
 		boolean setNext = false;
 		boolean canMove = false;
-
+		
 		if (isAllowedToThrowDice(player)) {
 			status = "Wuerfel: " + dice.throwDice(player) + ".";
 		} else {
@@ -40,9 +40,9 @@ final class MovementController extends Observable {
 		}
 
 		// has throws left, check if he can move
-		if (dice.getThrowsCount() > 0) {
+	//	if (dice.getThrowsCount() > 0) {
 			canMove = playerCanMove(player, dice.getLastNumber());
-		}
+		//}
 
 		// if can move or can throw dice do not change the player
 		if (canMove || hasThrowsLeft(player)) {
@@ -59,7 +59,6 @@ final class MovementController extends Observable {
 
 	private boolean hasThrowsLeft(Player player) {
 		int diceThrows = dice.getThrowsCount();
-
 		if (hasOnlyFiguresInHome(player)
 				&& diceThrows >= settings.getThrowsAllowedInHome()) {
 			return false;
@@ -104,9 +103,6 @@ final class MovementController extends Observable {
 				fig.getCurrentFieldIndex())) {
 			int stepsToMove = getStepsToFinish(fieldsToMove, finishEntryIndex, fig.getCurrentFieldIndex());
 			int finishIndex=fieldsToMove-stepsToMove-1;		
-			if(finishIndex<0) {
-				throw new IllegalStateException();
-			}
 			FinishField finishField = fig.getOwner().getFinishField();
 
 			if (finishIndex < finishField.getSize()
@@ -183,9 +179,10 @@ final class MovementController extends Observable {
 	}
 
 	private boolean isAllowedToThrowDice(Player player) {
+		
 		Player lastThrower = dice.getLastThrower();
 		int numberOfThrows = dice.getThrowsCount();
-
+		
 		// no previous thrower? then throw the dice!
 		if (lastThrower == null) {
 			return true;

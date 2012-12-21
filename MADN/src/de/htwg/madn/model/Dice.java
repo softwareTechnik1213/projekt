@@ -39,6 +39,9 @@ public final class Dice {
 		return throwsCount;
 	}
 	
+	public void setThrowsCount(int throwsCount) {
+		this.throwsCount= throwsCount; 
+	}
 	public void resetThrowsCount() {
 		this.throwsCount = 0;
 	}

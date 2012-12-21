@@ -31,7 +31,7 @@ public class MovementControllerTest {
 	private static final int PUBLICFIELDSCOUNT = 6;
 	private static final int DICEMIN = 4;
 	private static final int DICEMAX = 4;
-	private static final int MINNUMBERTOEXITHOME = 6;
+	private static final int MINNUMBERTOEXITHOME = 3;
 	private static final int THROWSALLOWEDINHOME = 3;
 	private static final int THROWSALLOWEDINPUBLIC = 1;
 
@@ -68,19 +68,40 @@ public class MovementControllerTest {
 		Player p = bc.getActivePlayer();
 		assertTrue(mc.throwDice(p) == false);
 		assertTrue(mc.throwDice(p) == false);
-		assertTrue(mc.throwDice(p) == true);
+		assertTrue(mc.throwDice(p) == false);
 		dice.throwDice(p);
 		dice.throwDice(p);
 		dice.throwDice(p);
 		dice.throwDice(p);
-		assertTrue(mc.throwDice(p) == true);
 	}
 
 	@Test
 	public void testMoveFigure() {
-		fail("Not yet implemented");
-	}
+		bc.addPlayer("test", Color.red, true);
+		bc.addPlayer("test2", Color.red, true);
+		bc.startGame();
+		Player p = bc.getActivePlayer();
+		mc.throwDice(p) ;
+		mc.throwDice(p) ;
+		mc.throwDice(p) ;
+		mc.throwDice(p) ;
+		dice.setThrowsCount(1);
+		mc.moveFigure(p, p.getFigures().get(0).getLetter());
+		mc.throwDice(p) ;
+		mc.moveFigure(p, p.getFigures().get(0).getLetter());
+		mc.throwDice(p) ;
+		mc.throwDice(p) ;
+		mc.throwDice(p) ;
+		dice.setThrowsCount(-5);
+		mc.throwDice(p) ;
 
+	}
+	
+	@Test
+	public void testHasThrowsLeft() {
+		
+		
+	}
 
 	@Test
 	public void testGetStatusString() {

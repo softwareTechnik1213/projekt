@@ -1,5 +1,7 @@
 package de.htwg.madn;
 
+import java.util.Scanner;
+
 import de.htwg.madn.controller.BoardController;
 import de.htwg.madn.controller.IBoardControllerPort;
 import de.htwg.madn.model.Board;
@@ -20,6 +22,7 @@ public final class Application {
 	private static final int MINNUMBERTOEXITHOME = 6;
 	private static final int THROWSALLOWEDINHOME = 3;
 	private static final int THROWSALLOWEDINPUBLIC = 1;
+	private static final Scanner SCANNER = new Scanner(System.in);
 	
 	private Application() {
 		
@@ -44,6 +47,9 @@ public final class Application {
 		IBoardControllerPort boardController = new BoardController(model);
 		TUIView tui = new TUIView(boardController);
 		// active waiting => infinite loop
-		tui.iterateAndHandleInput();
+		boolean quit = false;
+		while (!quit) {
+			quit = tui.handleInput(SCANNER.nextLine());
+		}
 	}
 }

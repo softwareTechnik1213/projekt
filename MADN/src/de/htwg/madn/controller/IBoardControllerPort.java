@@ -42,6 +42,7 @@ public interface IBoardControllerPort extends IObserver, IObservable {
 	/**
 	 * Move a figure.
 	 * @param figureLetter The letter by which the figure is identified
+	 * @return 
 	 */
 	void moveFigure(char figureLetter);
 

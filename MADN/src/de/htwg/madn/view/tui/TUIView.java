@@ -13,7 +13,6 @@ public class TUIView implements IObserver {
 
 	private final IBoardControllerPort boardController;
 	private static Logger log;
-	private static final Scanner SCANNER = new Scanner(System.in);
 	private final DataToStringConverter stringifyer;
 
 	public TUIView(IBoardControllerPort boardController) {
@@ -40,57 +39,63 @@ public class TUIView implements IObserver {
 				System.out.println(record.getMessage());
 			}
 
+			@Override
 			public void flush() {
 			}
 
+			@Override
 			public void close() {
 			}
 
 		};
 	}
 
-	public void iterateAndHandleInput() {
-		while (true) {
-			handleInput(SCANNER.nextLine());
-		}
-	}
-
-	private void handleInput(String line) {
+	public boolean handleInput(String line) {
 		String[] args;
 		String cmd, parm;
-
+		boolean quit = false;
+		
 		// split input into a command and an argument part
 		args = getCommandAndArgument(line);
 
 		if (args != null) {
 			cmd = args[0];
 			parm = args[1];
-			interpretInput(cmd, parm);
+			quit = interpretInput(cmd, parm);
 		} else {
 			// error empty command!
 			log.info("Leere Eingabe!");
+			quit = false;
 		}
+		return quit;
 	}
 
-	private void interpretInput(String cmd, String parm) {
+	private boolean interpretInput(String cmd, String parm) {
 		if (cmd.equals("q")) {
 			quitGame();
+			return true;
 		} else if (cmd.equals("s")) {
 			boardController.startGame();
-		} else if (cmd.equals("m") && parm != null && !parm.isEmpty()) {
+		} else if (cmd.equals("m") && parm != null) {
 			boardController.moveFigure(parm.charAt(0));
 		} else if (cmd.equals("w")) {
 			boardController.throwDice();
-		} else if (cmd.equals("add") && parm != null && !parm.isEmpty()) {
+		} else if (cmd.equals("add") && parm != null) {
 			boardController.addPlayer(parm, Color.BLACK, true);
-		} else if (cmd.equals("addbot") && parm != null && !parm.isEmpty()) {
+		} /*else if (cmd.equals("addbot") && parm != null && !parm.isEmpty()) {
 			boardController.addPlayer(parm, Color.BLACK, false);
-		} else if (cmd.equals("r")) {
+		} */else if (cmd.equals("r")) {
 			boardController.reset();
 		} else {
 			// error unknown parameter
 			log.info("Falsche Eingabe!");
 		}
+		
+		if (boardController.gameIsFinished()) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	private void quitGame() {

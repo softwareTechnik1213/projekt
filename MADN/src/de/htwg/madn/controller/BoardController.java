@@ -169,7 +169,7 @@ public final class BoardController extends Observable implements IBoardControlle
 		activePlayer = activePlayersQueue.poll();
 		// no more Players!
 		if (activePlayer == null) {	
-			gameIsRunning = false;
+			quitGame();
 			return;
 		}
 		// push to tail of queue
@@ -191,7 +191,7 @@ public final class BoardController extends Observable implements IBoardControlle
 	 */
 	@Override
 	public void quitGame() {
-		System.exit(0);
+		gameIsRunning = false;
 	}
 
 

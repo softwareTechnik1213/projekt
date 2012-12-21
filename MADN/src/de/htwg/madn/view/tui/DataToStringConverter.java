@@ -40,9 +40,9 @@ public final class DataToStringConverter {
 				sb.append("---> ");
 			}
 			sb.append(p.getId()).append(": ").append(p.getName());
-			if (!p.isHuman()) {
+			/*if (!p.isHuman()) {
 				sb.append(" (Bot)");
-			}
+			}*/
 			sb.append(" hat Figuren: ");
 			appendFiguresForPlayer(p, sb);
 			sb.append("\n");
