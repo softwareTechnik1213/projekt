@@ -19,7 +19,7 @@ public class TUIViewTest {
 	private static final int MINPLAYERS = 1;
 	private static final int MAXPLAYERS = 1;
 	private static final int FIGURESPERPLAYER = 1;
-	private static final int PUBLICFIELDSCOUNT = 2;
+	private static final int PUBLICFIELDSCOUNT = 4;
 	private static final int DICEMIN = 1;
 	private static final int DICEMAX = 1;
 	private static final int MINNUMBERTOEXITHOME = 1;
@@ -73,6 +73,10 @@ public class TUIViewTest {
 		assertTrue(!tui.handleInput("m a"));
 		assertTrue(!tui.handleInput("w"));
 		assertTrue(!tui.handleInput("m a"));
+		assertTrue(!tui.handleInput("w"));
+		assertTrue(!tui.handleInput("m a"));
+		assertTrue(!tui.handleInput("w"));
+		assertTrue(tui.handleInput("m a"));
 		
 	}
 	
