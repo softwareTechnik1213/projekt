@@ -167,7 +167,6 @@ public class BoardControllerTest {
 		finishGame();
 		
 		assertTrue(boardController.gameIsFinished() == true);
-		boardController.quitGame();
 	}
 
 	private void finishGame() {

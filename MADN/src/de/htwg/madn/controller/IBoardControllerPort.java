@@ -52,11 +52,6 @@ public interface IBoardControllerPort extends IObserver, IObservable {
 	void startGame();
 
 	/**
-	 * Quits the game. 
-	 */
-	void quitGame();
-
-	/**
 	 * Returns the queue of finished players.
 	 * @return The queue of finished players.
 	 */

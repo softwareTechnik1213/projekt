@@ -9,14 +9,15 @@ import de.htwg.madn.util.observer.IObserver;
 public final class TUIView implements IObserver {
 
 	private final IBoardControllerPort boardController;
-	private static final  Logger log = Logger.getLogger(TUIView.class.getName());
+	private static final Logger log = Logger.getLogger(TUIView.class.getName());
 	private final DataToStringConverter stringifyer;
 
 	public TUIView(IBoardControllerPort boardController) {
 		this.boardController = boardController;
 		// watch the controller with this class
 		this.boardController.addObserver(this);
-		this.stringifyer = new DataToStringConverter(boardController.getSettings()); 
+		this.stringifyer = new DataToStringConverter(
+				boardController.getSettings());
 		draw();
 	}
 
@@ -24,7 +25,7 @@ public final class TUIView implements IObserver {
 		String[] args;
 		String cmd, parm;
 		boolean quit = false;
-		
+
 		// split input into a command and an argument part
 		args = getCommandAndArgument(line);
 
@@ -56,22 +57,22 @@ public final class TUIView implements IObserver {
 			boardController.throwDice();
 		} else if (cmd.equals("add") && parm != null) {
 			boardController.addPlayer(parm, Color.BLACK, true);
-		} /*else if (cmd.equals("addbot") && parm != null && !parm.isEmpty()) {
-			boardController.addPlayer(parm, Color.BLACK, false);
-		} */else if (cmd.equals("r")) {
+		} /*
+		 * else if (cmd.equals("addbot") && parm != null && !parm.isEmpty()) {
+		 * boardController.addPlayer(parm, Color.BLACK, false); }
+		 */else if (cmd.equals("r")) {
 			boardController.reset();
 		} else {
 			// error unknown parameter
 			log.info("Falsche Eingabe!");
 		}
-		
+
 		return false;
 	}
 
 	private void quitGame() {
 		printWinners();
 		log.info("SPIEL BEENDET");
-		boardController.quitGame();
 	}
 
 	private void printWinners() {
@@ -110,18 +111,16 @@ public final class TUIView implements IObserver {
 	}
 
 	private void draw() {
-		log.info("");
-		log.info(getPlayerSettingString());
-		log.info(getBoardString());
-		log.info("STATUS: " + boardController.getStatusString());
-		log.info("");
-		log.info(getCommandsString());
+		log.info("\n" + getPlayerSettingString() + "\n" + getBoardString()
+				+ "\n" + "STATUS: " + boardController.getStatusString() + "\n"
+				+ getCommandsString());
 	}
 
 	private String getPlayerSettingString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Spieler-Liste:\n");
-		sb.append(stringifyer.getPlayerSettingString(boardController.getPlayers(), boardController.getActivePlayer()));
+		sb.append(stringifyer.getPlayerSettingString(
+				boardController.getPlayers(), boardController.getActivePlayer()));
 		return sb.toString();
 	}
 
@@ -138,11 +137,13 @@ public final class TUIView implements IObserver {
 		sb.append(stringifyer.getBorderString());
 		sb.append("\n");
 
-		sb.append(stringifyer.getHomeFieldsString(boardController.getModelPort()
-				.getHomeFields()));
-		sb.append(stringifyer.getPublicFieldsString(boardController.getModelPort()
-				.getPublicField(), boardController.getModelPort()));
-		sb.append(stringifyer.getFinishFieldsString(boardController.getModelPort().getFinishFields()));
+		sb.append(stringifyer.getHomeFieldsString(boardController
+				.getModelPort().getHomeFields()));
+		sb.append(stringifyer.getPublicFieldsString(boardController
+				.getModelPort().getPublicField(), boardController
+				.getModelPort()));
+		sb.append(stringifyer.getFinishFieldsString(boardController
+				.getModelPort().getFinishFields()));
 
 		sb.append(stringifyer.getBorderString());
 

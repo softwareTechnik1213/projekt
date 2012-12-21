@@ -34,7 +34,7 @@ public final class BoardController extends Observable implements IBoardControlle
 		this.activePlayersQueue = new LinkedList<Player>();
 		this.finishedPlayersQueue = new LinkedList<Player>();
 		this.activePlayer = null;
-		this.status = "Neue Spiel erstellt.";
+		this.status = "Neues Spiel erstellt.";
 		this.gameIsRunning = false;
 		this.movementController = new MovementController(model);
 		this.movementController.addObserver(this);
@@ -169,7 +169,6 @@ public final class BoardController extends Observable implements IBoardControlle
 		activePlayer = activePlayersQueue.poll();
 		// no more Players!
 		if (activePlayer == null) {	
-			quitGame();
 			return;
 		}
 		// push to tail of queue
@@ -183,15 +182,6 @@ public final class BoardController extends Observable implements IBoardControlle
 			
 			setNextActivePlayer();
 		}*/
-	}
-
-
-	/* (non-Javadoc)
-	 * @see de.htwg.madn.controller.IBoardController#quitGame()
-	 */
-	@Override
-	public void quitGame() {
-		gameIsRunning = false;
 	}
 
 
@@ -244,7 +234,7 @@ public final class BoardController extends Observable implements IBoardControlle
 
 	@Override
 	public boolean gameIsFinished() {
-		return activePlayersQueue.isEmpty() && !gameIsRunning;
+		return activePlayersQueue.isEmpty() && gameIsRunning;
 	}
 	
 
