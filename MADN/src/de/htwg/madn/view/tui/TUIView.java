@@ -78,6 +78,10 @@ public class TUIView implements IObserver {
 			boardController.startGame();
 		} else if (cmd.equals("m") && parm != null) {
 			boardController.moveFigure(parm.charAt(0));
+			// maybe finished
+			if (boardController.gameIsFinished()) {
+				return true;
+			}
 		} else if (cmd.equals("w")) {
 			boardController.throwDice();
 		} else if (cmd.equals("add") && parm != null) {
@@ -89,10 +93,6 @@ public class TUIView implements IObserver {
 		} else {
 			// error unknown parameter
 			log.info("Falsche Eingabe!");
-		}
-		
-		if (boardController.gameIsFinished()) {
-			return true;
 		}
 		
 		return false;

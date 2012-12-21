@@ -19,12 +19,12 @@ import de.htwg.madn.model.ModelPort;
 public class TUIViewTest {
 
 	private static final int MINPLAYERS = 1;
-	private static final int MAXPLAYERS = 2;
-	private static final int FIGURESPERPLAYER = 2;
-	private static final int PUBLICFIELDSCOUNT = 10;
+	private static final int MAXPLAYERS = 1;
+	private static final int FIGURESPERPLAYER = 1;
+	private static final int PUBLICFIELDSCOUNT = 2;
 	private static final int DICEMIN = 1;
-	private static final int DICEMAX = 6;
-	private static final int MINNUMBERTOEXITHOME = 6;
+	private static final int DICEMAX = 1;
+	private static final int MINNUMBERTOEXITHOME = 1;
 	private static final int THROWSALLOWEDINHOME = 3;
 	private static final int THROWSALLOWEDINPUBLIC = 1;
 	private static final Scanner SCANNER = new Scanner(System.in);
@@ -56,7 +56,7 @@ public class TUIViewTest {
 		assertTrue(!tui.handleInput("s"));
 		assertTrue(!tui.handleInput("m a"));
 		assertTrue(!tui.handleInput("m"));
-		//assertTrue(!tui.handleInput("r"));
+		assertTrue(!tui.handleInput("r"));
 		
 		assertTrue(!tui.handleInput("asdasdas"));
 		assertTrue(!tui.handleInput(""));
@@ -64,6 +64,21 @@ public class TUIViewTest {
 		
 		assertTrue(tui.handleInput("q"));
 	}
+	
+	@Test
+	public void finish() {
+		assertTrue(!tui.handleInput("add p1"));
+		assertTrue(!tui.handleInput("add"));		
+		assertTrue(!tui.handleInput("s"));
+		assertTrue(!tui.handleInput("w"));
+		assertTrue(!tui.handleInput("m a"));
+		assertTrue(!tui.handleInput("w"));
+		assertTrue(!tui.handleInput("m a"));
+		assertTrue(!tui.handleInput("w"));
+		assertTrue(!tui.handleInput("m a"));
+		
+	}
+	
 
 
 }
