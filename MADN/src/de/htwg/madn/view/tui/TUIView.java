@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import de.htwg.madn.controller.IBoardControllerPort;
 import de.htwg.madn.util.observer.IObserver;
 
-public class TUIView implements IObserver {
+public final class TUIView implements IObserver {
 
 	private final IBoardControllerPort boardController;
 	private static Logger log;
