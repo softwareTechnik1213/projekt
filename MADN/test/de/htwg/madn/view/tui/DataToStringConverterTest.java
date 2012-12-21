@@ -1,7 +1,6 @@
 package de.htwg.madn.view.tui;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.awt.Color;
 
@@ -14,7 +13,6 @@ import de.htwg.madn.model.Board;
 import de.htwg.madn.model.GameSettings;
 import de.htwg.madn.model.IModelPort;
 import de.htwg.madn.model.ModelPort;
-import de.htwg.madn.model.Player;
 
 public class DataToStringConverterTest {
 	

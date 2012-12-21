@@ -1,7 +1,6 @@
 package de.htwg.madn.view.tui;
 
 import java.awt.Color;
-import java.util.Scanner;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;

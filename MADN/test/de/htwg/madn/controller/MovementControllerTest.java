@@ -1,7 +1,6 @@
 package de.htwg.madn.controller;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.awt.Color;
 
@@ -10,7 +9,6 @@ import org.junit.Test;
 
 import de.htwg.madn.model.Board;
 import de.htwg.madn.model.Dice;
-import de.htwg.madn.model.Figure;
 import de.htwg.madn.model.GameSettings;
 import de.htwg.madn.model.IGameSettings;
 import de.htwg.madn.model.IModelPort;

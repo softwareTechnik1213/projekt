@@ -1,9 +1,7 @@
 package de.htwg.madn.view.tui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import java.io.InputStream;
-import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +25,6 @@ public class TUIViewTest {
 	private static final int MINNUMBERTOEXITHOME = 1;
 	private static final int THROWSALLOWEDINHOME = 3;
 	private static final int THROWSALLOWEDINPUBLIC = 1;
-	private static final Scanner SCANNER = new Scanner(System.in);
 	private TUIView tui;
 	private IBoardControllerPort boardController;
 	private IModelPort model;
