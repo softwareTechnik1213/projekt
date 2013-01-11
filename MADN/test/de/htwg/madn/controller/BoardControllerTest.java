@@ -154,7 +154,7 @@ public class BoardControllerTest {
 
 	@Test
 	public void testGameIsFinished() {		
-		assertTrue(boardController.gameIsFinished() == true);
+		assertTrue(boardController.gameIsFinished() == false);
 		boardController.reset();
 		boardController.addPlayer("test", Color.red, true);
 		boardController.startGame();

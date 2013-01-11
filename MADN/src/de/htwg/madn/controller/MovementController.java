@@ -31,6 +31,10 @@ final class MovementController extends Observable {
 		boolean setNext = false;
 		boolean canMove = false;
 		
+		if (player == null) {
+			return true;
+		}
+		
 		if (isAllowedToThrowDice(player)) {
 			status = "Wuerfel: " + dice.throwDice(player) + ".";
 		} else {

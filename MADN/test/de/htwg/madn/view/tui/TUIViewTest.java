@@ -3,6 +3,7 @@ package de.htwg.madn.view.tui;
 import static org.junit.Assert.assertTrue;
 
 
+import org.apache.log4j.PropertyConfigurator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,7 +38,7 @@ public class TUIViewTest {
 				MINNUMBERTOEXITHOME, THROWSALLOWEDINHOME, THROWSALLOWEDINPUBLIC);
 
 		model = new ModelPort(settings, new Board(settings));
-
+		PropertyConfigurator.configure("log4j.properties");
 		boardController = new BoardController(model);
 		tui = new TUIView(boardController);
 		// active waiting => infinite loop
