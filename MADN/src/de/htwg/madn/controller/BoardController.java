@@ -173,15 +173,6 @@ public final class BoardController extends Observable implements IBoardControlle
 		}
 		// push to tail of queue
 		activePlayersQueue.add(activePlayer);
-		// current player is a bot
-		/*if (!activePlayer.isHuman()) {
-			// publish current state, as we will now do all with the cpu
-			notifyObservers();
-			// autonomeRun guarantees that the player made a move if possible
-			movementController.startAutonomeRun(activePlayer);
-			
-			setNextActivePlayer();
-		}*/
 	}
 
 

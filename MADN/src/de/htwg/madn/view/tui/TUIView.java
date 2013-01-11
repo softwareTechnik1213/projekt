@@ -57,10 +57,7 @@ public final class TUIView implements IObserver {
 			boardController.throwDice();
 		} else if (cmd.equals("add") && parm != null) {
 			boardController.addPlayer(parm, Color.BLACK, true);
-		} /*
-		 * else if (cmd.equals("addbot") && parm != null && !parm.isEmpty()) {
-		 * boardController.addPlayer(parm, Color.BLACK, false); }
-		 */else if (cmd.equals("r")) {
+		} else if (cmd.equals("r")) {
 			boardController.reset();
 		} else {
 			// error unknown parameter
@@ -127,8 +124,7 @@ public final class TUIView implements IObserver {
 	private String getCommandsString() {
 		return "Befehle: 'q' quit | 's' start game | "
 				+ "'add SpielerName' Spieler hinzufuegen\n"
-				+ "\t 'm Figurbuchstabe' Figur bewegen | 'w' Wuerfeln | 'r' Reset\n"
-				+ "\t 'addbot SpielerName' Computer Spieler hinzufuegen\n";
+				+ "\t 'm Figurbuchstabe' Figur bewegen | 'w' Wuerfeln | 'r' Reset\n";
 	}
 
 	private String getBoardString() {

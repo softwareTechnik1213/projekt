@@ -17,14 +17,12 @@ final class MovementController extends Observable {
 	private final IGameSettings settings;
 	private String status;
 	private final IModelPort model;
-	/*private final AutonomeMovementController autonomeComtroller;*/
 
 	public MovementController(IModelPort model) {
 		this.model = model;
 		this.dice = model.getDice();
 		this.settings = model.getSettings();
 		this.status = "";
-		/*this.autonomeComtroller = new AutonomeMovementController();*/
 	}
 
 	// true= next player, false=player stays
@@ -40,7 +38,7 @@ final class MovementController extends Observable {
 		}
 
 		// has throws left, check if he can move
-	//	if (dice.getThrowsCount() > 0) {
+		//	if (dice.getThrowsCount() > 0) {
 			canMove = playerCanMove(player, dice.getLastNumber());
 		//}
 
@@ -384,161 +382,8 @@ final class MovementController extends Observable {
 		fig.setAtHomeArea(true);
 	}
 
-	/*public void startAutonomeRun(Player player) {
-		autonomeComtroller.startAutonomeRun(player);
-	}*/
-
 	public String getStatusString() {
 		return status;
 	}
-
-	/**
-	 * Autonome Movements = Bot Controller
-	 * 
-	 * 
-	 */
-	/*private final class AutonomeMovementController {
-
-		public void startAutonomeRun(Player player) {
-
-			boolean didMove = false;
-
-			while (isAllowedToThrowDice(player)) {
-				throwDice(player);
-
-				if (didMove = maybeKickOtherPlayer(player)) {
-					break;
-				}
-				if (didMove = maybeFinishFigure(player)) {
-					break;
-				}
-				if (didMove = maybeMoveFigureOutHome(player)) {
-					break;
-				}
-				if (didMove = moveFigureOnPublic(player)) {
-					break;
-				}
-			}
-
-			if (!didMove) {
-				status = "\"" + player.getName()
-						+ "\" kann sich nicht bewegen.";
-			} else {
-				status = "\"" + player.getName() + "\" HAT SICH BEWEGT.";
-			}
-
-			notifyObservers();
-		}
-
-		// return true if figure was moved
-		private boolean maybeKickOtherPlayer(Player player) {
-			int diceNum = dice.getLastNumber();
-
-			for (Figure fig : player.getFigures()) {
-				// cant kick other figure in finish area or if already finished
-				if (fig.isFinished() || fig.isAtFinishArea()) {
-					continue;
-				}
-				// where we could move
-				int destIndex = fig.getCurrentFieldIndex() + diceNum;
-
-				// check if we are at home and could leave it to kick enemy
-				int homeExitIndex = player.getHomeField().getExitIndex();
-				if (figureCanLeaveHome(fig, diceNum)
-						&& hasEnemyFigureAtIndex(player, homeExitIndex)) {
-					moveFigure(player, fig.getLetter());
-					return true;
-				}
-
-				// has enemy figure at this index?
-				if (hasEnemyFigureAtIndex(player, destIndex)) {
-					moveFigure(player, fig.getLetter());
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		private boolean hasEnemyFigureAtIndex(Player player, int index) {
-			Figure enemy = model.getPublicField().getFigure(index);
-			// there is a figure we could kick and doesn't belongs us
-			if (enemy != null && enemy.getOwner() != player) {
-				return true;
-			}
-			return false;
-		}
-
-		private boolean figureCanLeaveHome(Figure fig, int diceNumber) {
-			return fig.isAtHomeArea()
-					&& diceNumber >= settings.getMinNumberToExitHome();
-		}
-
-		// return true if figure was moved
-		private boolean moveFigureOnPublic(Player player) {
-			for (Figure fig : player.getFigures()) {
-				if (!fig.isFinished() & !fig.isAtFinishArea()
-						&& !fig.isAtHomeArea()) {
-					moveFigure(player, fig.getLetter());
-					return true;
-				}
-			}
-			return false;
-		}
-
-		// return true if figure was moved
-		private boolean maybeMoveFigureOutHome(Player player) {
-			for (Figure fig : player.getFigures()) {
-				if (fig.isAtHomeArea()
-						&& dice.getLastNumber() > settings
-								.getMinNumberToExitHome()) {
-					moveFigure(player, fig.getLetter());
-					return true;
-				}
-			}
-			return false;
-		}
-
-		// finish figure
-		// return true if figure was moved
-		private boolean maybeFinishFigure(Player player) {
-			int diceNum = dice.getLastNumber();
-
-			for (Figure fig : player.getFigures()) {
-				if (fig.isFinished() || fig.isAtHomeArea()) {
-					continue;
-				}
-
-				if (fig.isAtFinishArea()) {
-					int destIndex = diceNum + fig.getCurrentFieldIndex();
-					if (destIndex == getLastFreeFinishFieldIndex(player)) {
-						moveFigure(player, fig.getLetter());
-						return true;
-					}
-				}
-			}
-
-			return false;
-		}
-
-		// might return -1 if no one are free
-		private int getLastFreeFinishFieldIndex(Player player) {
-			// default the last field
-			int lastFreeIndex = player.getFinishField().getSize() - 1;
-
-			for (int i = 0; i < player.getFinishField().getSize(); i++) {
-				Figure fig = player.getFinishField().getFigure(i);
-				if (fig != null) {
-					lastFreeIndex = i;
-				}
-			}
-			if (player.getFinishField().getFigure(lastFreeIndex) != null) {
-				lastFreeIndex = -1;
-			}
-			return lastFreeIndex;
-		}
-
-	}
-	*/
 
 }

@@ -49,6 +49,7 @@ public final class Application {
 		IModelPort model = new ModelPort(settings, new Board(settings));
 		
 		IBoardControllerPort boardController = new BoardController(model);
+		
 		TUIView tui = new TUIView(boardController);
 		// active waiting => infinite loop
 		boolean quit = false;
