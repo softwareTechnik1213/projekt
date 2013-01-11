@@ -1,8 +1,7 @@
 package de.htwg.madn.view.tui;
 
 import java.awt.Color;
-import java.util.logging.Logger;
-
+import org.apache.log4j.Logger;
 import de.htwg.madn.controller.IBoardControllerPort;
 import de.htwg.madn.util.observer.IObserver;
 
