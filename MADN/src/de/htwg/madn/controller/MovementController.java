@@ -42,9 +42,7 @@ final class MovementController extends Observable {
 		}
 
 		// has throws left, check if he can move
-		// if (dice.getThrowsCount() > 0) {
 		canMove = playerCanMove(player, dice.getLastNumber());
-		// }
 
 		// if can move or can throw dice do not change the player
 		if (canMove || hasThrowsLeft(player)) {
