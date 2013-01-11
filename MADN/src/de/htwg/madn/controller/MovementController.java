@@ -30,11 +30,11 @@ final class MovementController extends Observable {
 
 		boolean setNext = false;
 		boolean canMove = false;
-		
+
 		if (player == null) {
 			return true;
 		}
-		
+
 		if (isAllowedToThrowDice(player)) {
 			status = "Wuerfel: " + dice.throwDice(player) + ".";
 		} else {
@@ -42,9 +42,9 @@ final class MovementController extends Observable {
 		}
 
 		// has throws left, check if he can move
-		//	if (dice.getThrowsCount() > 0) {
-			canMove = playerCanMove(player, dice.getLastNumber());
-		//}
+		// if (dice.getThrowsCount() > 0) {
+		canMove = playerCanMove(player, dice.getLastNumber());
+		// }
 
 		// if can move or can throw dice do not change the player
 		if (canMove || hasThrowsLeft(player)) {
@@ -103,8 +103,9 @@ final class MovementController extends Observable {
 		// check if figure might entry finish field
 		if (entersFinishField(fieldsToMove, finishEntryIndex,
 				fig.getCurrentFieldIndex())) {
-			int stepsToMove = getStepsToFinish(fieldsToMove, finishEntryIndex, fig.getCurrentFieldIndex());
-			int finishIndex=fieldsToMove-stepsToMove-1;		
+			int stepsToMove = getStepsToFinish(fieldsToMove, finishEntryIndex,
+					fig.getCurrentFieldIndex());
+			int finishIndex = fieldsToMove - stepsToMove - 1;
 			FinishField finishField = fig.getOwner().getFinishField();
 
 			if (finishIndex < finishField.getSize()
@@ -120,20 +121,20 @@ final class MovementController extends Observable {
 
 		return false;
 	}
-	private int getStepsToFinish (int diceNum, int finishEntryIndex,
-				int currentIndex) {
 
-			for (int i = 0; i < diceNum; i++) {
-				int fieldIndex = (currentIndex + i) % model.getPublicField().getSize();
-				if (fieldIndex == (finishEntryIndex)) {
-					return i;
-				}
+	private int getStepsToFinish(int diceNum, int finishEntryIndex,
+			int currentIndex) {
+
+		for (int i = 0; i < diceNum; i++) {
+			int fieldIndex = (currentIndex + i)
+					% model.getPublicField().getSize();
+			if (fieldIndex == (finishEntryIndex)) {
+				return i;
 			}
-
-			return -1;
 		}
 
-	
+		return -1;
+	}
 
 	private boolean hasOwnFigureOnField(int index, Player player) {
 		Figure fig = model.getPublicField().getFigure(index);
@@ -181,10 +182,10 @@ final class MovementController extends Observable {
 	}
 
 	private boolean isAllowedToThrowDice(Player player) {
-		
+
 		Player lastThrower = dice.getLastThrower();
 		int numberOfThrows = dice.getThrowsCount();
-		
+
 		// no previous thrower? then throw the dice!
 		if (lastThrower == null) {
 			return true;
@@ -265,6 +266,7 @@ final class MovementController extends Observable {
 			}
 			finishField.removeFigure(figure.getCurrentFieldIndex());
 			finishField.setFigure(newIndex, figure);
+			checkMarkAllFinished(figure.getOwner());
 			status = "Figur " + figure.getLetter() + " hat sich bewegt!";
 			notifyObservers();
 			return true;
@@ -284,20 +286,21 @@ final class MovementController extends Observable {
 			// check if figure might entry finish field
 			if (entersFinishField(diceNum, finishEntryIndex,
 					figure.getCurrentFieldIndex())) {
-				int stepsToMove = getStepsToFinish(diceNum, finishEntryIndex, figure.getCurrentFieldIndex());
-				int finishIndex=diceNum-stepsToMove-1;		
-				if(finishIndex<0) {
+				int stepsToMove = getStepsToFinish(diceNum, finishEntryIndex,
+						figure.getCurrentFieldIndex());
+				int finishIndex = diceNum - stepsToMove - 1;
+				if (finishIndex < 0) {
 					throw new IllegalStateException();
 				}
 				// finished!
 				if (finishIndex == lastFreeIndex) {
 					figure.setFinished(true);
-				} 
+				}
 				figure.setAtFinishArea(true);
 				publicField.removeFigure(figure.getCurrentFieldIndex());
 				finishField.setFigure(finishIndex, figure);
-				
-				
+				checkMarkAllFinished(figure.getOwner());
+
 			} else {
 				// move on public
 				// kick away other player?
@@ -318,11 +321,28 @@ final class MovementController extends Observable {
 		return false;
 	}
 
+	private void checkMarkAllFinished(Player p) {
+		FinishField field = p.getFinishField();
+		boolean allFinished = true;
+		for (int i = 0; i < field.getSize(); i++) {
+			if (field.getFigure(i) == null) {
+				allFinished = false;
+			}
+		}
+
+		if (allFinished) {
+			for (int i = 0; i < field.getSize(); i++) {
+				field.getFigure(i).setFinished(true);
+			}
+		}
+	}
+
 	private boolean entersFinishField(int diceNum, int finishEntryIndex,
 			int currentIndex) {
 
 		for (int i = 1; i <= diceNum; i++) {
-			int fieldIndex = (currentIndex + i) % model.getPublicField().getSize();
+			int fieldIndex = (currentIndex + i)
+					% model.getPublicField().getSize();
 			if (fieldIndex == (finishEntryIndex + 1)
 					% model.getPublicField().getSize()) {
 				return true;
