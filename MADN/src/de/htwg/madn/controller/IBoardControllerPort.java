@@ -93,4 +93,10 @@ public interface IBoardControllerPort extends IObserver, IObservable {
 	 */
 	boolean gameIsFinished();
 
+	/**
+	 * Checks if the game is running
+	 * @return true if game is running, otherwise false
+	 */
+	boolean gameIsRunning();
+
 }

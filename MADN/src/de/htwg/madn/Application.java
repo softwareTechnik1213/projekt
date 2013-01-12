@@ -11,14 +11,15 @@ import de.htwg.madn.model.GameSettings;
 import de.htwg.madn.model.IGameSettings;
 import de.htwg.madn.model.IModelPort;
 import de.htwg.madn.model.ModelPort;
+import de.htwg.madn.view.gui.GUIView;
 import de.htwg.madn.view.tui.TUIView;
 
 public final class Application {
 	
 	private static final int MINPLAYERS = 1;
-	private static final int MAXPLAYERS = 2;
-	private static final int FIGURESPERPLAYER = 2;
-	private static final int PUBLICFIELDSCOUNT = 10;
+	private static final int MAXPLAYERS = 4;
+	private static final int FIGURESPERPLAYER = 4;
+	private static final int PUBLICFIELDSCOUNT = 40;
 	private static final int DICEMIN = 1;
 	private static final int DICEMAX = 6;
 	private static final int MINNUMBERTOEXITHOME = 6;
@@ -49,6 +50,8 @@ public final class Application {
 		IModelPort model = new ModelPort(settings, new Board(settings));
 		
 		IBoardControllerPort boardController = new BoardController(model);
+		
+		new GUIView(boardController);
 		
 		TUIView tui = new TUIView(boardController);
 		// active waiting => infinite loop
