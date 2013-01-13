@@ -17,8 +17,9 @@ public final class GUIView extends JFrame {
 	private static final int VALID_PUBLIC_COUNT = 40;
 	private static final int VALID_MAX_PLAYERS = 4;
 	private static final int VALID_FIGURES = 4;
-	private JPanel controlPanel;
-	private JPanel gameFieldPanel;
+	private GUIControlPanel controlPanel;
+	private GUIGameFieldPanel gameFieldPanel;
+	private GUIStatusPanel statusPanel;
 
 	public GUIView(IBoardControllerPort boardController) {
 		if (!validSettings(boardController.getSettings())) {
@@ -34,11 +35,13 @@ public final class GUIView extends JFrame {
 	private void initGui() {
 		this.controlPanel = new GUIControlPanel(this);
 		this.gameFieldPanel = new GUIGameFieldPanel(this);
+		this.statusPanel = new GUIStatusPanel(this);
 		
 		// contentPane layout
 		JPanel contentPane = new JPanel(new BorderLayout());
 		contentPane.add(controlPanel, BorderLayout.NORTH);
 		contentPane.add(gameFieldPanel, BorderLayout.CENTER);
+		contentPane.add(statusPanel, BorderLayout.SOUTH);
 		
 		this.setContentPane(contentPane);
 		this.pack();
@@ -58,12 +61,16 @@ public final class GUIView extends JFrame {
 		return this.boardController;
 	}
 	
-	public JPanel getControlPanel() {
+	public GUIControlPanel getControlPanel() {
 		return this.controlPanel;
 	}
 	
-	public JPanel getGameFieldPanel() {
+	public GUIGameFieldPanel getGameFieldPanel() {
 		return this.gameFieldPanel;
+	}
+	
+	public GUIStatusPanel getStatusPanel() {
+		return this.statusPanel;
 	}
 	
 	public DataToStringConverter getStringifyer() {

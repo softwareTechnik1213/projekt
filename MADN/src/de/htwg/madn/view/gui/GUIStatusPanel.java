@@ -3,24 +3,29 @@ package de.htwg.madn.view.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import de.htwg.madn.controller.IBoardControllerPort;
 import de.htwg.madn.util.observer.IObserver;
 import de.htwg.madn.view.tui.DataToStringConverter;
 
 @SuppressWarnings("serial")
-public final class GUIGameFieldPanel extends JPanel implements ActionListener,
+public final class GUIStatusPanel extends JPanel implements ActionListener,
 		IObserver {
 
+	private static final String LABEL_STATUS = "Status:";
 	private GUIControlPanel controlPanel;
-	private GUIStatusPanel statusPanel;
+	private GUIGameFieldPanel gameFieldPanel;
 	private DataToStringConverter stringifyer;
 	private IBoardControllerPort controller;
+	private JTextField statusFld;
+	private JLabel statusLabel;
 
-	public GUIGameFieldPanel(GUIView guiView) {
+	public GUIStatusPanel(GUIView guiView) {
 		this.controlPanel = guiView.getControlPanel();
-		this.statusPanel = guiView.getStatusPanel();
+		this.gameFieldPanel = guiView.getGameFieldPanel();
 		this.stringifyer = guiView.getStringifyer();
 		this.controller = guiView.getBoardControllerPort();
 		// watch the controller with this class
@@ -29,7 +34,11 @@ public final class GUIGameFieldPanel extends JPanel implements ActionListener,
 	}
 
 	private void initGui() {
+		statusLabel = new JLabel(LABEL_STATUS);
+		statusFld = new JTextField();
 		
+		this.add(statusLabel);
+		this.add(statusFld);
 	}
 
 	@Override
@@ -40,6 +49,10 @@ public final class GUIGameFieldPanel extends JPanel implements ActionListener,
 	@Override
 	public void update() {
 		// update all fields..
+	}
+	
+	public void setStatus(String txt) {
+		
 	}
 
 }
