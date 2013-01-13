@@ -1,45 +1,45 @@
 package de.htwg.madn.view.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JPanel;
 
 import de.htwg.madn.controller.IBoardControllerPort;
-import de.htwg.madn.util.observer.IObserver;
-import de.htwg.madn.view.tui.DataToStringConverter;
 
 @SuppressWarnings("serial")
-public final class GUIGameFieldPanel extends JPanel implements ActionListener,
-		IObserver {
+public final class GUIGameFieldPanel extends JPanel {
 
-	private GUIControlPanel controlPanel;
-	private GUIStatusPanel statusPanel;
-	private DataToStringConverter stringifyer;
 	private IBoardControllerPort controller;
+	private GUIHomeField[] homeFields;
+	private GUIPublicField publicField;
+	private GUIFinishField[] finishFields;
+	private static final int PLAYERS = 4;
+	private static final int FIGURES = 4;
+	private static final int PUBLIC_COUNT = 40;
 
 	public GUIGameFieldPanel(GUIView guiView) {
-		this.controlPanel = guiView.getControlPanel();
-		this.statusPanel = guiView.getStatusPanel();
-		this.stringifyer = guiView.getStringifyer();
 		this.controller = guiView.getBoardControllerPort();
-		// watch the controller with this class
-		guiView.getBoardControllerPort().addObserver(this);
+		this.publicField = new GUIPublicField(PUBLIC_COUNT);
+		this.homeFields = new GUIHomeField[PLAYERS];
+		this.finishFields = new GUIFinishField[PLAYERS];
+		for (int i = 0; i < PLAYERS; i++) {
+			homeFields[i] = new GUIHomeField(FIGURES);
+			finishFields[i] = new GUIFinishField(FIGURES);
+		}
 		initGui();
 	}
 
 	private void initGui() {
-		
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
-	}
-	
-	@Override
-	public void update() {
-		// update all fields..
+		for (GUIHomeField hf : homeFields) {
+			this.add(hf);
+			// watch the controller
+			controller.addObserver(hf);
+		}
+		for (GUIFinishField ff : finishFields) {
+			this.add(ff);
+			// watch the controller
+			controller.addObserver(ff);
+		}
+		this.add(publicField);
+		controller.addObserver(publicField);
 	}
 
 }
