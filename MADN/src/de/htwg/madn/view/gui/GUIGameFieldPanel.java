@@ -3,43 +3,42 @@ package de.htwg.madn.view.gui;
 import javax.swing.JPanel;
 
 import de.htwg.madn.controller.IBoardControllerPort;
+import de.htwg.madn.model.FinishField;
+import de.htwg.madn.model.HomeField;
 
 @SuppressWarnings("serial")
 public final class GUIGameFieldPanel extends JPanel {
 
 	private IBoardControllerPort controller;
-	private GUIHomeField[] homeFields;
+	private GUISpecialFieldPanel[] homeFields;
 	private GUIPublicField publicField;
-	private GUIFinishField[] finishFields;
+	private GUISpecialFieldPanel[] finishFields;
 	private static final int PLAYERS = 4;
 	private static final int FIGURES = 4;
 	private static final int PUBLIC_COUNT = 40;
 
 	public GUIGameFieldPanel(GUIView guiView) {
 		this.controller = guiView.getBoardControllerPort();
-		this.publicField = new GUIPublicField(PUBLIC_COUNT);
-		this.homeFields = new GUIHomeField[PLAYERS];
-		this.finishFields = new GUIFinishField[PLAYERS];
+		this.publicField = new GUIPublicField(controller, PUBLIC_COUNT);
+		this.homeFields = new GUIHomeFieldPanel[PLAYERS];
+		this.finishFields = new GUIFinishFieldPanel[PLAYERS];
 		for (int i = 0; i < PLAYERS; i++) {
-			homeFields[i] = new GUIHomeField(FIGURES);
-			finishFields[i] = new GUIFinishField(FIGURES);
+			HomeField homeFieldModel = controller.getModelPort().getHomeFields().get(i);
+			FinishField finishFieldModel = controller.getModelPort().getFinishFields().get(i);
+			homeFields[i] = new GUIHomeFieldPanel(controller, FIGURES, homeFieldModel);
+			finishFields[i] = new GUIFinishFieldPanel(controller, FIGURES, finishFieldModel);
 		}
 		initGui();
 	}
 
 	private void initGui() {
-		for (GUIHomeField hf : homeFields) {
+		for (GUISpecialFieldPanel hf : homeFields) {
 			this.add(hf);
-			// watch the controller
-			controller.addObserver(hf);
 		}
-		for (GUIFinishField ff : finishFields) {
+		for (GUISpecialFieldPanel ff : finishFields) {
 			this.add(ff);
-			// watch the controller
-			controller.addObserver(ff);
 		}
 		this.add(publicField);
-		controller.addObserver(publicField);
 	}
 
 }

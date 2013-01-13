@@ -5,13 +5,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import de.htwg.madn.controller.IBoardControllerPort;
 import de.htwg.madn.util.observer.IObserver;
 
 @SuppressWarnings("serial")
 public final class GUIPublicField extends JPanel implements ActionListener,
 		IObserver {
 
-	public GUIPublicField(int publicCount) {
+	public GUIPublicField(IBoardControllerPort controller, int publicCount) {
 		// TODO Auto-generated constructor stub
 	}
 
