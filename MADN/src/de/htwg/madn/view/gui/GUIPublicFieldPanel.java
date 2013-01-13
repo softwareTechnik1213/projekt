@@ -9,10 +9,10 @@ import de.htwg.madn.controller.IBoardControllerPort;
 import de.htwg.madn.util.observer.IObserver;
 
 @SuppressWarnings("serial")
-public final class GUIPublicField extends JPanel implements ActionListener,
+public final class GUIPublicFieldPanel extends JPanel implements ActionListener,
 		IObserver {
 
-	public GUIPublicField(IBoardControllerPort controller, int publicCount) {
+	public GUIPublicFieldPanel(IBoardControllerPort controller, int publicCount) {
 		// TODO Auto-generated constructor stub
 	}
 
