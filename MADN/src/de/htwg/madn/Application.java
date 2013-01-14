@@ -28,7 +28,7 @@ public final class Application {
 	private static final Scanner SCANNER = new Scanner(System.in);
 	
 	private Application() {
-		
+		 
 	}
 
 	public static void main(String[] args) {
