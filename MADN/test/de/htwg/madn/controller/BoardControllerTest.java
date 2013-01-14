@@ -40,6 +40,16 @@ public class BoardControllerTest {
 	public void testUpdate() {
 		boardController.update();
 		assertTrue(boardController != null);
+		
+	}
+	
+	@Test
+	public void testGameIsRunning() {
+		assertTrue(!boardController.gameIsRunning());
+		boardController.addPlayer("test", Color.red, true);
+		boardController.addPlayer("test", Color.red, true);
+		boardController.startGame();
+		assertTrue(boardController.gameIsRunning());
 	}
 
 	@Test
