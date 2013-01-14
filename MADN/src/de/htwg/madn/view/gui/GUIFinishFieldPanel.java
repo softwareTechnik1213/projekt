@@ -43,7 +43,7 @@ public final class GUIFinishFieldPanel extends GUISpecialFieldPanelAbstract {
 		this.add(namePanel);
 		this.add(fieldPanel);
 		
-		this.setBorder(GUISpecialFieldBorderFactory.createSpecialBorder());
+		this.setBorder(GUIBorderFactory.createSpecialBorder());
 		
 		// init drawing of fields
 		update();

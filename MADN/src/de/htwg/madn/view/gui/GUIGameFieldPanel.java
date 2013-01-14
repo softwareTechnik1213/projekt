@@ -1,5 +1,7 @@
 package de.htwg.madn.view.gui;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
@@ -36,16 +38,24 @@ public final class GUIGameFieldPanel extends JPanel {
 	private void initGui() {
 		
 		int numberSpecialFields = controller.getSettings().getMaxPlayers();
+		int numberPublicFields = controller.getSettings().getPublicFieldsCount();
 		
 		this.setLayout(new GridLayout(3, 1));
 		
-		JPanel homePanel = new JPanel(new GridLayout(1, numberSpecialFields));
+		JPanel homePanel = new JPanel(new GridBagLayout());
 		JPanel finishPanel = new JPanel(new GridLayout(1, numberSpecialFields));
 		
-		for (GUISpecialFieldPanelAbstract hf : homeFields) {
-			homePanel.add(hf);
+		int x = 0;
 		
+		for (GUISpecialFieldPanelAbstract hf : homeFields) {
+			GridBagConstraints c = new GridBagConstraints();
+			c.gridx = x;
+			homePanel.add(hf, c);
+			x++;
 		}
+		
+		x = 0;
+		
 		for (GUISpecialFieldPanelAbstract ff : finishFields) {
 			finishPanel.add(ff);
 		}

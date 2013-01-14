@@ -1,7 +1,7 @@
 package de.htwg.madn.view.gui;
 
 import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,16 +30,15 @@ public final class GUIPublicFieldPanel extends JPanel implements ActionListener,
 	}
 
 	private void initGui() {
+		this.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+		this.setBorder(GUIBorderFactory.createPublicBorder());
+		
 		for (int i = 0; i < fields.length; i++) {
 			fields[i] = new GUIField(i);
 			fields[i].addActionListener(this);
 			fields[i].setOpaque(true);
 			this.add(fields[i]);
 		}
-
-		this.setLayout(new GridLayout(1, 0));
-
-		this.setBorder(GUISpecialFieldBorderFactory.createPublicBorder());
 
 		// init drawing of fields
 		update();
