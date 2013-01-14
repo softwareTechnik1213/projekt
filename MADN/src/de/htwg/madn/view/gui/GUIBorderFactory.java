@@ -27,7 +27,7 @@ public final class GUIBorderFactory {
 	public static Border createControlStatusBorder() {
 		return new CompoundBorder(
 				BorderFactory.createEmptyBorder(0, 0, 20, 0),
-				BorderFactory.createRaisedSoftBevelBorder());
+				BorderFactory.createRaisedBevelBorder());
 	}
 
 }
