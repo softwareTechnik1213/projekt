@@ -12,13 +12,12 @@ import de.htwg.madn.model.HomeField;
 @SuppressWarnings("serial")
 public final class GUIGameFieldPanel extends JPanel {
 
-	private IBoardControllerPort controller;
 	private GUISpecialFieldPanelAbstract[] homeFields;
 	private GUIPublicFieldPanel publicPanel;
 	private GUISpecialFieldPanelAbstract[] finishFields;
 
 	public GUIGameFieldPanel(GUIView guiView) {
-		this.controller = guiView.getBoardControllerPort();
+		IBoardControllerPort controller = guiView.getBoardControllerPort();
 		int playerMax = controller.getSettings().getMaxPlayers();
 		this.publicPanel = new GUIPublicFieldPanel(controller);
 		this.homeFields = new GUIHomeFieldPanel[playerMax];

@@ -31,14 +31,14 @@ public final class GUIControlPanel extends JPanel implements ActionListener,
 	private IBoardControllerPort controller;
 	private Deque<Color> colorSet;
 	private GUIView gui;
-	private static final Color[] initColors = { Color.GREEN, Color.RED, Color.BLUE, Color.BLACK };
+	private static final Color[] INIT_COLORS = { Color.GREEN, Color.RED, Color.BLUE, Color.BLACK };
 
 	public GUIControlPanel(GUIView guiView) {
 		this.gui = guiView;
 		this.controller = guiView.getBoardControllerPort();
 		this.colorSet = new LinkedList<Color>();
 		// add all colors to the list
-		for (Color col : GUIControlPanel.initColors) {
+		for (Color col : GUIControlPanel.INIT_COLORS) {
 			colorSet.offer(col);
 		}
 		

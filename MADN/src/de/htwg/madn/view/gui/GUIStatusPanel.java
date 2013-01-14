@@ -14,7 +14,6 @@ public final class GUIStatusPanel extends JPanel implements IObserver {
 	private static final int STATUS_COLUMNS = 40;
 	private IBoardControllerPort controller;
 	private JTextField statusFld;
-	private JLabel statusLabel;
 
 	public GUIStatusPanel(GUIView guiView) {
 		this.controller = guiView.getBoardControllerPort();
@@ -24,7 +23,7 @@ public final class GUIStatusPanel extends JPanel implements IObserver {
 	}
 
 	private void initGui() {
-		statusLabel = new JLabel(LABEL_STATUS);
+		JLabel statusLabel = new JLabel(LABEL_STATUS);
 		statusFld = new JTextField(STATUS_COLUMNS);
 		statusFld.setEditable(false);
 		

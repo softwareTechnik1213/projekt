@@ -12,8 +12,6 @@ import de.htwg.madn.controller.IBoardControllerPort;
 public final class GUIView extends JFrame {
 
 	private final IBoardControllerPort boardController;
-	private GUIControlPanel controlPanel;
-	private GUIGameFieldPanel gameFieldPanel;
 	private GUIStatusPanel statusPanel;
 
 	public GUIView(IBoardControllerPort boardController) {
@@ -22,8 +20,8 @@ public final class GUIView extends JFrame {
 	}
 
 	private void initGui() {
-		this.controlPanel = new GUIControlPanel(this);
-		this.gameFieldPanel = new GUIGameFieldPanel(this);
+		GUIControlPanel controlPanel = new GUIControlPanel(this);
+		GUIGameFieldPanel gameFieldPanel = new GUIGameFieldPanel(this);
 		this.statusPanel = new GUIStatusPanel(this);
 		
 		JPanel controlStatusPanel = new JPanel(new BorderLayout());
