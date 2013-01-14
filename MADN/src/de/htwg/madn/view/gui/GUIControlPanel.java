@@ -31,7 +31,8 @@ public final class GUIControlPanel extends JPanel implements ActionListener,
 	private IBoardControllerPort controller;
 	private Deque<Color> colorSet;
 	private GUIView gui;
-	private static final Color[] INIT_COLORS = { Color.GREEN, Color.RED, Color.BLUE, Color.BLACK };
+	private static final Color[] INIT_COLORS = { Color.GREEN, Color.RED,
+			Color.BLUE, Color.BLACK };
 
 	public GUIControlPanel(GUIView guiView) {
 		this.gui = guiView;
@@ -41,7 +42,7 @@ public final class GUIControlPanel extends JPanel implements ActionListener,
 		for (Color col : GUIControlPanel.INIT_COLORS) {
 			colorSet.offer(col);
 		}
-		
+
 		// watch the controller with this class
 		guiView.getBoardControllerPort().addObserver(this);
 		initGui();
@@ -52,12 +53,12 @@ public final class GUIControlPanel extends JPanel implements ActionListener,
 		addPlayerBtn = new JButton(BTN_ADD_PLAYER);
 		toggleGameBtn = new JButton(BTN_START);
 		diceBtn = new JButton(BTN_DICE);
-		
+
 		nameFld.addActionListener(this);
 		addPlayerBtn.addActionListener(this);
 		toggleGameBtn.addActionListener(this);
 		diceBtn.addActionListener(this);
-		
+
 		this.add(nameFld);
 		this.add(addPlayerBtn);
 		this.add(toggleGameBtn);
@@ -67,7 +68,7 @@ public final class GUIControlPanel extends JPanel implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
-		
+
 		if (src == diceBtn) {
 			controller.throwDice();
 		} else if (src == addPlayerBtn) {

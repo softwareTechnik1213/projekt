@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import de.htwg.madn.controller.IBoardControllerPort;
-import de.htwg.madn.model.AbstractSpecialField;
 
 @SuppressWarnings("serial")
 public final class GUIHomeFieldPanel extends GUISpecialFieldPanelAbstract {
@@ -14,9 +13,8 @@ public final class GUIHomeFieldPanel extends GUISpecialFieldPanelAbstract {
 	public static final int HGAP = 5;
 	public static final int VGAP = 5;
 
-	public GUIHomeFieldPanel(IBoardControllerPort contr, AbstractSpecialField sp) {
-		super(contr, sp);
-
+	public GUIHomeFieldPanel(IBoardControllerPort contr, int id) {
+		super(contr, id, 'h');
 	}
 
 	@Override

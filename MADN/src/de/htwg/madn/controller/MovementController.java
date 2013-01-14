@@ -86,7 +86,8 @@ final class MovementController extends Observable {
 	// figure has the possibility to move at least anywhere
 	private boolean figureCanMove(Figure figure, int diceNum) {
 		return figureCanLeaveHome(figure, diceNum)
-				|| figureCanMoveInPublic(figure, diceNum);
+				|| figureCanMoveInPublic(figure, diceNum)
+				|| figureCanMoveInFinishArea(figure, diceNum);
 	}
 
 	private boolean figureCanMoveInPublic(Figure fig, int fieldsToMove) {
@@ -146,7 +147,7 @@ final class MovementController extends Observable {
 		int newIndex = fig.getCurrentFieldIndex() + fieldsToMove;
 		int lastFreeIndex = getLastFreeFinishIndex(fig.getOwner());
 		return newIndex <= lastFreeIndex
-				&& fig.getOwner().getFinishField().getFigure(newIndex) != null;
+				&& fig.getOwner().getFinishField().getFigure(newIndex) == null;
 	}
 
 	private boolean figureCanLeaveHome(Figure fig, int fieldsToMove) {
@@ -356,13 +357,14 @@ final class MovementController extends Observable {
 
 		for (int i = 0; i < player.getFinishField().getSize(); i++) {
 			Figure fig = player.getFinishField().getFigure(i);
-			if (fig != null) {
+			if (fig == null) {
 				lastFreeIndex = i;
 			}
 		}
-		if (player.getFinishField().getFigure(lastFreeIndex) != null) {
-			lastFreeIndex = -1;
-		}
+		/*
+		 * if (player.getFinishField().getFigure(lastFreeIndex) != null) {
+		 * lastFreeIndex = -1; }
+		 */
 		return lastFreeIndex;
 	}
 

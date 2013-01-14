@@ -6,8 +6,6 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 import de.htwg.madn.controller.IBoardControllerPort;
-import de.htwg.madn.model.FinishField;
-import de.htwg.madn.model.HomeField;
 
 @SuppressWarnings("serial")
 public final class GUIGameFieldPanel extends JPanel {
@@ -24,13 +22,8 @@ public final class GUIGameFieldPanel extends JPanel {
 		this.finishFields = new GUIFinishFieldPanel[playerMax];
 
 		for (int i = 0; i < playerMax; i++) {
-			HomeField homeFieldModel = controller.getModelPort()
-					.getHomeFields().get(i);
-			FinishField finishFieldModel = controller.getModelPort()
-					.getFinishFields().get(i);
-			homeFields[i] = new GUIHomeFieldPanel(controller, homeFieldModel);
-			finishFields[i] = new GUIFinishFieldPanel(controller,
-					finishFieldModel);
+			homeFields[i] = new GUIHomeFieldPanel(controller, i);
+			finishFields[i] = new GUIFinishFieldPanel(controller, i);
 		}
 
 		initGui();

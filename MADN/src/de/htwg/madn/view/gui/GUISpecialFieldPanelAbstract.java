@@ -21,19 +21,20 @@ public abstract class GUISpecialFieldPanelAbstract extends JPanel implements
 	protected JTextField nameFld;
 	protected IBoardControllerPort controller;
 	protected static final int NAME_SIZE = 5;
+	protected final int id;
 	protected final Color emptyColor = this.getForeground();
-	/**
-	 * Model link to the special field
-	 */
-	protected AbstractSpecialField specialField;
+	private char type;
 	protected static final Color ACTIVE_COLOR = Color.YELLOW.brighter();
 	protected static final Color INACTIVE_COLOR = Color.WHITE;
 
-	public GUISpecialFieldPanelAbstract(IBoardControllerPort contr,	AbstractSpecialField sp) {
-		this.specialField = sp;
+	public GUISpecialFieldPanelAbstract(IBoardControllerPort contr, int id,
+			char type) {
+		this.id = id;
+		this.type = type;
 		this.controller = contr;
 		contr.addObserver(this);
-		this.fields = new GUIField[controller.getSettings().getFiguresPerPlayer()];
+		this.fields = new GUIField[controller.getSettings()
+				.getFiguresPerPlayer()];
 		initGui();
 	}
 
@@ -41,7 +42,8 @@ public abstract class GUISpecialFieldPanelAbstract extends JPanel implements
 
 	@Override
 	public final void update() {
-		Player fieldOwner = specialField.getOwner();
+
+		Player fieldOwner = getSpecialField().getOwner();
 
 		if (fieldOwner != null) {
 			nameFld.setText(fieldOwner.getName());
@@ -56,7 +58,7 @@ public abstract class GUISpecialFieldPanelAbstract extends JPanel implements
 		}
 
 		for (int i = 0; i < fields.length; i++) {
-			Figure fig = specialField.getFigure(i);
+			Figure fig = getSpecialField().getFigure(i);
 			if (fig == null) {
 				fields[i].setText("");
 				fields[i].setForeground(emptyColor);
@@ -73,10 +75,22 @@ public abstract class GUISpecialFieldPanelAbstract extends JPanel implements
 		}
 	}
 
+	protected final AbstractSpecialField getSpecialField() {
+		AbstractSpecialField specialField;
+
+		if (type == 'f') {
+			specialField = controller.getModelPort().getFinishFields().get(id);
+		} else {
+			specialField = controller.getModelPort().getHomeFields().get(id);
+		}
+		
+		return specialField;
+	}
+
 	@Override
 	public final void actionPerformed(ActionEvent e) {
 		GUIField field = (GUIField) e.getSource();
-		Figure fig = specialField.getFigure(field.getId());
+		Figure fig = getSpecialField().getFigure(field.getId());
 
 		if (fig != null) {
 			controller.moveFigure(fig.getLetter());

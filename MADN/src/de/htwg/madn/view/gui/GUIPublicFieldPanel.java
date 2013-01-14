@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 
 import de.htwg.madn.controller.IBoardControllerPort;
 import de.htwg.madn.model.Figure;
-import de.htwg.madn.model.PublicField;
 import de.htwg.madn.util.observer.IObserver;
 
 @SuppressWarnings("serial")
@@ -17,7 +16,6 @@ public final class GUIPublicFieldPanel extends JPanel implements ActionListener,
 		IObserver {
 	
 	private final Color emptyColor = this.getForeground();
-	private PublicField publicField;
 	private IBoardControllerPort controller; 
 	private GUIField[] fields;
 	private static final int FIELDS_HGAP = 5;
@@ -25,8 +23,7 @@ public final class GUIPublicFieldPanel extends JPanel implements ActionListener,
 	public GUIPublicFieldPanel(IBoardControllerPort contr) {
 		this.controller = contr;
 		controller.addObserver(this);
-		this.publicField = controller.getModelPort().getPublicField();
-		this.fields = new GUIField[publicField.getSize()];
+		this.fields = new GUIField[controller.getModelPort().getPublicField().getSize()];
 		initGui();
 	}
 
@@ -48,7 +45,7 @@ public final class GUIPublicFieldPanel extends JPanel implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		GUIField field = (GUIField) e.getSource();
-		Figure fig = publicField.getFigure(field.getId());
+		Figure fig = controller.getModelPort().getPublicField().getFigure(field.getId());
 		
 		if (fig != null) {
 			controller.moveFigure(fig.getLetter());
@@ -58,7 +55,7 @@ public final class GUIPublicFieldPanel extends JPanel implements ActionListener,
 	@Override
 	public void update() {
 		for (int i = 0; i < fields.length; i++) {
-			Figure fig = publicField.getFigure(i);
+			Figure fig = controller.getModelPort().getPublicField().getFigure(i);
 			if (fig == null) {
 				fields[i].setText("");
 				fields[i].setForeground(emptyColor);
