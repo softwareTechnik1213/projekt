@@ -16,10 +16,11 @@ import de.htwg.madn.util.observer.IObserver;
 public final class GUIPublicFieldPanel extends JPanel implements ActionListener,
 		IObserver {
 	
-	private final Color emptyColor = this.getBackground();
+	private final Color emptyColor = this.getForeground();
 	private PublicField publicField;
 	private IBoardControllerPort controller; 
 	private GUIField[] fields;
+	private static final int FIELDS_HGAP = 5;
 
 	public GUIPublicFieldPanel(IBoardControllerPort contr) {
 		this.controller = contr;
@@ -30,7 +31,7 @@ public final class GUIPublicFieldPanel extends JPanel implements ActionListener,
 	}
 
 	private void initGui() {
-		this.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+		this.setLayout(new FlowLayout(FlowLayout.LEFT, FIELDS_HGAP, 0));
 		this.setBorder(GUIBorderFactory.createPublicBorder());
 		
 		for (int i = 0; i < fields.length; i++) {
@@ -60,11 +61,11 @@ public final class GUIPublicFieldPanel extends JPanel implements ActionListener,
 			Figure fig = publicField.getFigure(i);
 			if (fig == null) {
 				fields[i].setText("");
-				fields[i].setBackground(emptyColor);
+				fields[i].setForeground(emptyColor);
 				fields[i].setEnabled(false);
 			} else {
 				fields[i].setText(String.valueOf(fig.getLetter()));
-				fields[i].setBackground(fig.getOwner().getColor());
+				fields[i].setForeground(fig.getOwner().getColor());
 				if (!fig.isFinished()) {
 					fields[i].setEnabled(true);
 				} else {

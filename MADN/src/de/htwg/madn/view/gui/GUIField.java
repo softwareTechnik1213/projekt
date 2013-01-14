@@ -8,8 +8,8 @@ import javax.swing.JButton;
 public final class GUIField extends JButton {
 
 	private final int id;
-	private static final int WIDTH = 30;
-	private static final int HEIGHT = 30;
+	public static final int WIDTH = 30;
+	public static final int HEIGHT = 30;
 
 	public GUIField(final int i) {
 		this.id = i;

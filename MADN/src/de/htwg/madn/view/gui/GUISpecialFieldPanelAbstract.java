@@ -21,12 +21,12 @@ public abstract class GUISpecialFieldPanelAbstract extends JPanel implements
 	protected JTextField nameFld;
 	protected IBoardControllerPort controller;
 	protected static final int NAME_SIZE = 5;
-	protected final Color emptyColor = this.getBackground();
+	protected final Color emptyColor = this.getForeground();
 	/**
 	 * Model link to the special field
 	 */
 	protected AbstractSpecialField specialField;
-	protected static final Color ACTIVE_COLOR = Color.ORANGE;
+	protected static final Color ACTIVE_COLOR = Color.YELLOW.brighter();
 	protected static final Color INACTIVE_COLOR = Color.WHITE;
 
 	public GUISpecialFieldPanelAbstract(IBoardControllerPort contr,	AbstractSpecialField sp) {
@@ -59,11 +59,11 @@ public abstract class GUISpecialFieldPanelAbstract extends JPanel implements
 			Figure fig = specialField.getFigure(i);
 			if (fig == null) {
 				fields[i].setText("");
-				fields[i].setBackground(emptyColor);
+				fields[i].setForeground(emptyColor);
 				fields[i].setEnabled(false);
 			} else {
 				fields[i].setText(String.valueOf(fig.getLetter()));
-				fields[i].setBackground(fig.getOwner().getColor());
+				fields[i].setForeground(fig.getOwner().getColor());
 				if (!fig.isFinished()) {
 					fields[i].setEnabled(true);
 				} else {

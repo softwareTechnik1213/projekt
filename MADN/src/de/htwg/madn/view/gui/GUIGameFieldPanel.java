@@ -1,7 +1,6 @@
 package de.htwg.madn.view.gui;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
@@ -24,45 +23,42 @@ public final class GUIGameFieldPanel extends JPanel {
 		this.publicPanel = new GUIPublicFieldPanel(controller);
 		this.homeFields = new GUIHomeFieldPanel[playerMax];
 		this.finishFields = new GUIFinishFieldPanel[playerMax];
-		
+
 		for (int i = 0; i < playerMax; i++) {
-			HomeField homeFieldModel = controller.getModelPort().getHomeFields().get(i);
-			FinishField finishFieldModel = controller.getModelPort().getFinishFields().get(i);
+			HomeField homeFieldModel = controller.getModelPort()
+					.getHomeFields().get(i);
+			FinishField finishFieldModel = controller.getModelPort()
+					.getFinishFields().get(i);
 			homeFields[i] = new GUIHomeFieldPanel(controller, homeFieldModel);
-			finishFields[i] = new GUIFinishFieldPanel(controller, finishFieldModel);
+			finishFields[i] = new GUIFinishFieldPanel(controller,
+					finishFieldModel);
 		}
-		
+
 		initGui();
 	}
 
 	private void initGui() {
-		
-		int numberSpecialFields = controller.getSettings().getMaxPlayers();
-		int numberPublicFields = controller.getSettings().getPublicFieldsCount();
-		
 		this.setLayout(new GridLayout(3, 1));
-		
-		JPanel homePanel = new JPanel(new GridBagLayout());
-		JPanel finishPanel = new JPanel(new GridLayout(1, numberSpecialFields));
-		
-		int x = 0;
-		
+
+		JPanel homePanel = new JPanel(new GridLayout(1, homeFields.length));
+		JPanel finishPanel = new JPanel(new GridLayout(1, finishFields.length));
+
 		for (GUISpecialFieldPanelAbstract hf : homeFields) {
-			GridBagConstraints c = new GridBagConstraints();
-			c.gridx = x;
-			homePanel.add(hf, c);
-			x++;
+			JPanel hfPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+			hfPanel.add(hf);
+			homePanel.add(hfPanel);
 		}
-		
-		x = 0;
-		
+
 		for (GUISpecialFieldPanelAbstract ff : finishFields) {
-			finishPanel.add(ff);
+			JPanel ffPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+			ffPanel.add(ff);
+			finishPanel.add(ffPanel);
 		}
-		
+
 		this.add(homePanel);
 		this.add(publicPanel);
 		this.add(finishPanel);
 	}
-
 }

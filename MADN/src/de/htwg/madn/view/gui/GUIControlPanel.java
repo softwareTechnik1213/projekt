@@ -24,23 +24,22 @@ public final class GUIControlPanel extends JPanel implements ActionListener,
 	private static final int NAME_COLUMNS = 10;
 	private static final String BTN_ADD_PLAYER = "Spieler hinzufuegen";
 	private static final String BTN_DICE = "Wuerfeln!";
-	private GUIStatusPanel statusPanel;
 	private JTextField nameFld;
 	private JButton addPlayerBtn;
 	private JButton toggleGameBtn;
 	private JButton diceBtn;
 	private IBoardControllerPort controller;
 	private Deque<Color> colorSet;
-	private static final Color[] initColors = { Color.RED, Color.BLUE, Color.GREEN,
-			Color.YELLOW };
+	private GUIView gui;
+	private static final Color[] initColors = { Color.GREEN, Color.RED, Color.BLUE, Color.BLACK };
 
 	public GUIControlPanel(GUIView guiView) {
-		this.statusPanel = guiView.getStatusPanel();
+		this.gui = guiView;
 		this.controller = guiView.getBoardControllerPort();
 		this.colorSet = new LinkedList<Color>();
 		// add all colors to the list
 		for (Color col : GUIControlPanel.initColors) {
-			colorSet.push(col);
+			colorSet.offer(col);
 		}
 		
 		// watch the controller with this class
@@ -88,7 +87,7 @@ public final class GUIControlPanel extends JPanel implements ActionListener,
 
 	private void addPlayer() {
 		if (controller.gameIsRunning()) {
-			statusPanel.setStatus(ERR_GAME_RUNNING);
+			gui.getStatusPanel().setStatus(ERR_GAME_RUNNING);
 			nameFld.setText(null);
 			return;
 		}
@@ -98,15 +97,14 @@ public final class GUIControlPanel extends JPanel implements ActionListener,
 			controller.addPlayer(name, getNextFreeColor(), true);
 			nameFld.setText(null);
 		} else {
-			statusPanel.setStatus(ERR_NAME_EMPTY);
+			gui.getStatusPanel().setStatus(ERR_NAME_EMPTY);
 		}
 	}
 
 	private Color getNextFreeColor() {
-		if (colorSet.isEmpty()) {
-			return null;
-		}
-		return colorSet.pop();
+		Color col = colorSet.poll();
+		colorSet.offer(col);
+		return col;
 	}
 
 	@Override

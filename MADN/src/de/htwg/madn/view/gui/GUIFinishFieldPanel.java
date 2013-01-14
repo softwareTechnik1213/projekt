@@ -11,8 +11,8 @@ import de.htwg.madn.model.AbstractSpecialField;
 @SuppressWarnings("serial")
 public final class GUIFinishFieldPanel extends GUISpecialFieldPanelAbstract {
 
-	private static final int HGAP = 5;
-	private static final int VGAP = 5;
+	public static final int HGAP = 5;
+	public static final int VGAP = 5;
 	
 	public GUIFinishFieldPanel(IBoardControllerPort contr,
 			AbstractSpecialField sp) {
