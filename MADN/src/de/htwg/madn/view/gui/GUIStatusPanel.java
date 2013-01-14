@@ -11,7 +11,7 @@ import de.htwg.madn.util.observer.IObserver;
 public final class GUIStatusPanel extends JPanel implements IObserver {
 
 	private static final String LABEL_STATUS = "Status:";
-	private static final int STATUS_COLUMNS = 60;
+	private static final int STATUS_COLUMNS = 40;
 	private IBoardControllerPort controller;
 	private JTextField statusFld;
 	private JLabel statusLabel;

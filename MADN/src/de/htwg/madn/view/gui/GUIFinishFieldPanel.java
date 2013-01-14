@@ -9,11 +9,14 @@ import de.htwg.madn.controller.IBoardControllerPort;
 import de.htwg.madn.model.AbstractSpecialField;
 
 @SuppressWarnings("serial")
-public final class GUIFinishFieldPanel extends GUISpecialFieldPanel {
+public final class GUIFinishFieldPanel extends GUISpecialFieldPanelAbstract {
 
-	public GUIFinishFieldPanel(IBoardControllerPort contr, int figures,
+	private static final int HGAP = 5;
+	private static final int VGAP = 5;
+	
+	public GUIFinishFieldPanel(IBoardControllerPort contr,
 			AbstractSpecialField sp) {
-		super(contr, figures, sp);
+		super(contr, sp);
 
 	}
 
@@ -26,7 +29,7 @@ public final class GUIFinishFieldPanel extends GUISpecialFieldPanel {
 		JPanel namePanel = new JPanel();
 		namePanel.add(nameFld);
 
-		JPanel fieldPanel = new JPanel(new GridLayout(2, 2));
+		JPanel fieldPanel = new JPanel(new GridLayout(1, 0, HGAP, VGAP));
 		
 		for (int i = 0; i < fields.length; i++) {
 			fields[i] = new GUIField(i);
@@ -39,6 +42,8 @@ public final class GUIFinishFieldPanel extends GUISpecialFieldPanel {
 		
 		this.add(namePanel);
 		this.add(fieldPanel);
+		
+		this.setBorder(GUISpecialFieldBorderFactory.createSpecialBorder());
 		
 		// init drawing of fields
 		update();

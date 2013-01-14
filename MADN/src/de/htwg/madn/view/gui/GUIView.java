@@ -1,8 +1,8 @@
 package de.htwg.madn.view.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -16,8 +16,6 @@ public final class GUIView extends JFrame {
 	private static final int VALID_PUBLIC_COUNT = 40;
 	private static final int VALID_MAX_PLAYERS = 4;
 	private static final int VALID_FIGURES = 4;
-	private static final int WINDOW_WIDTH = 1000;
-	private static final int WINDOW_HEIGHT = 1000;
 	private GUIControlPanel controlPanel;
 	private GUIGameFieldPanel gameFieldPanel;
 	private GUIStatusPanel statusPanel;
@@ -39,12 +37,14 @@ public final class GUIView extends JFrame {
 		// contentPane layout
 		JPanel contentPane = new JPanel(new BorderLayout());
 		contentPane.add(controlPanel, BorderLayout.NORTH);
-		contentPane.add(gameFieldPanel, BorderLayout.CENTER);
-		contentPane.add(statusPanel, BorderLayout.SOUTH);
+		contentPane.add(statusPanel, BorderLayout.CENTER);
+		contentPane.add(gameFieldPanel, BorderLayout.SOUTH);
 		
-		this.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+		contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		
 		this.setContentPane(contentPane);
 		this.pack();
+		this.setResizable(false);
 		this.setVisible(true);
 	}
 

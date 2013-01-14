@@ -1,5 +1,7 @@
 package de.htwg.madn.view.gui;
 
+import java.awt.GridLayout;
+
 import javax.swing.JPanel;
 
 import de.htwg.madn.controller.IBoardControllerPort;
@@ -10,37 +12,47 @@ import de.htwg.madn.model.HomeField;
 public final class GUIGameFieldPanel extends JPanel {
 
 	private IBoardControllerPort controller;
-	private GUISpecialFieldPanel[] homeFields;
-	private GUIPublicFieldPanel publicField;
-	private GUISpecialFieldPanel[] finishFields;
-	private static final int PLAYERS = 4;
-	private static final int FIGURES = 4;
-	private static final int PUBLIC_COUNT = 40;
+	private GUISpecialFieldPanelAbstract[] homeFields;
+	private GUIPublicFieldPanel publicPanel;
+	private GUISpecialFieldPanelAbstract[] finishFields;
 
 	public GUIGameFieldPanel(GUIView guiView) {
 		this.controller = guiView.getBoardControllerPort();
-		this.publicField = new GUIPublicFieldPanel(controller, PUBLIC_COUNT);
-		this.homeFields = new GUIHomeFieldPanel[PLAYERS];
-		this.finishFields = new GUIFinishFieldPanel[PLAYERS];
+		int playerMax = controller.getSettings().getMaxPlayers();
+		this.publicPanel = new GUIPublicFieldPanel(controller);
+		this.homeFields = new GUIHomeFieldPanel[playerMax];
+		this.finishFields = new GUIFinishFieldPanel[playerMax];
 		
-		for (int i = 0; i < PLAYERS; i++) {
+		for (int i = 0; i < playerMax; i++) {
 			HomeField homeFieldModel = controller.getModelPort().getHomeFields().get(i);
 			FinishField finishFieldModel = controller.getModelPort().getFinishFields().get(i);
-			homeFields[i] = new GUIHomeFieldPanel(controller, FIGURES, homeFieldModel);
-			finishFields[i] = new GUIFinishFieldPanel(controller, FIGURES, finishFieldModel);
+			homeFields[i] = new GUIHomeFieldPanel(controller, homeFieldModel);
+			finishFields[i] = new GUIFinishFieldPanel(controller, finishFieldModel);
 		}
 		
 		initGui();
 	}
 
 	private void initGui() {
-		for (GUISpecialFieldPanel hf : homeFields) {
-			this.add(hf);
+		
+		int numberSpecialFields = controller.getSettings().getMaxPlayers();
+		
+		this.setLayout(new GridLayout(3, 1));
+		
+		JPanel homePanel = new JPanel(new GridLayout(1, numberSpecialFields));
+		JPanel finishPanel = new JPanel(new GridLayout(1, numberSpecialFields));
+		
+		for (GUISpecialFieldPanelAbstract hf : homeFields) {
+			homePanel.add(hf);
+		
 		}
-		this.add(publicField);
-		for (GUISpecialFieldPanel ff : finishFields) {
-			this.add(ff);
+		for (GUISpecialFieldPanelAbstract ff : finishFields) {
+			finishPanel.add(ff);
 		}
+		
+		this.add(homePanel);
+		this.add(publicPanel);
+		this.add(finishPanel);
 	}
 
 }
