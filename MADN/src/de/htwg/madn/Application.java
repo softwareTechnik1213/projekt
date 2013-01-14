@@ -17,12 +17,12 @@ import de.htwg.madn.view.tui.TUIView;
 public final class Application {
 	
 	private static final int MINPLAYERS = 1;
-	private static final int MAXPLAYERS = 2;
-	private static final int FIGURESPERPLAYER = 2;
-	private static final int PUBLICFIELDSCOUNT = 6;
+	private static final int MAXPLAYERS = 4;
+	private static final int FIGURESPERPLAYER = 4;
+	private static final int PUBLICFIELDSCOUNT = 40;
 	private static final int DICEMIN = 1;
-	private static final int DICEMAX = 1;
-	private static final int MINNUMBERTOEXITHOME = 1;
+	private static final int DICEMAX = 6;
+	private static final int MINNUMBERTOEXITHOME = 6;
 	private static final int THROWSALLOWEDINHOME = 3;
 	private static final int THROWSALLOWEDINPUBLIC = 1;
 	private static final Scanner SCANNER = new Scanner(System.in);

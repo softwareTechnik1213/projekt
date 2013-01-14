@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
 
-import org.apache.log4j.PropertyConfigurator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +15,6 @@ import de.htwg.madn.model.IGameSettings;
 import de.htwg.madn.model.IModelPort;
 import de.htwg.madn.model.ModelPort;
 import de.htwg.madn.model.Player;
-import de.htwg.madn.view.tui.TUIView;
 
 public class MovementControllerTest {
 
@@ -195,8 +193,6 @@ public class MovementControllerTest {
 		
 		bc.startGame();
 		
-		PropertyConfigurator.configure("log4j.properties");
-		new TUIView(bc);
 		
 		bc.throwDice();
 		bc.moveFigure(f1.getLetter());
