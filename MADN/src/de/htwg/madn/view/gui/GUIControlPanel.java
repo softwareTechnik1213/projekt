@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import de.htwg.madn.controller.IBoardControllerPort;
+import de.htwg.madn.model.Player;
 import de.htwg.madn.util.observer.IObserver;
 
 @SuppressWarnings("serial")
@@ -115,6 +116,17 @@ public final class GUIControlPanel extends JPanel implements ActionListener,
 			toggleGameBtn.setText(BTN_START);
 		} else {
 			toggleGameBtn.setText(BTN_NEW);
+		}
+		updateColors();
+	}
+
+	private void updateColors() {
+		for (Player p : controller.getPlayers()) {
+			if (colorSet.peek().equals(p.getColor())) {
+				Color col = colorSet.poll();
+				colorSet.offer(col);
+				break;
+			}
 		}
 	}
 
